@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "340940397032",
+    "project_id": "st193-pixelcharactermaker",
+    "storage_bucket": "st193-pixelcharactermaker.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:340940397032:android:ebc83b9dcb7236c0f4ec5d",
+        "android_client_info": {
+          "package_name": "com.ocmaker.pixcel.maker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmqMCWOyFrniu-h9V2rT67najDyQIBV9U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--    flOutSide-->
+    <FrameLayout
+        android:id="@+id/flOutSide"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--        layoutMain-->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/layoutMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="16dp"
+            app:cardBackgroundColor="@color/color_app"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <!--            ConstraintLayout bọc tvTitle (Top)-->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <!--            tvTitle (Top)-->
+                    <TextView
+                        android:id="@+id/tvTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#01579B"
+                        android:fontFamily="@font/pixelifysans_medium"
+                        android:gravity="center"
+                        android:paddingVertical="5dp"
+                        android:text="@string/loading"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/icDotLoading"
+                        android:layout_width="35dp"
+                        android:layout_height="9dp"
+                        android:layout_marginStart="9dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:src="@drawable/dot_ic"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!--            tvDescription-->
+                <TextView
+                    android:id="@+id/tvDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:fontFamily="@font/pixelifysans_regular"
+                    android:gravity="center"
+                    android:paddingHorizontal="24dp"
+                    android:text="@string/wait_a_minute"
+                    android:textColor="#01579B"
+                    android:paddingVertical="45dp"
+                    android:textSize="16sp" />
+
+
+
+                <!--            ConstraintLayout bọc tvTitle (Bottom)-->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <!--            tvTitle (Bottom)-->
+                    <TextView
+                        android:id="@+id/tvTitleBottom"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="#01579B"
+                        android:fontFamily="@font/pixelifysans_medium"
+                        android:gravity="center"
+                        android:paddingVertical="5dp"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </FrameLayout>
+</layout>
