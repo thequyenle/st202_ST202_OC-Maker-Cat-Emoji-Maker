@@ -2,13 +2,13 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape>
-            <corners android:radius="4dp" />
+            <corners android:radius="999dp" />
             <gradient
                 android:angle="0"
-                android:startColor="#45ADFF"
-                android:centerColor="#FF9CFD"
+                android:startColor="#2893FF"
+                android:centerColor="#2893FF"
                 android:centerX="0.65"
-                android:endColor="#45ADFF"
+                android:endColor="#2893FF"
                 android:type="linear" />
             <padding
                 android:bottom="2dp"

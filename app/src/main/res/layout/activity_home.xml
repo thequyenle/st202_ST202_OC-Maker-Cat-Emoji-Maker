@@ -92,7 +92,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:fontFamily="@font/milkyway_demo"
-                android:gravity="center|"
+                android:gravity="center"
                 android:paddingStart="16dp"
                 android:text="@string/character_maker"
                 android:textColor="#FFFFFF"
@@ -102,7 +102,6 @@
                 app:layout_constraintStart_toStartOf="@id/glCenterLeft"
                 app:layout_constraintTop_toTopOf="@+id/btnCreate"
                 app:layout_constraintVertical_bias="0.0"
-
                 app:outerStrokeColor="#FF9D01"
                 app:outerStrokeWidth="3dp" />
 

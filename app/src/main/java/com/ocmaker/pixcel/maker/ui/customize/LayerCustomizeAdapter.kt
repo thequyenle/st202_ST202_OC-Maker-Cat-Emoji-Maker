@@ -46,7 +46,7 @@ class LayerCustomizeAdapter(val context: Context) : ListAdapter<ItemNavCustomMod
                     root.scaleX = 1f
                     root.scaleY = 1f
                     vFocus.gone()
-                    cardLayerItem.strokeColor = Color.parseColor("#FF9CFD")
+                    cardLayerItem.strokeColor = Color.parseColor("#00FF9CFD")
                     cardLayerItem.setCardBackgroundColor(Color.WHITE)
                 }
 

@@ -624,8 +624,8 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
             val textHeight = textView.lineHeight.toFloat()
             val shader = LinearGradient(
                 0f, 0f, 0f, textHeight,
-                Color.parseColor("#BA0101"),
-                Color.parseColor("#BA0101"),
+                Color.parseColor("#2993FF"),
+                Color.parseColor("#2993FF"),
                 Shader.TileMode.CLAMP
             )
             textView.paint.shader = shader
@@ -658,7 +658,7 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
         binding.apply {
             if (type == ValueKey.BACKGROUND_NAVIGATION) {
                 sectionTab.visible()
-                spaceSectionTab.visible()
+                spaceSectionTab.invisible()
             } else {
                 sectionTab.gone()
                 spaceSectionTab.invisible()

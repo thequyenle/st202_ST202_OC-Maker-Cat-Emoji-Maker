@@ -3,7 +3,7 @@
 
     <item>
         <shape>
-            <solid android:color="#F2EDED" />
+            <solid android:color="@color/transparent" />
         </shape>
     </item>
 </layer-list>

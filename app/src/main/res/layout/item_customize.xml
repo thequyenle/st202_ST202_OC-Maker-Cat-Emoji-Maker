@@ -28,7 +28,6 @@
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="6dp"
         app:strokeWidth="2dp"
-        app:strokeColor="#FF9CFD"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
