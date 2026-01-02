@@ -156,10 +156,9 @@
     <!--            btnActionBarRightText-->
     <FrameLayout
         android:id="@+id/btnActionBarRightText"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/ic_next"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/btnActionBarRight"
         app:layout_constraintEnd_toEndOf="parent"
@@ -172,11 +171,11 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_marginHorizontal="5dp"
-            android:fontFamily="@font/londrina_solid_regular"
+            android:fontFamily="@font/baloobhaijaan_regular"
             android:gravity="center"
-            android:text="@string/next"
+            android:text="@string/save"
             android:visibility="invisible"
-            android:textColor="@color/white"
+            android:textColor="#2993FF"
             android:textSize="16sp" />
     </FrameLayout>
 

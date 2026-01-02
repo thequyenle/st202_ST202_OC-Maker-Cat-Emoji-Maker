@@ -10,7 +10,9 @@ import android.view.ViewOutlineProvider
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.ocmaker.pixcel.maker.R
+import com.ocmaker.pixcel.maker.core.extensions.gone
 import com.ocmaker.pixcel.maker.core.extensions.loadImage
 import com.ocmaker.pixcel.maker.core.extensions.tap
 import com.ocmaker.pixcel.maker.core.helper.UnitHelper
@@ -28,23 +30,33 @@ class BottomNavigationCustomizeAdapter(private val context: Context) :
         fun bind(item: NavigationModel, position: Int) = with(binding) {
 
             // Apply 8dp rounded corners BEFORE loading image (so shimmer is also rounded)
-            val cornerRadiusPx = UnitHelper.dpToPx(context, 8f)
-            imvImage.clipToOutline = true
-            imvImage.outlineProvider = object : ViewOutlineProvider() {
-                override fun getOutline(view: View, outline: Outline) {
-                    outline.setRoundRect(0, 0, view.width, view.height, cornerRadiusPx)
-                }
-            }
+//            val cornerRadiusPx = UnitHelper.dpToPx(context, 0f)
+//            imvImage.clipToOutline = true
+//            imvImage.outlineProvider = object : ViewOutlineProvider() {
+//                override fun getOutline(view: View, outline: Outline) {
+//                    outline.setRoundRect(0, 0, view.width, view.height, cornerRadiusPx)
+//                }
+//            }
 
             if (item.isSelected) {
-                vFocus.setBackgroundResource(R.drawable.bg_bottom_navi)
-                imvImage.setBackgroundColor(Color.parseColor("#A1CCEF"))
-                cvContent.strokeColor = Color.TRANSPARENT
-            } else {
-                vFocus.setBackgroundColor(context.getColor(android.R.color.transparent))
+                vFocus.gone()
+               // vFocus.setBackgroundResource(R.drawable.bg_bottom_navi)
                 imvImage.setBackgroundColor(Color.TRANSPARENT)
-                cvContent.strokeColor = Color.TRANSPARENT
+               // binding.cvContent.setCardBackgroundColor(Color.TRANSPARENT)
+
+              binding.cvContent.setBackgroundResource(R.drawable.cus_selected)
+
+
+            } else {
+                vFocus.gone()
+               // binding.cvContent.setCardBackgroundColor(Color.TRANSPARENT)
+
+                // vFocus.setBackgroundColor(context.getColor(android.R.color.transparent))
+                imvImage.setBackgroundColor(Color.TRANSPARENT)
+                binding.cvContent.setBackgroundResource(R.drawable.cus_unselected)
             }
+
+
 
             loadImage(root, item.imageNavigation, imvImage)
 

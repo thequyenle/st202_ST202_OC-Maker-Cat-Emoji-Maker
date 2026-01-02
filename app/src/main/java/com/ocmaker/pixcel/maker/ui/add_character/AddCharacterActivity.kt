@@ -297,8 +297,9 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
         binding.apply {
             actionBar.apply {
                 btnActionBarLeft.tap { confirmExit() }
-                btnActionBarCenter.tap { confirmReset() }
-                btnActionBarRight.tap {
+
+               // btnActionBarCenter.tap { confirmReset() }
+                btnActionBarRightText.tap {
                     handleSave()
                 }
             }
@@ -378,9 +379,10 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
     override fun initActionBar() {
         binding.actionBar.apply {
             setImageActionBar(btnActionBarLeft, R.drawable.ic_back)
-            setImageActionBar(btnActionBarCenter, R.drawable.ic_reset)
-            setImageActionBar(btnActionBarRight, R.drawable.ic_save_addbg)
-            btnActionBarRight.visible()
+          //  setImageActionBar(btnActionBarCenter, R.drawable.ic_reset)
+            btnActionBarRightText.setBackgroundResource(R.drawable.ic_save)
+            btnActionBarRightText.visible()
+            tvRightText.visible()
 
             // Căn giữa nút reset vào guideline
             val params = btnActionBarCenter.layoutParams as androidx.constraintlayout.widget.ConstraintLayout.LayoutParams
@@ -441,7 +443,11 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
             showLoading()
             viewModel.loadDataDefault(this@AddCharacterActivity)
             viewModel.updatePathDefault(intent.getStringExtra(IntentKey.INTENT_KEY) ?: "")
-            addDrawable(viewModel.pathDefault, true)
+            //addDrawable(viewModel.pathDefault, true)
+           withContext(Dispatchers.Main)
+           {
+               loadImage(this@AddCharacterActivity, viewModel.pathDefault, binding.imvCharacter)
+           }
 
             withContext(Dispatchers.Main) {
                 viewModel.setTypeNavigation(ValueKey.BACKGROUND_NAVIGATION)
@@ -719,6 +725,8 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
                 speechAdapter.submitList(viewModel.speechList)
                 textFontAdapter.submitListReset(viewModel.textFontList)
                 textColorAdapter.submitListReset(viewModel.textColorList)
+                binding.tvGetText.setTextColor(viewModel.textColorList[1].color)
+
                 dismissLoading(true)
                 showInterAll()
             }

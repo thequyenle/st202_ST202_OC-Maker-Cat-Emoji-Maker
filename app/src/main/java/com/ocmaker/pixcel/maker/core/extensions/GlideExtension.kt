@@ -43,7 +43,11 @@ fun loadImage(viewGroup: ViewGroup, path: String, imageView: ImageView, isLoadSh
             .placeholder(shimmerDrawable).error(shimmerDrawable)
             .into(imageView)
     }else{
-        Glide.with(viewGroup).load(path).transform(RoundedCorners(24)).placeholder(shimmerDrawable).error(shimmerDrawable).into(imageView)
+        Glide.with(viewGroup)
+            .load(path)
+            .transform(RoundedCorners(24))
+            .placeholder(shimmerDrawable)
+            .error(shimmerDrawable).into(imageView)
     }
 }
 
