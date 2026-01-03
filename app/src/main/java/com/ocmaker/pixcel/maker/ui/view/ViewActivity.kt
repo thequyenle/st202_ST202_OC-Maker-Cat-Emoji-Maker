@@ -271,6 +271,12 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
                 btnActionBarLeft.visible()
                 btnActionBarNextRight.gone()
 
+                binding.imvImage.apply {
+
+                    translationY = -50f // đơn vị px
+
+
+                }
                 btnActionBarCenter.visible()
                 // Show and configure btnShare as home button
                 btnShare.apply {

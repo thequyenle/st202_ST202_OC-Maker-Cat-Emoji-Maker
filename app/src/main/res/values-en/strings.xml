@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Pixel Character Maker</string>
+    <string name="app_name" translatable="false">Cat Maker</string>
 
     <string name="go_to_setting_message">The app needs this permission</string>
     <string name="settings">Settings</string>
@@ -7,9 +7,9 @@
     <string name="not_select_lang">Please select a language</string>
     <string name="next">Next</string>    <string name="language">Language</string>
 
-    <string name="title_1">Make Character</string>
-    <string name="title_2">Character Diversity</string>
-    <string name="title_3">Variety Items</string>
+    <string name="title_1">Create your own avatar however you like</string>
+    <string name="title_2">Diverse Unique Categories</string>
+    <string name="title_3">Great Variety Of Items</string>
 
     <string name="permission">Permission</string>
     <string name="storage">Storage</string>
@@ -54,7 +54,7 @@
     <string name="no">No</string>
     <string name="ok">Ok</string>
     <string name="wait_a_minute">Wait a minute</string>
-    <string name="reset">Reset your design</string>    <string name="download_success">Download successful to the Pixcel Character Maker album</string>
+    <string name="reset">Reset your design</string>    <string name="download_success">Download successful to the Cat Maker album</string>
     <string name="please_check_your_internet">Please check your internet</string>
     <string name="please_select_an_image">Please select an image</string>
     <string name="error">Error</string>

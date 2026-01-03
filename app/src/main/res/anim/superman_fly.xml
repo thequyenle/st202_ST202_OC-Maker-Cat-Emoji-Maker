@@ -1,0 +1,41 @@
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fillAfter="true"
+    android:shareInterpolator="false">
+
+    <!-- Di chuyển từ góc dưới trái xa đến giữa màn hình -->
+    <translate
+        android:duration="3000"
+        android:fromXDelta="-120%"
+        android:fromYDelta="200%"
+        android:toXDelta="0%"
+        android:toYDelta="0%"
+        android:interpolator="@android:anim/decelerate_interpolator" />
+
+    <!-- Xoay từ -20 độ về 0 độ -->
+    <rotate
+        android:duration="3000"
+        android:fromDegrees="-20"
+        android:toDegrees="0"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:interpolator="@android:anim/decelerate_interpolator" />
+
+    <!-- Phóng to từ rất nhỏ (xa) đến kích thước bình thường -->
+    <scale
+        android:duration="3000"
+        android:fromXScale="0.2"
+        android:fromYScale="0.2"
+        android:toXScale="1.0"
+        android:toYScale="1.0"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:interpolator="@android:anim/decelerate_interpolator" />
+
+    <!-- Fade in -->
+    <alpha
+        android:duration="500"
+        android:fromAlpha="0.0"
+        android:toAlpha="1.0"
+        android:interpolator="@android:anim/accelerate_interpolator" />
+
+</set>

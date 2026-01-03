@@ -1,7 +1,7 @@
 package com.ocmaker.pixcel.maker.core.utils.key
 
 object ValueKey {
-    const val DOWNLOAD_ALBUM = "Pixcel Character Maker"
+    const val DOWNLOAD_ALBUM = "Cat Maker"
     const val DOWNLOAD_ALBUM_BACKGROUND = "Image Background"
     const val RANDOM_TEMP_ALBUM = "RANDOM_TEMP_ALBUM"
 

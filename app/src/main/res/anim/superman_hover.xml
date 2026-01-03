@@ -1,0 +1,35 @@
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fillAfter="false"
+    android:repeatCount="infinite"
+    android:repeatMode="reverse"
+    android:shareInterpolator="true"
+    android:interpolator="@android:anim/accelerate_decelerate_interpolator">
+
+    <!-- ✅ TẤT CẢ DÙNG CÙNG DURATION 3000ms -->
+    <!-- ✅ TẤT CẢ DÙNG repeatMode="reverse" → LIỀN MẠCH! -->
+
+    <!-- Lên xuống: 0 → -5% → 0 → -5% ... -->
+    <translate
+        android:duration="3000"
+        android:fromYDelta="0%"
+        android:toYDelta="-5%" />
+
+    <!-- Xoay: -2° → +2° → -2° → +2° ... -->
+    <rotate
+        android:duration="3000"
+        android:fromDegrees="-2"
+        android:toDegrees="2"
+        android:pivotX="50%"
+        android:pivotY="50%" />
+
+    <!-- Scale: 1.0 → 1.03 → 1.0 → 1.03 ... -->
+    <scale
+        android:duration="3000"
+        android:fromXScale="1.0"
+        android:fromYScale="1.0"
+        android:toXScale="1.03"
+        android:toYScale="1.03"
+        android:pivotX="50%"
+        android:pivotY="50%" />
+
+</set>
