@@ -8,6 +8,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.lifecycle.lifecycleScope
+import com.ironsource.adqualitysdk.sdk.i.f
 import com.lvt.ads.util.Admob
 import com.ocmaker.pixcel.maker.R
 import com.ocmaker.pixcel.maker.core.base.BaseActivity
@@ -56,11 +57,17 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         binding.imvAppName.startAnimation(elasticBounce)
 
         // Apply Superman flying animation to character1
-        // ✅ POST để đảm bảo view đã render xong
-        binding.character1.post {
-            startSupermanAnimation()
-        }
-
+//        // ✅ POST để đảm bảo view đã render xong
+//        lifecycleScope.launch {
+//            val flyIn = AnimationUtils.loadAnimation(this@HomeActivity, R.anim.superman_fly)
+//            binding.character1.startAnimation(flyIn)
+//
+//            delay(flyIn.duration)
+//
+//            val hover = AnimationUtils.loadAnimation(this@HomeActivity, R.anim.superman_hover)
+//
+//            binding.character1.startAnimation(hover)
+//        }
 
 
     }
@@ -71,54 +78,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         binding.character1.clearAnimation()
 
     }
-    private fun startSupermanAnimation() {
-        binding.character1.setLayerType(View.LAYER_TYPE_HARDWARE, null)
 
-        val supermanFly = AnimationUtils.loadAnimation(this, R.anim.superman_fly)
-        supermanFly.setAnimationListener(object : Animation.AnimationListener {
-            override fun onAnimationEnd(animation: Animation?) {
-                binding.character1.setLayerType(View.LAYER_TYPE_NONE, null)
-
-                binding.character1.postDelayed({
-                    startHoverSeamless()
-                }, 50)
-            }
-            override fun onAnimationStart(animation: Animation?) {}
-            override fun onAnimationRepeat(animation: Animation?) {}
-        })
-
-        binding.character1.startAnimation(supermanFly)
-    }
 
     // ✅ CÁCH 1: ValueAnimator - LIỀN MẠCH HOÀN TOÀN
-    private fun startHoverSeamless() {
-        binding.character1.setLayerType(View.LAYER_TYPE_HARDWARE, null)
-
-        // ValueAnimator tự động reverse → liền mạch
-        hoverAnimator = ValueAnimator.ofFloat(0f, 1f).apply {
-            duration = 3000
-            repeatCount = ValueAnimator.INFINITE
-            repeatMode = ValueAnimator.REVERSE // ✅ QUAN TRỌNG!
-            interpolator = AccelerateDecelerateInterpolator()
-
-            addUpdateListener { animator ->
-                val value = animator.animatedValue as Float
-
-                // Lên xuống: 0 → -50 → 0 → -50 ...
-                binding.character1.translationY = value * -50f
-
-                // Xoay: -3° → +3° → -3° ...
-                binding.character1.rotation = (value * 6f) - 3f
-
-                // Scale: 1.0 → 1.03 → 1.0 ...
-                val scale = 1f + (value * 0.03f)
-                binding.character1.scaleX = scale
-                binding.character1.scaleY = scale
-            }
-
-            start()
-        }
-    }
 
     override fun viewListener() {
         binding.apply {
@@ -191,6 +153,16 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         super.onWindowFocusChanged(hasFocus)
         if (hasFocus) {
         startStaggeredAnimations()
+            lifecycleScope.launch {
+                val flyIn = AnimationUtils.loadAnimation(this@HomeActivity, R.anim.superman_fly)
+                binding.character1.startAnimation(flyIn)
+
+                delay(flyIn.duration)
+
+                val hover = AnimationUtils.loadAnimation(this@HomeActivity, R.anim.superman_hover)
+
+                binding.character1.startAnimation(hover)
+            }
 
         }
     }
