@@ -26,11 +26,13 @@
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
+            android:id="@+id/cvItem"
             android:layout_height="match_parent"
             android:layout_margin="4.5dp"
-            app:cardCornerRadius="5dp"
+            app:cardCornerRadius="8dp"
             app:cardElevation="0dp"
-            app:strokeColor="@color/transparent"
+            app:strokeColor="@color/white"
+            app:strokeWidth="0.5dp"
             app:cardBackgroundColor="@color/transparent"
 
             >

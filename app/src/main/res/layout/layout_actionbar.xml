@@ -94,8 +94,8 @@
     <!--    btnActionBarCenter-->
     <ImageView
         android:id="@+id/btnActionBarCenter"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/btnActionBarLeft"
@@ -118,8 +118,8 @@
     <!--    btnActionBarNextRight-->
     <ImageView
         android:id="@+id/btnActionBarNextRight"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="10dp"
         android:background="?attr/selectableItemBackgroundBorderless"
@@ -133,18 +133,18 @@
         android:layout_width="60dp"
         android:layout_height="40dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="0dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/btnActionBarNextRight"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btnActionBarNextRight" />
+        app:layout_goneMarginBottom="10dp" />
 
     <!--    btnShare-->
     <ImageView
         android:id="@+id/btnShare"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="10dp"
         android:background="?attr/selectableItemBackgroundBorderless"

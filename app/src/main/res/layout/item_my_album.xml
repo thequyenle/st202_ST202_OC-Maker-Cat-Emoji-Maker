@@ -1,65 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="3dp"
-    android:clipChildren="false"
-    android:clipToPadding="false">
+    android:layout_marginHorizontal="7dp"
+    android:layout_marginVertical="4.5dp">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardContainer"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:cardCornerRadius="4dp"
-        app:cardElevation="4dp"
-        app:cardUseCompatPadding="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintDimensionRatio="160:188"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="#BA0101"
+        app:strokeWidth="2dp">
 
-        <FrameLayout
-            android:id="@+id/root"
+        <!--        imvImage-->
+        <ImageView
+            android:id="@+id/imvImage"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintWidth_percent="0.85"
+            app:layout_constraintHeight_percent="0.82"
+            android:scaleType="centerCrop" />
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:src="@drawable/bg_item"
+            android:scaleType="fitXY"/>
 
-            <ImageView
-                android:id="@+id/imvImage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/img_app_bg" />
+        <!--        btnDelete-->
+        <ImageView
+            android:id="@+id/btnDelete"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginHorizontal="4dp"
 
-            <!--btnDelete-->
-            <ImageView
-                android:id="@+id/btnDelete"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_margin="8dp"
-                android:src="@drawable/ic_delete_item" />
+            app:layout_constraintEnd_toStartOf="@id/gl"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginVertical="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.95"
+            android:src="@drawable/ic_delete_item" />
 
-            <!--btnEdit-->
-            <ImageView
-                android:id="@+id/btnEdit"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="end"
-                android:layout_margin="8dp"
-                android:src="@drawable/ic_edit" />
+        <!--        btnDelete-->
+        <ImageView
+            android:id="@+id/btnEdit"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginVertical="10dp"
+            android:layout_marginHorizontal="4dp"
+            app:layout_constraintStart_toEndOf="@id/gl"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.95"
+            android:src="@drawable/ic_edit_item" />
 
-            <!--btnSelect-->
-            <ImageView
-                android:id="@+id/btnSelect"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_gravity="end"
-                android:layout_margin="10dp"
-                android:src="@drawable/ic_not_select"
-                android:visibility="gone" />
-        </FrameLayout>
-    </androidx.cardview.widget.CardView>
+        <!--        btnSelect-->
+        <ImageView
+            android:id="@+id/btnSelect"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_margin="10dp"
+            app:layout_constraintVertical_bias="0.95"
+            android:src="@drawable/ic_not_select" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5"
+            android:id="@+id/gl"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

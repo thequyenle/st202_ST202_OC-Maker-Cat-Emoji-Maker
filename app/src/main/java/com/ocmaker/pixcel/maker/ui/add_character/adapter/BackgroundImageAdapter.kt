@@ -1,5 +1,9 @@
 package com.ocmaker.pixcel.maker.ui.add_character.adapter
 
+import android.R
+import android.content.Context
+import android.graphics.Color
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -28,6 +32,13 @@ class BackgroundImageAdapter :
             } else {
                 lnlAddItem.gone()
                 imvImage.visible()
+
+                if(item.isSelected)
+                {
+                    cvItem.strokeColor = Color.TRANSPARENT
+                }else {
+                    cvItem.strokeColor = ContextCompat.getColor(root.context, R.color.white)
+                }
                 // Load image with 8dp rounded corners
                 val cornerRadiusPx = (8 * root.context.resources.displayMetrics.density).toInt()
                 Glide.with(root)

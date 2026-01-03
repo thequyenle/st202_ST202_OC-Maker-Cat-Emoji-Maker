@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#A1CCEF"
+    android:background="@drawable/bg_app"
     tools:context=".ui.random_character.RandomCharacterActivity">
 
 
@@ -36,7 +36,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layoutActionBar"
         app:spanCount="2"
-        tools:listitem="@layout/item_choose_avatar" />
+        tools:listitem="@layout/item_random_character" />
 
 
 

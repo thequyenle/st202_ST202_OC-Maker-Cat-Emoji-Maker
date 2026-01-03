@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Build
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -78,6 +79,18 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
         viewModel.updateStatusFrom(intent.getIntExtra(IntentKey.STATUS_KEY, ValueKey.AVATAR_TYPE))
         viewModel.setType(intent.getIntExtra(IntentKey.TYPE_KEY, ValueKey.TYPE_VIEW))
 
+        if (viewModel.typeUI.value == ValueKey.TYPE_VIEW){
+        binding.frameBg.setImageResource(R.drawable.frame_bg_view)
+            binding.includeLayoutBottom.apply{
+                tvWhatsapp.apply {
+                    setTextColor(Color.parseColor("#2993FF"))
+                }
+                tvTelegram.apply {
+                    setTextColor(Color.parseColor("#2993FF"))
+                }
+            }
+
+        }
         // Set bg_btn_bottom for both buttons
         setButtonBackgrounds()
     }
@@ -89,8 +102,8 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
             btnWhatsapp.setPadding(0, 0, 0, 0)
             val paramsLeft = btnWhatsapp.layoutParams as? androidx.appcompat.widget.LinearLayoutCompat.LayoutParams
             paramsLeft?.apply {
-                height = UnitHelper.dpToPx(this@ViewActivity, 51f).toInt()
-                marginEnd = UnitHelper.dpToPx(this@ViewActivity, 14f).toInt()
+                height = UnitHelper.dpToPx(this@ViewActivity, 48f).toInt()
+                marginEnd = UnitHelper.dpToPx(this@ViewActivity, 4f).toInt()
                 marginStart = UnitHelper.dpToPx(this@ViewActivity, 4f).toInt()
                 btnWhatsapp.layoutParams = this
             }
@@ -103,15 +116,15 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
 
             // Update tvWhatsapp text properties
             tvWhatsapp.textSize = 16f
-            tvWhatsapp.setTypeface(ResourcesCompat.getFont(this@ViewActivity, R.font.pixelifysans_medium))
+            tvWhatsapp.setTypeface(ResourcesCompat.getFont(this@ViewActivity, R.font.baloobhaijaan_regular))
 
             // Right button (Telegram)
             btnTelegram.setBackgroundResource(R.drawable.bg_btn_bottom)
             btnTelegram.setPadding(0, 0, 0, 0)
             val paramsRight = btnTelegram.layoutParams as? androidx.appcompat.widget.LinearLayoutCompat.LayoutParams
             paramsRight?.apply {
-                height = UnitHelper.dpToPx(this@ViewActivity, 51f).toInt()
-                marginStart = UnitHelper.dpToPx(this@ViewActivity, 14f).toInt()
+                height = UnitHelper.dpToPx(this@ViewActivity, 48f).toInt()
+                marginStart = UnitHelper.dpToPx(this@ViewActivity, 4f).toInt()
                 marginEnd = UnitHelper.dpToPx(this@ViewActivity, 4f).toInt()
                 btnTelegram.layoutParams = this
             }
@@ -123,10 +136,9 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
             lnlInRight?.getChildAt(0)?.gone()
 
             tvTelegram.textSize = 16f
-            tvTelegram.setTypeface(ResourcesCompat.getFont(this@ViewActivity, R.font.pixelifysans_medium))
+            tvTelegram.setTypeface(ResourcesCompat.getFont(this@ViewActivity, R.font.baloobhaijaan_regular))
 
             // Hide download button
-            btnDownload.gone()
         }
     }
 
@@ -178,7 +190,7 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
             actionBar.apply {
                 btnActionBarLeft.tap { handleBack() }
                 btnActionBarRight.tap { handleActionBarRight() }
-                btnActionBarNextRight.tap { handleEditClick(viewModel.pathInternal.value) }
+                //btnActionBarNextRight.tap { handleEditClick(viewModel.pathInternal.value) }
                 btnShare.tap(2500) { viewModel.shareFiles(this@ViewActivity) }
             }
 
@@ -204,13 +216,13 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
             actionBar.apply {
                // setImageActionBar(btnActionBarRight, R.drawable.ic_delete_view)
                // setImageActionBar(btnActionBarNextToRight, R.drawable.ic_edit_2)
-                setTextActionBar(tvCenter, getString(R.string.my_pixel))
+                setTextActionBar(tvCenter, getString(R.string.my_creation))
 
 
                 setImageActionBar(btnActionBarNextRight, R.drawable.ic_edit_view)
 
                 // Hide delete icon when coming from design section
-                if (viewModel.statusFrom == ValueKey.MY_DESIGN_TYPE) {
+                if (viewModel.statusFrom == ValueKey.MY_DESIGN_TYPE|| viewModel.statusFrom == ValueKey.AVATAR_TYPE) {
                     btnActionBarNextRight.invisible()
 
                 }
@@ -231,7 +243,15 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
 
             tvSuccess.gone()
 
-            includeLayoutBottom.tvWhatsapp.text = strings(R.string.share)
+            if (viewModel.statusFrom == ValueKey.MY_DESIGN_TYPE)
+                {
+                    includeLayoutBottom.tvWhatsapp.text = strings(R.string.share)
+                }
+            else{
+                includeLayoutBottom.tvWhatsapp.text = strings(R.string.edit)
+
+            }
+
             includeLayoutBottom.tvWhatsapp.select()
 
             includeLayoutBottom.tvTelegram.text = strings(R.string.download)
@@ -243,7 +263,7 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
         binding.apply {
             actionBar.apply {
                 // Hide center text and imgCenter
-                tvCenter.visible()
+                tvCenter.gone()
                 tvCenter.setText(getString(R.string.successfully))
                 imgCenter.gone()
 
@@ -251,11 +271,17 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
                 btnActionBarLeft.visible()
                 btnActionBarNextRight.gone()
 
+                btnActionBarCenter.visible()
                 // Show and configure btnShare as home button
-                btnShare.visible()
-                btnShare.setImageResource(R.drawable.ic_home_ss)
-                btnShare.setOnClickListener(null) // Clear any existing listeners
-                btnShare.tap {
+                btnShare.apply {
+                    visible()
+                    setImageResource(R.drawable.ic_share_ss)
+                    tap{
+                        viewModel.shareFiles(this@ViewActivity)
+                    }
+                }
+                btnActionBarCenter.setImageResource(R.drawable.ic_home_ss)
+                btnActionBarCenter.tap {
                     showInterAll {
                         startIntentWithClearTop(HomeActivity::class.java)
                     }
@@ -267,11 +293,15 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
 
             tvSuccess.visible()
 
-            includeLayoutBottom.tvWhatsapp.text = strings(R.string.my_album)
+            includeLayoutBottom.tvWhatsapp.text = strings(R.string.go_to_creation)
             includeLayoutBottom.tvWhatsapp.select()
+            includeLayoutBottom.tvWhatsapp.setTextColor(Color.parseColor("#2993FF"))
+
 
             includeLayoutBottom.tvTelegram.text = strings(R.string.download)
             includeLayoutBottom.tvTelegram.select()
+            includeLayoutBottom.tvTelegram.setTextColor(Color.parseColor("#2993FF"))
+
         }
     }
     private fun handleActionBarRight() {
@@ -289,7 +319,13 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
     private fun handleBottomBarLeft() {
         when (viewModel.typeUI.value) {
             ValueKey.TYPE_VIEW -> {
-                viewModel.shareFiles(this@ViewActivity)
+                if (viewModel.statusFrom == ValueKey.MY_DESIGN_TYPE) {
+
+                    viewModel.shareFiles(this@ViewActivity)
+                }
+                else{
+                    handleEditClick(viewModel.pathInternal.value)
+                }
             }
 
             else -> {

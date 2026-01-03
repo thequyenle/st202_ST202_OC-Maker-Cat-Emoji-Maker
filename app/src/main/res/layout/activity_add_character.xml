@@ -86,17 +86,8 @@
 
         <!--        imvBackground-->
         <ImageView
-            android:id="@+id/imvBackgroundFrame"
-            android:layout_width="match_parent"
-            android:background="@drawable/bg_addcharacter"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
-
-        <!--        imvBackground-->
-        <ImageView
             android:id="@+id/imvCharacter"
             android:layout_width="match_parent"
-            android:background="@drawable/bg_addcharacter"
             android:layout_height="match_parent"
             android:scaleType="centerCrop" />
 
@@ -112,6 +103,19 @@
     </FrameLayout>
 
 
+    <!--        imvBackground-->
+    <ImageView
+        android:id="@+id/imvBackgroundFrame"
+        android:layout_width="0dp"
+        app:layout_constraintStart_toStartOf="@id/flSave"
+        app:layout_constraintEnd_toEndOf="@id/flSave"
+        app:layout_constraintTop_toTopOf="@id/flSave"
+        app:layout_constraintBottom_toBottomOf="@id/flSave"
+        android:background="@drawable/bg_addcharacter"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop" />
+
+
 
 
 
@@ -124,7 +128,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clipChildren="false"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="0dp"
         app:layout_constraintBottom_toTopOf="@id/lnlBottom"
         app:layout_constraintTop_toBottomOf="@id/flSave"
         >
@@ -147,10 +151,10 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginHorizontal="12dp"
-            android:layout_marginTop="49dp"
+            android:layout_marginTop="8dp"
             android:background="@color/transparent"
             android:orientation="horizontal"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintTop_toBottomOf="@id/spaceSectionTab">
 
             <!--                btnBackgroundImage-->
@@ -255,7 +259,7 @@
             android:id="@+id/lnlBackground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="95dp"
+            android:layout_marginTop="56dp"
             android:orientation="vertical"
             android:visibility="gone">
 
@@ -362,7 +366,7 @@
             android:paddingTop="15dp"
             android:clipChildren="false"
             android:isScrollContainer="true"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -376,18 +380,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="-3dp">
 
+
                     <!-- Title: Text -->
                     <TextView
                         android:id="@+id/tvTitleText"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/text"
-                        android:gravity="center"
-                        android:textColor="#BA0101"
-                        android:fontFamily="@font/pixelifysans_bold"
-                        android:background="#FFBFBF"
-                        android:textSize="18sp" />
-
+                        android:gravity="start"
+                        android:textColor="#FFFFFF"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/baloobhaijaan_regular"
+                        android:textSize="16sp" />
                     <!--                    btnDoneText-->
                     <ImageView
                         android:id="@+id/btnDoneText"
@@ -408,17 +412,16 @@
                     android:layout_marginTop="15dp"
                     android:background="@drawable/bg_8_solid_white"
                     android:ellipsize="end"
-                    android:fontFamily="@font/pixelifysans_regular"
+                    android:fontFamily="@font/baloobhaijaan_regular"
                     android:hint="@string/hello_world"
                     android:imeOptions="actionDone"
                     android:inputType="text"
-
                     android:maxLength="30"
                     android:paddingHorizontal="16dp"
                     android:singleLine="true"
                     android:textColor="@color/black"
                     android:textColorHint="#868686"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
 
 
 
@@ -428,8 +431,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:textColor="#BA0101"
-                    android:fontFamily="@font/pixelifysans_regular"
+                    android:textColor="#FFFFFF"
+                    android:fontFamily="@font/baloobhaijaan_regular"
                     android:gravity="start"
                     android:text="@string/font"
                     android:textSize="16sp" />
@@ -456,8 +459,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="-6dp"
-                    android:textColor="#BA0101"
-                    android:fontFamily="@font/pixelifysans_regular"
+                    android:textColor="#FFFFFF"
+                    android:fontFamily="@font/baloobhaijaan_regular"
                     android:gravity="start"
                     android:text="@string/color"
                     android:textSize="16sp" />

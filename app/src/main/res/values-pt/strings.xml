@@ -116,4 +116,10 @@
     <string name="exit_cus">Sair da personalização</string>
     <string name="loading">Carregando</string>
     <string name="internet_required_for_more_characters">Internet necessária para mais personagens</string>
+    <string name="go_to_creation">Go to creation</string>
+    <string name="edit">Edit</string>
+    <string name="character">Character</string>
+    <string name="design">Design</string>
+    <string name="dont_have_item">You don’t have any character</string>
+    <string name="creation">Creation</string>
 </resources>

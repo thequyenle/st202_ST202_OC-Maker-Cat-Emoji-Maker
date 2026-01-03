@@ -7,52 +7,78 @@
     android:clipChildren="false"
     android:clipToPadding="false">
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:padding="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintDimensionRatio="160:188"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.cardview.widget.CardView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:cardCornerRadius="4dp"
-            app:cardElevation="3dp">
+            android:layout_height="match_parent">
 
             <!--            imvImage-->
             <ImageView
                 android:id="@+id/imvImage"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="fitXY"
+                android:clipToOutline="true"
+                android:background="@drawable/bg_radius"
+                android:src="@drawable/img_permission"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintHeight_percent="0.8"
+                app:layout_constraintVertical_bias="0.1"
+                app:layout_constraintWidth_percent="0.86" />
+
+
+
+                <!--        sflShimmer-->
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/sflShimmer"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/bg_radius"
+                    android:clipToOutline="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_percent=".8"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.3"
+                    app:layout_constraintWidth_percent="0.86"
+                    app:shimmer_auto_start="true"
+                    app:shimmer_base_alpha="0.7"
+                    app:shimmer_direction="left_to_right"
+                    app:shimmer_duration="1800"
+                    app:shimmer_highlight_alpha="0.6"
+                    app:shimmer_shape="linear">
+                    <!-- View nền để shimmer quét qua -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#818181" />
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+
+            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/img_permission" />
+                android:src="@drawable/frame_item" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!--        sflShimmer-->
-            <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/sflShimmer"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:shimmer_auto_start="true"
-                app:shimmer_base_alpha="0.7"
-                app:shimmer_direction="left_to_right"
-                app:shimmer_duration="1800"
-                app:shimmer_highlight_alpha="0.6"
-                app:shimmer_shape="linear">
-                <!-- View nền để shimmer quét qua -->
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#818181" />
-            </com.facebook.shimmer.ShimmerFrameLayout>
-        </androidx.cardview.widget.CardView>
 
-    </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

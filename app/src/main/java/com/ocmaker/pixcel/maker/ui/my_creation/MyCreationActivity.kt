@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.PopupWindow
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -86,10 +87,23 @@ class MyCreationActivity : WhatsappSharingActivity<ActivityAlbumBinding>() {
 
         // Hide action bar buttons by default (only show in selection mode)
         binding.actionBar.apply {
-            btnActionBarRight.gone()
             btnActionBarNextRight.gone()
+            btnActionBarRight.gone()
         }
         binding.lnlBottom.isSelected = true
+
+
+        val layoutBottom = binding.lnlBottom.getChildAt(0)
+
+        if (viewModel.typeStatus.value == ValueKey.MY_DESIGN_TYPE) {
+            layoutBottom.findViewById<View>(R.id.btnWhatsapp)?.tap(2500) {
+                handleShareFromCurrentFragment()
+            }
+
+            layoutBottom.findViewById<View>(R.id.btnTelegram)?.tap(2500) {
+                handleDownloadFromCurrentFragment()
+            }
+        }
     }
 
     override fun dataObservable() {
@@ -198,12 +212,12 @@ class MyCreationActivity : WhatsappSharingActivity<ActivityAlbumBinding>() {
                 }
 
                 // Select All button
-                btnActionBarRight.tap {
+                btnActionBarNextRight.tap {
                     handleSelectAllFromCurrentFragment()
                 }
 
                 // Delete All button
-                btnActionBarNextRight.tap {
+                btnActionBarRight.tap {
                     handleDeleteSelectedFromCurrentFragment()
                 }
             }
@@ -211,18 +225,17 @@ class MyCreationActivity : WhatsappSharingActivity<ActivityAlbumBinding>() {
             btnMyPixel.tap { viewModel.setTypeStatus(ValueKey.AVATAR_TYPE) }
             btnMyDesign.tap { viewModel.setTypeStatus(ValueKey.MY_DESIGN_TYPE) }
 
-            // WhatsApp, Telegram, and Download buttons in lnlBottom
             val layoutBottom = lnlBottom.getChildAt(0)
-            layoutBottom.findViewById<View>(R.id.btnWhatsapp)?.tap(2500) {
-                val selectedPaths = getSelectedPathsFromCurrentFragment()
-                handleAddToWhatsApp(selectedPaths)
-            }
-            layoutBottom.findViewById<View>(R.id.btnTelegram)?.tap(2500) {
-                val selectedPaths = getSelectedPathsFromCurrentFragment()
-                handleAddToTelegram(selectedPaths)
-            }
-            layoutBottom.findViewById<View>(R.id.btnDownload)?.tap(2500) {
-                handleDownloadFromCurrentFragment()
+
+            if (viewModel.typeStatus.value == ValueKey.AVATAR_TYPE) {// WhatsApp, Telegram, and Download buttons in lnlBottom
+                layoutBottom.findViewById<View>(R.id.btnWhatsapp)?.tap(2500) {
+                    val selectedPaths = getSelectedPathsFromCurrentFragment()
+                    handleAddToWhatsApp(selectedPaths)
+                }
+                layoutBottom.findViewById<View>(R.id.btnTelegram)?.tap(2500) {
+                    val selectedPaths = getSelectedPathsFromCurrentFragment()
+                    handleAddToTelegram(selectedPaths)
+                }
             }
 
             // Delete button in deleteSection         }
@@ -249,12 +262,12 @@ class MyCreationActivity : WhatsappSharingActivity<ActivityAlbumBinding>() {
                     // Deselect all
                     avatarFragment.deselectAllItems()
                     isAllSelected = false
-                    binding.actionBar.btnActionBarRight.setImageResource(R.drawable.ic_not_select_all)
+                    binding.actionBar.btnActionBarNextRight.setImageResource(R.drawable.ic_not_select_all)
                 } else {
                     // Select all
                     avatarFragment.selectAllItems()
                     isAllSelected = true
-                    binding.actionBar.btnActionBarRight.setImageResource(R.drawable.ic_select_all)
+                    binding.actionBar.btnActionBarNextRight.setImageResource(R.drawable.ic_select_all)
                 }
             }
 
@@ -263,12 +276,12 @@ class MyCreationActivity : WhatsappSharingActivity<ActivityAlbumBinding>() {
                     // Deselect all
                     designFragment.deselectAllItems()
                     isAllSelected = false
-                    binding.actionBar.btnActionBarRight.setImageResource(R.drawable.ic_not_select_all)
+                    binding.actionBar.btnActionBarNextRight.setImageResource(R.drawable.ic_not_select_all)
                 } else {
                     // Select all
                     designFragment.selectAllItems()
                     isAllSelected = true
-                    binding.actionBar.btnActionBarRight.setImageResource(R.drawable.ic_select_all)
+                    binding.actionBar.btnActionBarNextRight.setImageResource(R.drawable.ic_select_all)
                 }
             }
         }
@@ -303,21 +316,21 @@ class MyCreationActivity : WhatsappSharingActivity<ActivityAlbumBinding>() {
     override fun initActionBar() {
         binding.actionBar.apply {
             setImageActionBar(btnActionBarLeft, R.drawable.ic_back)
-            setTextActionBar(tvCenter, getString(R.string.my_pixel))
+            setTextActionBar(tvCenter, getString(R.string.my_creation))
 
-            // Select All button (btnActionBarRight) - resize to 24dp for select all icons
+            // Select All button (btnActionBarNextRight) - resize to 24dp for select all icons
             val size24dp = (24 * resources.displayMetrics.density).toInt()
-            val params = btnActionBarRight.layoutParams
+            val params = btnActionBarNextRight.layoutParams
             params.width = size24dp
             params.height = size24dp
-            btnActionBarRight.layoutParams = params
+            btnActionBarNextRight.layoutParams = params
 
-            btnActionBarRight.setImageResource(R.drawable.ic_not_select_all)
-            btnActionBarRight.gone()
+            btnActionBarNextRight.setImageResource(R.drawable.ic_not_select_all)
+            btnActionBarNextRight.invisible()
 
             // Delete All button - hidden initially, only shown in selection mode
-            btnActionBarNextRight.setImageResource(R.drawable.ic_delete_all)
-            btnActionBarNextRight.gone()
+            btnActionBarRight.setImageResource(R.drawable.ic_delete_all)
+            btnActionBarRight.gone()
         }
     }
 
@@ -325,6 +338,11 @@ class MyCreationActivity : WhatsappSharingActivity<ActivityAlbumBinding>() {
         binding.apply {
             tvSpace.select()
             tvMyDesign.select()
+        }
+
+        binding.apply {
+
+
         }
     }
 
@@ -542,9 +560,9 @@ class MyCreationActivity : WhatsappSharingActivity<ActivityAlbumBinding>() {
         isAllSelected = false
         binding.actionBar.apply {
             // Show select all and delete all buttons
-            btnActionBarRight.setImageResource(R.drawable.ic_not_select_all)
+            btnActionBarRight.setImageResource(R.drawable.ic_delete)
+            btnActionBarNextRight.invisible()
             btnActionBarRight.visible()
-            btnActionBarNextRight.visible()
         }
         updateBottomButtonsVisibility()
         android.util.Log.d("MyCreationActivity", "enterSelectionMode called - showing buttons")
@@ -555,8 +573,8 @@ class MyCreationActivity : WhatsappSharingActivity<ActivityAlbumBinding>() {
         isAllSelected = false
         binding.actionBar.apply {
             // Hide select all and delete all buttons
+            btnActionBarNextRight.invisible()
             btnActionBarRight.gone()
-            btnActionBarNextRight.gone()
         }
 
         updateBottomButtonsVisibility()
@@ -567,23 +585,46 @@ class MyCreationActivity : WhatsappSharingActivity<ActivityAlbumBinding>() {
         val layoutBottom = binding.lnlBottom.getChildAt(0)
         val btnWhatsapp = layoutBottom.findViewById<View>(R.id.btnWhatsapp)
         val btnTelegram = layoutBottom.findViewById<View>(R.id.btnTelegram)
-        val btnDownload = layoutBottom.findViewById<View>(R.id.btnDownload)
+        val tvWhatsapp = layoutBottom.findViewById<TextView>(R.id.tvWhatsapp)
+        val tvTelegram = layoutBottom.findViewById<TextView>(R.id.tvTelegram)
 
         if (!isInSelectionMode) {
             // Not in selection mode: hide all bottom buttons
             btnWhatsapp?.gone()
             btnTelegram?.gone()
-            btnDownload?.gone()
         } else if (viewModel.typeStatus.value == ValueKey.MY_DESIGN_TYPE) {
             // In My Design tab selection mode: show only Download button
-            btnWhatsapp?.gone()
-            btnTelegram?.gone()
-            btnDownload?.visible()
+            btnWhatsapp?.visible()
+            btnTelegram?.visible()
+            tvWhatsapp?.setText(R.string.share)
+            tvTelegram?.setText(R.string.download)
+             if (viewModel.typeStatus.value == ValueKey.MY_DESIGN_TYPE) {
+                layoutBottom.findViewById<View>(R.id.btnWhatsapp)?.tap(2500) {
+                    handleShareFromCurrentFragment()
+                }
+
+                layoutBottom.findViewById<View>(R.id.btnTelegram)?.tap(2500) {
+                    handleDownloadFromCurrentFragment()
+                }
+            }
+
         } else {
+
+            if (viewModel.typeStatus.value == ValueKey.AVATAR_TYPE) {// WhatsApp, Telegram, and Download buttons in lnlBottom
+                layoutBottom.findViewById<View>(R.id.btnWhatsapp)?.tap(2500) {
+                    val selectedPaths = getSelectedPathsFromCurrentFragment()
+                    handleAddToWhatsApp(selectedPaths)
+                }
+                layoutBottom.findViewById<View>(R.id.btnTelegram)?.tap(2500) {
+                    val selectedPaths = getSelectedPathsFromCurrentFragment()
+                    handleAddToTelegram(selectedPaths)
+                }
+            }
             // In My Pixel tab selection mode: show WhatsApp and Telegram
             btnWhatsapp?.visible()
             btnTelegram?.visible()
-            btnDownload?.gone()
+            tvWhatsapp?.setText(R.string.add_to_whatsapp)
+            tvTelegram?.setText(R.string.add_to_telegram)
         }
     }
 
@@ -645,8 +686,8 @@ class MyCreationActivity : WhatsappSharingActivity<ActivityAlbumBinding>() {
             val h = textView.lineHeight.toFloat()
             val shader = LinearGradient(
                 0f, 0f, 0f, h,
-                Color.parseColor("#01579B"),
-                Color.parseColor("#01579B"),
+                Color.parseColor("#2993FF"),
+                Color.parseColor("#2993FF"),
                 Shader.TileMode.CLAMP
             )
             textView.paint.shader = shader
@@ -662,9 +703,9 @@ class MyCreationActivity : WhatsappSharingActivity<ActivityAlbumBinding>() {
     fun updateSelectAllIcon(allSelected: Boolean) {
         isAllSelected = allSelected
         if (allSelected) {
-            binding.actionBar.btnActionBarRight.setImageResource(R.drawable.ic_select_all)
+            binding.actionBar.btnActionBarNextRight.setImageResource(R.drawable.ic_select_all)
         } else {
-            binding.actionBar.btnActionBarRight.setImageResource(R.drawable.ic_not_select_all)
+            binding.actionBar.btnActionBarNextRight.setImageResource(R.drawable.ic_not_select_all)
         }
     }
 }

@@ -116,4 +116,10 @@
     <string name="exit_cus">कस्टमाइज़ेशन से बाहर निकलें</string>
     <string name="loading">लोड हो रहा है</string>
     <string name="internet_required_for_more_characters">अधिक पात्रों के लिए इंटरनेट आवश्यक है</string>
+    <string name="go_to_creation">Go to creation</string>
+    <string name="edit">Edit</string>
+    <string name="character">Character</string>
+    <string name="design">Design</string>
+    <string name="dont_have_item">You don’t have any character</string>
+    <string name="creation">Creation</string>
 </resources>
