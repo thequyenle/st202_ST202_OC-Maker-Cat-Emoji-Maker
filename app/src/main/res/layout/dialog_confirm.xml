@@ -76,20 +76,20 @@
 
                     <!--                    btnNo-->
                     <TextView
-                        android:id="@+id/btnNo"
+                        android:id="@+id/btnYes"
                         android:layout_width="0dp"
                         android:layout_height="36dp"
                         android:layout_weight="1"
                         android:background="@drawable/bg_dialog_btn"
                         android:fontFamily="@font/baloobhaijaan_regular"
                         android:gravity="center"
-                        android:text="@string/no"
+                        android:text="@string/exit"
                         android:textColor="@color/color_app"
                         android:textSize="16sp" />
 
                     <!--                    btnYes-->
                     <TextView
-                        android:id="@+id/btnYes"
+                        android:id="@+id/btnNo"
                         android:layout_width="0dp"
                         android:layout_height="36dp"
                         android:layout_marginStart="24dp"
@@ -97,7 +97,7 @@
                         android:background="@drawable/bg_dialog_btn"
                         android:fontFamily="@font/baloobhaijaan_regular"
                         android:gravity="center"
-                        android:text="@string/yes"
+                        android:text="@string/cancel"
                         android:textColor="@color/color_app"
                         android:textSize="16sp" />
                 </LinearLayout>

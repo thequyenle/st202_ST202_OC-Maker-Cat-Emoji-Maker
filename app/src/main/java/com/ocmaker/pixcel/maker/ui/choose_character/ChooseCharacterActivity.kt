@@ -10,6 +10,7 @@ import com.ocmaker.pixcel.maker.ui.customize.CustomizeCharacterActivity
 import com.ocmaker.pixcel.maker.ui.home.DataViewModel
 import com.ocmaker.pixcel.maker.ui.random_character.RandomCharacterActivity
 import com.ocmaker.pixcel.maker.core.base.BaseActivity
+import com.ocmaker.pixcel.maker.core.extensions.gone
 import com.ocmaker.pixcel.maker.core.extensions.handleBackLeftToRight
 import com.ocmaker.pixcel.maker.core.extensions.hideNavigation
 import com.ocmaker.pixcel.maker.core.extensions.loadNativeCollabAds
@@ -156,6 +157,7 @@ class ChooseCharacterActivity : BaseActivity<ActivityChooseCharacterBinding>() {
         binding.actionBar.apply {
             setImageActionBar(btnActionBarLeft, R.drawable.ic_back)
             setTextActionBar(tvCenter, getString(R.string.category))
+            tvCenter.gone()
         }
     }
 

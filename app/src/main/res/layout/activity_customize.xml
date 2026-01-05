@@ -66,8 +66,8 @@
     <!--    btnFlip-->
     <ImageView
         android:id="@+id/btnFlip"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:visibility="visible"
         app:layout_constraintWidth_percent="1"
         app:layout_constraintHeight_percent="1"
@@ -98,8 +98,8 @@
     <!-- btnRandom -->
     <ImageView
         android:id="@+id/btnRandom"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/ic_random"
         app:layout_constraintWidth_percent="1"
@@ -113,8 +113,8 @@
     <!-- btnRandom -->
     <ImageView
         android:id="@+id/btnReset"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/ic_reset"
         app:layout_constraintWidth_percent="1"
@@ -171,8 +171,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="2dp"
-                android:layout_marginEnd="4dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_color" />
@@ -214,6 +214,8 @@
             android:layout_gravity="center_vertical"
             android:layerType="hardware"
             android:orientation="horizontal"
+            android:clipToOutline="false"
+            android:clipChildren="false"
             android:paddingStart="16dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_bottom_navigation" />

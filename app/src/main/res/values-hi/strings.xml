@@ -123,4 +123,5 @@
     <string name="design">डिज़ाइन</string>
     <string name="dont_have_item">आपके पास कोई कैरेक्टर नहीं है</string>
     <string name="creation">रचना</string>
+    <string name="cancel">Cancel</string>
 </resources>

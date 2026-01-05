@@ -137,7 +137,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         binding.apply {
             tv1.text = strings(R.string.character_maker)
             tv2.text = strings(R.string.quick_maker)
-            tv3.text = strings(R.string.my_character)
+            tv3.text = strings(R.string.creation)
         }
     }
 

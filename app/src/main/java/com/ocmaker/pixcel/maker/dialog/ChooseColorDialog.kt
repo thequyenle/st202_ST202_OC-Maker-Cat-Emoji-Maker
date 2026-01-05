@@ -11,7 +11,7 @@ import com.ocmaker.pixcel.maker.core.base.BaseDialog
 import com.ocmaker.pixcel.maker.core.extensions.tap
 import com.ocmaker.pixcel.maker.databinding.DialogColorPickerBinding
 import com.ocmaker.pixcel.maker.core.helper.UnitHelper
-
+import kotlin.math.roundToInt
 
 class ChooseColorDialog(context: Context) : BaseDialog<DialogColorPickerBinding>(context,maxWidth = true, maxHeight = true) {
     override val layoutId: Int = R.layout.dialog_color_picker
@@ -39,10 +39,27 @@ class ChooseColorDialog(context: Context) : BaseDialog<DialogColorPickerBinding>
         }
     }
 
+    private fun updateHueThumbByColor(colorInt: Int) {
+        val hsv = FloatArray(3)
+        Color.colorToHSV(colorInt, hsv)
+        val hue = hsv[0] // 0..360
+
+        val slider = binding.hueSlider
+        val thumb = binding.hueThumb
+
+        slider.post {
+            val usableWidth = slider.width - thumb.width
+            val x = (usableWidth * (hue / 360f)).coerceIn(0f, usableWidth.toFloat())
+            thumb.translationX = x
+        }
+    }
+
     override fun initAction() {
         binding.apply {
             colorPickerView.setOnColorChangedListener {
                 color = it
+                updateHueThumbByColor(it)
+
                 // Update the color string display in real-time
               //  tvColorString.text = String.format("#%06X", 0xFFFFFF and it)
             }

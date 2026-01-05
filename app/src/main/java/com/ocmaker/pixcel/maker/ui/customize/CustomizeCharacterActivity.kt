@@ -12,6 +12,7 @@ import com.ocmaker.pixcel.maker.R
 import com.ocmaker.pixcel.maker.core.base.BaseActivity
 import com.ocmaker.pixcel.maker.core.extensions.dLog
 import com.ocmaker.pixcel.maker.core.extensions.eLog
+import com.ocmaker.pixcel.maker.core.extensions.gone
 import com.ocmaker.pixcel.maker.core.extensions.hideNavigation
 import com.ocmaker.pixcel.maker.core.extensions.invisible
 import com.ocmaker.pixcel.maker.core.extensions.loadNativeCollabAds
@@ -334,7 +335,7 @@ class CustomizeCharacterActivity : BaseActivity<ActivityCustomizeBinding>() {
             binding.flColor.isVisible = status
         } else {
             binding.color.invisible()
-            binding.btnColor.invisible()
+            binding.btnColor.gone()
             binding.flColor.invisible()
         }
     }

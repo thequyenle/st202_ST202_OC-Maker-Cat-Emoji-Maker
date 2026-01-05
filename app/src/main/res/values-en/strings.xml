@@ -45,7 +45,7 @@
 
     <string name="rate_us_0">You have not rated it yet!</string>
     <string name="rate">Rate</string>
-    <string name="exit">Exit</string>
+    <string name="exit">Exit cat maker</string>
     <string name="have_rated">Thank you for rate our app</string>
     <string name="share">Share</string>
     <string name="delete">Delete</string>
@@ -75,11 +75,11 @@
     <string name="quick_maker">Quick \nMix</string>
     <string name="my_character">My Pixel</string>
     <string name="category">Pixel Maker</string>
-
+t
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="no_item_space">No current history</string>
-    <string name="add_to_whatsapp">Add To WhatsApp</string>
-    <string name="add_to_telegram">Add To Telegram</string>
+    <string name="add_to_whatsapp">Add to Whatsapp</string>
+    <string name="add_to_telegram">Add to Telegram</string>
     <string name="my_avatar">My Avatar</string>
     <string name="my_design">My Design</string>
     <string name="my_album">My album</string>
@@ -97,7 +97,7 @@
     <string name="add_image">Add Image</string>
     <string name="sticker">Sticker</string>
     <string name="speech_bubbles">Speech Bubbles</string>
-    <string name="text">Text</string>
+    <string name="text">Input text</string>
     <string name="type_your_content">Type your content...</string>
     <string name="font">Font</string>
     <string name="choose_color">Choose Color</string>
@@ -119,4 +119,5 @@
     <string name="design">Design</string>
     <string name="dont_have_item">You don’t have any character</string>
     <string name="creation">Creation</string>
+    <string name="cancel">Cancel</string>
 </resources>

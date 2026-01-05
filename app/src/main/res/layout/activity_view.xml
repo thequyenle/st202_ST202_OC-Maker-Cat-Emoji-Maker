@@ -9,6 +9,16 @@
     tools:context=".ui.view.ViewActivity">
 
 
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/bg_for_bg"
+        android:scaleType="fitXY"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/glH"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
     <!-- layoutActionBar -->
     <FrameLayout
         android:id="@+id/layoutActionBar"
@@ -98,8 +108,17 @@
 
     </FrameLayout>
 
+    <androidx.constraintlayout.widget.Guideline android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/glH"
+        app:layout_constraintGuide_percent="0.5"
+        />
 
-<!--    &lt;!&ndash;    flNativeCollab&ndash;&gt;-->
+
+
+
+    <!--    &lt;!&ndash;    flNativeCollab&ndash;&gt;-->
 <!--    <FrameLayout-->
 <!--        android:id="@+id/flNativeCollab"-->
 <!--        android:layout_width="match_parent"-->

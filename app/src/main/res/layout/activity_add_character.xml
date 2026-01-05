@@ -68,27 +68,31 @@
         android:id="@+id/flSave"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginHorizontal="20dp"
-        app:layout_constraintDimensionRatio="1:1"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintDimensionRatio="328:336"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/flActionBar">
 
         <!--        imvBackground-->
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imvBackground"
             android:layout_width="match_parent"
             android:layout_marginHorizontal="15dp"
-            android:layout_marginBottom="29dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/bg_radius_addbg"
+            android:layout_marginTop="10dp"
+            app:shapeAppearanceOverlay="@style/Rounded30"
             android:layout_height="match_parent"
             android:scaleType="centerCrop" />
 
         <!--        imvBackground-->
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imvCharacter"
             android:layout_width="match_parent"
+            app:shapeAppearanceOverlay="@style/Rounded30"
             android:layout_height="match_parent"
+            android:background="@drawable/bg_radius"
             android:scaleType="centerCrop" />
 
 
@@ -270,7 +274,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="4.5dp"
-                android:paddingHorizontal="7.5dp"
+                android:paddingHorizontal="22dp"
                 android:visibility="gone"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="5"
@@ -282,7 +286,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="4.5dp"
-                android:paddingHorizontal="7.5dp"
+                android:paddingHorizontal="22dp"
                 android:visibility="gone"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="5"
@@ -317,7 +321,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="11.5dp"
-                android:paddingHorizontal="7.5dp"
+                android:paddingHorizontal="22dp"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="5"
                 tools:listitem="@layout/item_sticker" />
@@ -351,7 +355,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="11.5dp"
-                android:paddingHorizontal="7.5dp"
+                android:paddingHorizontal="22dp"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="5"
                 tools:listitem="@layout/item_sticker" />
@@ -506,7 +510,7 @@
             android:id="@+id/btnBackground"
             android:layout_width="44dp"
             android:layout_height="50dp"
-            android:layout_marginHorizontal="18dp"
+            android:layout_marginHorizontal="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_background_selected" />
 
@@ -515,7 +519,7 @@
             android:id="@+id/btnSticker"
             android:layout_width="44dp"
             android:layout_height="50dp"
-            android:layout_marginHorizontal="18dp"
+            android:layout_marginHorizontal="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_sticker" />
 
@@ -524,7 +528,7 @@
             android:id="@+id/btnSpeech"
             android:layout_width="44dp"
             android:layout_height="50dp"
-            android:layout_marginHorizontal="18dp"
+            android:layout_marginHorizontal="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_speech" />
 
@@ -533,7 +537,7 @@
             android:id="@+id/btnText"
             android:layout_width="44dp"
             android:layout_height="50dp"
-            android:layout_marginHorizontal="18dp"
+            android:layout_marginHorizontal="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_text" />
     </LinearLayout>

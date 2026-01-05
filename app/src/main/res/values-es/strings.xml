@@ -123,4 +123,5 @@
     <string name="design">Diseño</string>
     <string name="dont_have_item">No tienes ningún personaje</string>
     <string name="creation">Creación</string>
+    <string name="cancel">Cancel</string>
 </resources>

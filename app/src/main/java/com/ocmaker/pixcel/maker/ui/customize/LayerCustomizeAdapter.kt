@@ -40,7 +40,7 @@ class LayerCustomizeAdapter(val context: Context) : ListAdapter<ItemNavCustomMod
 //                    cardLayerItem.strokeColor = Color.parseColor("#2893FF")
 //                    cardLayerItem.setCardBackgroundColor(Color.parseColor("#FFFFFF"))
 
-                    binding.cardLayerItem.setBackgroundResource(R.drawable.cus_selected)
+                    binding.cardLayerItem.setBackgroundResource(R.drawable.cus_selected_layer)
                 } else {
                     // Reset to normal state
                     root.translationZ = 0f
@@ -49,7 +49,7 @@ class LayerCustomizeAdapter(val context: Context) : ListAdapter<ItemNavCustomMod
                     vFocus.gone()
 //                    cardLayerItem.strokeColor = Color.parseColor("#00FF9CFD")
 //                    cardLayerItem.setCardBackgroundColor(Color.WHITE)
-                    binding.cardLayerItem.setBackgroundResource(R.drawable.cus_unselected)
+                    binding.cardLayerItem.setBackgroundResource(R.drawable.cus_unselected_layer)
 
 
                 }
