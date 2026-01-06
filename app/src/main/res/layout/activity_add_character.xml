@@ -136,6 +136,13 @@
         app:layout_constraintBottom_toTopOf="@id/lnlBottom"
         app:layout_constraintTop_toBottomOf="@id/flSave"
         >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#80BFFF"
+            android:layout_marginHorizontal="6dp"
+            />
         <!-- Space to replace layout_goneMarginTop - provides 16dp gap when sectionTab is GONE -->
         <TextView
             android:id="@+id/spaceSectionTab"
@@ -370,7 +377,7 @@
             android:paddingTop="15dp"
             android:clipChildren="false"
             android:isScrollContainer="true"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -449,8 +456,9 @@
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="13dp"
                     android:layout_marginBottom="10dp"
-                    android:paddingHorizontal="0.5dp"
+                    android:paddingHorizontal="5.5dp"
                     android:clipChildren="false"
+                    android:overScrollMode="never"
                     android:clipToPadding="true"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -476,6 +484,9 @@
                     android:layout_height="37dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="6dp"
+                    android:overScrollMode="never"
+                    android:paddingHorizontal="5.5dp"
+                    android:clipToPadding="true"
                     android:layout_marginVertical="10dp"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

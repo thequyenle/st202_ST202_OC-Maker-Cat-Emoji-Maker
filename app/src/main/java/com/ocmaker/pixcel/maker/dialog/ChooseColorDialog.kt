@@ -37,6 +37,25 @@ class ChooseColorDialog(context: Context) : BaseDialog<DialogColorPickerBinding>
                 clipToOutline = true
             }
         }
+        // Ẩn thumb mặc định của hueSlider
+        binding.hueSlider.apply {
+            // Thử set thumb radius = 0
+            try {
+                val field = this::class.java.getDeclaredField("thumbRadius")
+                field.isAccessible = true
+                field.setFloat(this, 0f)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            try {
+                val paintField = this::class.java.getDeclaredField("thumbPaint")
+                paintField.isAccessible = true
+                val paint = paintField.get(this) as? android.graphics.Paint
+                paint?.alpha = 0  // Set trong suốt hoàn toàn
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
     private fun updateHueThumbByColor(colorInt: Int) {
@@ -45,13 +64,12 @@ class ChooseColorDialog(context: Context) : BaseDialog<DialogColorPickerBinding>
         val hue = hsv[0] // 0..360
 
         val slider = binding.hueSlider
-        val thumb = binding.hueThumb
 
-        slider.post {
-            val usableWidth = slider.width - thumb.width
-            val x = (usableWidth * (hue / 360f)).coerceIn(0f, usableWidth.toFloat())
-            thumb.translationX = x
-        }
+//        slider.post {
+//            val usableWidth = slider.width - thumb.width
+//            val x = (usableWidth * (hue / 360f)).coerceIn(0f, usableWidth.toFloat())
+//            thumb.translationX = x
+//        }
     }
 
     override fun initAction() {

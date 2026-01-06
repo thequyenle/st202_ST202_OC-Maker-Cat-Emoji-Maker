@@ -65,43 +65,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="16dp"
-                android:paddingBottom="28dp"
                 android:gravity="center"
                 android:orientation="vertical"
+                android:paddingBottom="20dp"
+
                 app:layout_constraintTop_toBottomOf="@id/colorPickerView">
 
-                <FrameLayout
-                    android:id="@+id/hueContainer"
+                <ir.kotlin.kavehcolorpicker.KavehHueSlider
+                    android:id="@+id/hueSlider"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:sliderStrokeSize="4dp"
                     android:layout_width="0dp"
-                    android:layout_height="36dp"
+                    android:layout_marginTop="-15dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/btnDone"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ir.kotlin.kavehcolorpicker.KavehHueSlider
-                        android:id="@+id/hueSlider"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:sliderStrokeSize="4dp" />
-
-                    <!-- thumb vuông -->
-                    <View
-                        android:id="@+id/hueThumb"
-                        android:layout_width="18dp"
-                        android:layout_height="28dp"
-                        android:layout_gravity="center_vertical"
-                        android:background="@drawable/bg_hue_thumb_square" />
-                </FrameLayout>
+                    android:layout_height="70dp" />
 
 
                 <!--                btnDone-->
                 <RelativeLayout
                     android:id="@+id/btnDone"
                     android:layout_width="88dp"
-                    android:layout_height="36dp"
+                    android:layout_height="42dp"
                     android:layout_gravity="end"
-                    app:layout_constraintTop_toTopOf="@id/hueContainer"
+                    android:layout_marginTop="14dp"
+                    app:layout_constraintTop_toTopOf="@id/hueSlider"
                     android:background="@drawable/bg_done_pickercolor"
                     app:layout_constraintEnd_toEndOf="parent"
                     >

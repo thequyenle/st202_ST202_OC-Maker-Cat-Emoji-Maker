@@ -261,7 +261,7 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
                                 // Clear FLAG_LAYOUT_NO_LIMITS to allow adjustResize to work
                                 Log.d("EditTextFlow", "Keyboard showing - clearing FLAG_LAYOUT_NO_LIMITS")
                                 window.clearFlags(android.view.WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-                                viewModel.layoutParams.topMargin = UnitHelper.dpToPx(this@AddCharacterActivity, -160)
+                                viewModel.layoutParams.topMargin = UnitHelper.dpToPx(this@AddCharacterActivity, -90)
                                 flFunction.layoutParams = viewModel.layoutParams
                                 Log.d("EditTextFlow", "Layout adjusted - topMargin: ${viewModel.layoutParams.topMargin}")
                             } else {

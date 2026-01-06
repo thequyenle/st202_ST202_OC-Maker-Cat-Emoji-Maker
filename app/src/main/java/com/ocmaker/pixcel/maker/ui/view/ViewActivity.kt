@@ -189,14 +189,14 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
         binding.apply {
             actionBar.apply {
                 btnActionBarLeft.tap { handleBack() }
-                btnActionBarRight.tap { handleActionBarRight() }
+                btnActionBarRight.tap(4500) { handleActionBarRight() }
                 //btnActionBarNextRight.tap { handleEditClick(viewModel.pathInternal.value) }
-                btnShare.tap(2500) { viewModel.shareFiles(this@ViewActivity) }
+                btnShare.tap(6300) { viewModel.shareFiles(this@ViewActivity) }
             }
 
             // Access buttons from included layout_bottom
-            includeLayoutBottom.btnWhatsapp.tap(2590) { handleBottomBarLeft() }
-            includeLayoutBottom.btnTelegram.tap(2000) { handleBottomBarRight() }
+            includeLayoutBottom.btnWhatsapp.tap(3390) { handleBottomBarLeft() }
+            includeLayoutBottom.btnTelegram.tap(3300) { handleBottomBarRight() }
         }
     }
 
@@ -416,7 +416,9 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
     }
 
     private fun handleBack() {
-        resetMyCreationSelectionMode()
+        if (viewModel.typeUI.value == ValueKey.TYPE_VIEW) {
+            resetMyCreationSelectionMode()
+        }
         handleBackLeftToRight()
     }
 
