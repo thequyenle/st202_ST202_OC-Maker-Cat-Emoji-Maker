@@ -92,6 +92,8 @@
                     <!--                    btnYes-->
                     <TextView
                         android:id="@+id/btnNo"
+                        style="@style/single_marquee"
+
                         android:layout_width="0dp"
                         android:layout_height="36dp"
                         android:layout_marginStart="24dp"

@@ -1,0 +1,93 @@
+package com.oc.maker.cat.emoji.dialog
+
+import android.content.Context
+import android.graphics.Color
+import android.graphics.Outline
+import android.view.Gravity
+import android.view.View
+import android.view.ViewOutlineProvider
+import com.oc.maker.cat.emoji.R
+import com.oc.maker.cat.emoji.core.base.BaseDialog
+import com.oc.maker.cat.emoji.core.extensions.tap
+import com.oc.maker.cat.emoji.databinding.DialogColorPickerBinding
+import com.oc.maker.cat.emoji.core.helper.UnitHelper
+import kotlin.math.roundToInt
+
+class ChooseColorDialog(context: Context) : BaseDialog<DialogColorPickerBinding>(context,maxWidth = true, maxHeight = true) {
+    override val layoutId: Int = R.layout.dialog_color_picker
+    override val isCancelOnTouchOutside: Boolean =false
+    override val isCancelableByBack: Boolean = false
+
+    var onDoneEvent: ((Int) -> Unit) = {}
+    var onCloseEvent: (() -> Unit) = {}
+    var onDismissEvent: (() -> Unit) = {}
+    private var color = Color.WHITE
+    override fun initView() {
+        binding.apply {
+            colorPickerView.apply {
+                hueSliderView = hueSlider
+
+                // Apply rounded corners programmatically
+                val radiusPx = UnitHelper.dpToPx(context, 8f)
+                outlineProvider = object : ViewOutlineProvider() {
+                    override fun getOutline(view: View, outline: Outline) {
+                        outline.setRoundRect(0, 0, view.width, view.height, radiusPx)
+                    }
+                }
+                clipToOutline = true
+            }
+        }
+        // Ẩn thumb mặc định của hueSlider
+        binding.hueSlider.apply {
+            // Thử set thumb radius = 0
+            try {
+                val field = this::class.java.getDeclaredField("thumbRadius")
+                field.isAccessible = true
+                field.setFloat(this, 0f)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            try {
+                val paintField = this::class.java.getDeclaredField("thumbPaint")
+                paintField.isAccessible = true
+                val paint = paintField.get(this) as? android.graphics.Paint
+                paint?.alpha = 0  // Set trong suốt hoàn toàn
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun updateHueThumbByColor(colorInt: Int) {
+        val hsv = FloatArray(3)
+        Color.colorToHSV(colorInt, hsv)
+        val hue = hsv[0] // 0..360
+
+        val slider = binding.hueSlider
+
+//        slider.post {
+//            val usableWidth = slider.width - thumb.width
+//            val x = (usableWidth * (hue / 360f)).coerceIn(0f, usableWidth.toFloat())
+//            thumb.translationX = x
+//        }
+    }
+
+    override fun initAction() {
+        binding.apply {
+            colorPickerView.setOnColorChangedListener {
+                color = it
+                updateHueThumbByColor(it)
+
+                // Update the color string display in real-time
+              //  tvColorString.text = String.format("#%06X", 0xFFFFFF and it)
+            }
+            btnClose.tap { onCloseEvent.invoke() }
+            btnDone.tap { onDoneEvent.invoke(color) }
+        }
+    }
+
+    override fun onDismissListener() {
+        onDismissEvent.invoke()
+    }
+
+}

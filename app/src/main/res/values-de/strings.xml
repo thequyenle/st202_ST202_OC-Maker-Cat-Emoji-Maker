@@ -54,7 +54,7 @@
     <string name="ok">Ok</string>
     <string name="wait_a_minute">Einen Moment bitte</string>
     <string name="reset">Ihr Design zurücksetzen</string>
-    <string name="download_success">Download erfolgreich im Cat Maker Album</string>
+    <string name="download_success">Download erfolgreich im OC maker: Cat Emoji Maker Album</string>
     <string name="please_check_your_internet">Bitte überprüfen Sie Ihr Internet</string>
     <string name="please_select_an_image">Bitte wählen Sie ein Bild</string>
     <string name="error">Fehler</string>
@@ -72,7 +72,7 @@
     <string name="are_you_sure_you_want_to_delete_the_image">Möchten Sie das Bild wirklich löschen?</string>
     <string name="haven_t_saved_it_yet_do_you_want_to_exit">Der Charakter wird nicht gespeichert, \naber Sie können trotzdem beenden.</string>
     <string name="change_your_whole_design_are_you_sure">Der Charakter kehrt in den \nAnfangszustand zurück.</string>
-    <string name="character_maker">Cat Emoji \nMaker</string>
+    <string name="character_maker">Katzen Emoji \nErsteller</string>
     <string name="no_item_here">Keine Artikel Hier</string>
     <string name="quick_maker">Schneller \nMix</string>
     <string name="my_character">Mein Pixel</string>

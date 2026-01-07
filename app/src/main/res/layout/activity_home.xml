@@ -106,7 +106,7 @@
 
 
             <!--            btnQuickMaker-->
-            <com.ocmaker.pixcel.maker.core.custom.text.DoubleStrokeTextView
+            <com.oc.maker.cat.emoji.core.custom.text.DoubleStrokeTextView
                 android:id="@+id/tv1"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -114,8 +114,10 @@
                 android:gravity="center"
                 android:text="@string/character_maker"
                 android:textColor="#FFFFFF"
-                android:textSize="32sp"
+                android:textSize="30sp"
+                android:layout_marginStart="-10dp"
                 android:clipToOutline="false"
+                android:layout_marginBottom="20dp"
                 app:layout_constraintBottom_toBottomOf="@+id/btnCreate"
                 app:layout_constraintEnd_toEndOf="@+id/glRight"
                 app:layout_constraintStart_toStartOf="@id/glCenterLeft"
@@ -135,7 +137,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/btnCreate" />
 
             <!--            tv2-->
-            <com.ocmaker.pixcel.maker.core.custom.text.DoubleStrokeTextView
+            <com.oc.maker.cat.emoji.core.custom.text.DoubleStrokeTextView
                 android:id="@+id/tv2"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -144,7 +146,7 @@
                 android:text="@string/quick_maker"
                 android:layout_marginStart="5dp"
                 android:textColor="#FFFFFF"
-                android:textSize="32dp"
+                android:textSize="30sp"
                 app:layout_constraintBottom_toBottomOf="@+id/btnQuickMaker"
                 app:layout_constraintEnd_toEndOf="@+id/glCenterRight"
                 app:layout_constraintStart_toEndOf="@id/glLeft"
@@ -164,18 +166,18 @@
                 app:layout_constraintTop_toBottomOf="@+id/btnQuickMaker" />
 
             <!--            tv3-->
-            <com.ocmaker.pixcel.maker.core.custom.text.DoubleStrokeTextView
+            <com.oc.maker.cat.emoji.core.custom.text.DoubleStrokeTextView
                 android:id="@+id/tv3"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 style="@style/single_marquee"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="0dp"
                 android:fontFamily="@font/baloobhaijaan_regular"
                 android:gravity="center"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="15dp"
                 android:text="@string/creation"
                 android:textColor="#FFFFFF"
-                android:textSize="32sp"
+                android:textSize="30sp"
                 app:layout_constraintBottom_toBottomOf="@+id/btnMyAlbum"
                 app:layout_constraintEnd_toStartOf="@+id/glRight"
                 app:layout_constraintStart_toStartOf="@+id/glCenterLeft"
