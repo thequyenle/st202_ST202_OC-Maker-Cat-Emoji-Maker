@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "340940397032",
-    "project_id": "st193-pixelcharactermaker",
-    "storage_bucket": "st193-pixelcharactermaker.firebasestorage.app"
+    "project_number": "676604127940",
+    "project_id": "st202-oc-maker-cat-emoji-maker",
+    "storage_bucket": "st202-oc-maker-cat-emoji-maker.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:340940397032:android:ebc83b9dcb7236c0f4ec5d",
+        "mobilesdk_app_id": "1:676604127940:android:e4eccedbb2a3e80b303791",
         "android_client_info": {
-          "package_name": "com.ocmaker.pixcel.maker"
+          "package_name": "com.oc.maker.cat.emoji"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCmqMCWOyFrniu-h9V2rT67najDyQIBV9U"
+          "current_key": "AIzaSyBCoGSiGMjZ30V0bAe2JtHP3xrIRfFFabY"
         }
       ],
       "services": {

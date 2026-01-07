@@ -92,18 +92,22 @@
     <!--        tvSuccess-->
     <TextView
         android:id="@+id/tvSuccess"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
+        android:paddingVertical="4dp"
+        android:layout_marginHorizontal="16dp"
         android:fontFamily="@font/baloobhaijaan_regular"
         android:gravity="center"
+        app:layout_constraintStart_toStartOf="@id/frameBg"
+        app:layout_constraintEnd_toEndOf="@id/frameBg"
+        android:background="@drawable/bg_radisu"
         android:text="@string/image_has_been_saved_successfully"
         android:textColor="#808080"
         android:textSize="14sp"
-        app:layout_constraintTop_toTopOf="@id/frameBg"
-        app:layout_constraintVertical_bias="0.97"
         app:layout_constraintBottom_toBottomOf="@id/frameBg"
+        app:layout_constraintTop_toTopOf="@id/frameBg"
+        app:layout_constraintVertical_bias="0.931"
+
          />
 
 

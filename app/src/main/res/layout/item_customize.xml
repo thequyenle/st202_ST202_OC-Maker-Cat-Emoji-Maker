@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:layout_constraintDimensionRatio="1:1"
-    android:layout_margin="2dp"
+    android:layout_margin="-0.5dp"
     >
 
 
@@ -39,6 +39,7 @@
         <!--                    imvImage-->
         <ImageView
             android:id="@+id/imvImage"
+            android:padding="6dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"

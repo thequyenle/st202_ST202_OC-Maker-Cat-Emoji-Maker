@@ -192,7 +192,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layerType="hardware"
-        android:paddingHorizontal="9.5dp"
+        android:paddingHorizontal="11.5dp"
         android:paddingTop="5dp"
         android:clipChildren="false"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"

@@ -19,11 +19,13 @@ class TextFontAdapter(val context: Context) : BaseAdapter<SelectedModel, ItemFon
 
             if (item.isSelected) {
                 // Selected state - set selected background and change text color
-                cvMain.setBackgroundResource(R.drawable.bg_item_font_selected)
+                cvMain.setBackgroundResource(R.drawable.bg_circle_white_)
+
                 tvFont.setTextColor(android.graphics.Color.parseColor("#000000")) // White text
             } else {
                 // Not selected state - white circle background
-                cvMain.setBackgroundResource(R.drawable.bg_item_font_not_selected)
+                cvMain.setBackgroundResource(R.drawable.bg_circle_white)
+
                 tvFont.setTextColor(android.graphics.Color.parseColor("#000000")) // Black text
             }
 
