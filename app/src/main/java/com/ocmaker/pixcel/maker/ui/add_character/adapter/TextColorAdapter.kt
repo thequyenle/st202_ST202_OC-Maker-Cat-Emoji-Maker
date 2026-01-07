@@ -3,12 +3,14 @@ package com.ocmaker.pixcel.maker.ui.add_character.adapter
 import android.annotation.SuppressLint
 import android.graphics.drawable.GradientDrawable
 import android.util.Log
+import android.view.ViewGroup
 import androidx.core.view.isVisible
 import com.ocmaker.pixcel.maker.R
 import com.ocmaker.pixcel.maker.core.base.BaseAdapter
 import com.ocmaker.pixcel.maker.core.extensions.gone
 import com.ocmaker.pixcel.maker.core.extensions.tap
 import com.ocmaker.pixcel.maker.core.extensions.visible
+import com.ocmaker.pixcel.maker.core.helper.UnitHelper.dpToPx
 import com.ocmaker.pixcel.maker.data.model.SelectedModel
 import com.ocmaker.pixcel.maker.databinding.ItemTextColorBinding
 
@@ -48,6 +50,11 @@ class TextColorAdapter : BaseAdapter<SelectedModel, ItemTextColorBinding>(ItemTe
                 Log.d("TextColorAdapter", "Position 0: Background set to TRANSPARENT (ImageView and parent), about to set image resource")
                 // Now set the image resource
                 imvColor.setImageResource(R.drawable.img0text_color)
+                // SỬA PHẦN NÀY - Lấy context từ imvColor.context
+                val params = imvColor.layoutParams as ViewGroup.MarginLayoutParams
+                val margin = dpToPx(imvColor.context, 2)
+                params.setMargins(margin, margin, margin, margin)
+                imvColor.layoutParams = params
                 btnAddColor.visible()
                 root.tap { onChooseColorClick.invoke() }
             } else {

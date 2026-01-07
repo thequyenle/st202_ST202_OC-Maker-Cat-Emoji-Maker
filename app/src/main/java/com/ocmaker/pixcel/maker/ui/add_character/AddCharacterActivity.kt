@@ -9,6 +9,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.LinearGradient
 import android.graphics.Shader
+import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.text.Editable
 import android.text.SpannableString
@@ -19,6 +20,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
+import android.widget.ImageView
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -30,6 +32,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.facebook.shimmer.ShimmerDrawable
+import com.ironsource.sdk.utils.SDKUtils.dpToPx
 import com.ocmaker.pixcel.maker.R
 import com.ocmaker.pixcel.maker.core.base.BaseActivity
 import com.ocmaker.pixcel.maker.core.extensions.checkPermissions
@@ -50,6 +55,7 @@ import com.ocmaker.pixcel.maker.core.extensions.tap
 import com.ocmaker.pixcel.maker.core.extensions.visible
 import com.ocmaker.pixcel.maker.core.helper.BitmapHelper
 import com.ocmaker.pixcel.maker.core.helper.UnitHelper
+import com.ocmaker.pixcel.maker.core.helper.UnitHelper.dpToPx
 import com.ocmaker.pixcel.maker.core.utils.DataLocal
 import com.ocmaker.pixcel.maker.core.utils.key.IntentKey
 import com.ocmaker.pixcel.maker.core.utils.key.RequestKey
@@ -86,6 +92,12 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
     private val textFontAdapter by lazy { TextFontAdapter(this) }
     private val textColorAdapter by lazy { TextColorAdapter() }
 
+
+    // Background COLOR:
+    val drawable = GradientDrawable().apply {
+        setColor(color)
+        cornerRadius = dpToPx(30L).toFloat()
+    }
     // Photo Picker - NO PERMISSION REQUIRED
     private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
         if (uri != null) {
@@ -298,7 +310,7 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
             actionBar.apply {
                 btnActionBarLeft.tap { confirmExit() }
 
-               // btnActionBarCenter.tap { confirmReset() }
+                btnActionBarCenter.tap { confirmReset() }
                 btnActionBarRightText.tap {
                     handleSave()
                 }
@@ -379,7 +391,7 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
     override fun initActionBar() {
         binding.actionBar.apply {
             setImageActionBar(btnActionBarLeft, R.drawable.ic_back)
-          //  setImageActionBar(btnActionBarCenter, R.drawable.ic_reset)
+            setImageActionBar(btnActionBarCenter, R.drawable.ic_reset_bg)
             btnActionBarRightText.setBackgroundResource(R.drawable.ic_save)
             btnActionBarRightText.visible()
             tvRightText.visible()
@@ -718,7 +730,7 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
                 binding.edtText.setText("")
                 binding.edtText.setFont(viewModel.textFontList.first().color)
                 binding.edtText.setTextColor(viewModel.textColorList[1].color)
-                addDrawable(viewModel.pathDefault, true)
+                //addDrawable(viewModel.pathDefault, true)
                 backgroundImageAdapter.submitList(viewModel.backgroundImageList)
                 backgroundColorAdapter.submitList(viewModel.backgroundColorList)
                 stickerAdapter.submitList(viewModel.stickerList)
@@ -733,9 +745,22 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
         }
     }
 
+    fun loadImageBG(context: Context, path: String, imageView: ImageView, isLoadShimmer: Boolean = true) {
+        val shimmerDrawable = ShimmerDrawable().apply {
+            setShimmer(DataLocal.shimmer)
+        }
+        if (isLoadShimmer){
+            Glide.with(context).load(path)
+                .transform(RoundedCorners(dpToPx(30)))
+                .placeholder(shimmerDrawable).error(shimmerDrawable).into(imageView)
+        }else{
+            Glide.with(context).load(path).placeholder(shimmerDrawable).error(shimmerDrawable).into(imageView)
+        }
+
+    }
     private fun handleSetBackgroundImage(path: String, position: Int) {
         binding.imvBackground.setBackgroundColor(getColor(R.color.transparent))
-        loadImage(this, path, binding.imvBackground)
+        loadImageBG(this, path, binding.imvBackground)
         lifecycleScope.launch(Dispatchers.IO) {
             viewModel.updateBackgroundImageSelected(position)
             withContext(Dispatchers.Main) {
@@ -789,10 +814,16 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
     }
 
     private fun handleSetBackgroundColor(color: Int, position: Int) {
+        // Background COLOR:
+        val drawable = GradientDrawable().apply {
+            setColor(color)
+            cornerRadius = dpToPx(30L).toFloat()
+        }
         Log.d("AddCharacterActivity", "handleSetBackgroundColor called: color=${String.format("#%06X", 0xFFFFFF and color)}, position=$position")
         binding.apply {
             imvBackground.setImageBitmap(null)
             imvBackground.setBackgroundColor(color)
+            imvBackground.setImageDrawable(drawable)
             lifecycleScope.launch(Dispatchers.IO) {
                 Log.d("AddCharacterActivity", "Before updateBackgroundColorSelected: list[0].color=${String.format("#%06X", 0xFFFFFF and viewModel.backgroundColorList[0].color)}")
                 viewModel.updateBackgroundColorSelected(position)

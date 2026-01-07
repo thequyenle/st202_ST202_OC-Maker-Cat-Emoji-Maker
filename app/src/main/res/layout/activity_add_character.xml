@@ -75,13 +75,14 @@
         app:layout_constraintTop_toBottomOf="@id/flActionBar">
 
         <!--        imvBackground-->
-        <com.google.android.material.imageview.ShapeableImageView
+        <ImageView
             android:id="@+id/imvBackground"
             android:layout_width="match_parent"
-            android:layout_marginHorizontal="15dp"
+            android:layout_marginHorizontal="16.5dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/bg_radius_addbg"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
+            android:clipToOutline="true"
             app:shapeAppearanceOverlay="@style/Rounded30"
             android:layout_height="match_parent"
             android:scaleType="centerCrop" />
@@ -89,11 +90,12 @@
         <!--        imvBackground-->
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imvCharacter"
+            android:layout_margin="30dp"
             android:layout_width="match_parent"
             app:shapeAppearanceOverlay="@style/Rounded30"
             android:layout_height="match_parent"
             android:background="@drawable/bg_radius"
-            android:scaleType="centerCrop" />
+             />
 
 
         <!--        drawView-->
