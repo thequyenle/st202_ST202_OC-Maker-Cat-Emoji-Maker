@@ -120,4 +120,7 @@ t
     <string name="dont_have_item">You don’t have any character</string>
     <string name="creation">Creation</string>
     <string name="cancel">Cancel</string>
+    <string name="reset_yes">Reset</string>
+    <string name="exit_yes">Exit</string>
+    <string name="go_to_setting">setting</string>
 </resources>

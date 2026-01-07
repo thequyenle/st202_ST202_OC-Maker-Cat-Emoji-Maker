@@ -13,10 +13,10 @@
         android:id="@+id/rcvMyAvatar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="9dp"
+        android:paddingHorizontal="10dp"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="11.5dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
         tools:listitem="@layout/item_my_album" />

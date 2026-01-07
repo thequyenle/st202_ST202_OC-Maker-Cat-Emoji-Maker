@@ -200,6 +200,7 @@
                 </FrameLayout>
 
                 <TextView
+                    android:id="@+id/tvPrivacy"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="10dp"
@@ -207,6 +208,7 @@
                     android:fontFamily="@font/baloobhaijaan_regular"
                     android:gravity="center_vertical"
                     android:text="@string/privacy_policy"
+                    style="@style/single_marquee"
                     android:textColor="@color/color_app"
                     android:textSize="20sp" />
                 <TextView

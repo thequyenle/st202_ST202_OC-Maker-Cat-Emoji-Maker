@@ -2,8 +2,12 @@ package com.ocmaker.pixcel.maker.core.extensions
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.Resources
+import android.graphics.Outline
 import android.graphics.drawable.Drawable
+import android.view.View
 import android.view.ViewGroup
+import android.view.ViewOutlineProvider
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -96,4 +100,70 @@ fun loadThumbnail(view: ImageView, url: String){
         .load(file)
         .frame(1000000)
         .into(view)
+}
+
+fun loadImageDS(viewGroup: ViewGroup, path: String, imageView: ImageView, isLoadShimmer: Boolean = true) {
+    // Set rounded corners cho ImageView (áp dụng cho cả shimmer và image)
+    imageView.apply {
+        clipToOutline = true
+        outlineProvider = object : ViewOutlineProvider() {
+            override fun getOutline(view: View, outline: Outline) {
+                outline.setRoundRect(0, 0, view.width, view.height, 24f.dpToPx())
+            }
+        }
+    }
+
+    val shimmerDrawable = ShimmerDrawable().apply {
+        setShimmer(DataLocal.shimmer)
+    }
+
+    if (isLoadShimmer) {
+        Glide.with(viewGroup)
+            .load(path)
+            .transform(RoundedCorners(24))
+            .placeholder(shimmerDrawable)
+            .error(shimmerDrawable)
+            .into(imageView)
+    } else {
+        Glide.with(viewGroup)
+            .load(path)
+            .transform(RoundedCorners(24))
+            .placeholder(shimmerDrawable)
+            .error(shimmerDrawable)
+            .into(imageView)
+    }
+}
+
+fun loadImageRounded(path: Any, imageView: ImageView, cornerRadius: Int = 24, onShowLoading: (() -> Unit)? = null, onDismissLoading: (() -> Unit)? = null){
+    // Set rounded corners cho ImageView
+    imageView.apply {
+        clipToOutline = true
+        outlineProvider = object : ViewOutlineProvider() {
+            override fun getOutline(view: View, outline: Outline) {
+                outline.setRoundRect(0, 0, view.width, view.height, cornerRadius
+                    .toFloat().dpToPx())
+            }
+        }
+    }
+
+    onShowLoading?.invoke()
+    Glide.with(imageView.context)
+        .load(path)
+        .transform(RoundedCorners(cornerRadius))
+        .listener(object : RequestListener<Drawable>{
+            override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable?>, isFirstResource: Boolean): Boolean {
+                onDismissLoading?.invoke()
+                return false
+            }
+
+            override fun onResourceReady(resource: Drawable, model: Any, target: Target<Drawable?>?, dataSource: DataSource, isFirstResource: Boolean): Boolean {
+                onDismissLoading?.invoke()
+                return false
+            }
+        }).into(imageView)
+}
+
+// Helper extension function
+private fun Float.dpToPx(): Float {
+    return this * Resources.getSystem().displayMetrics.density
 }

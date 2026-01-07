@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Build
+import android.content.res.Resources
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -73,6 +74,10 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
         return ActivityViewBinding.inflate(LayoutInflater.from(this))
     }
 
+    fun Int.dpToPx(): Int {
+        return (this * Resources.getSystem().displayMetrics.density).toInt()
+    }
+
     override fun initView() {
         dataViewModel.ensureData(this)
         viewModel.setPath(intent.getStringExtra(IntentKey.INTENT_KEY)!!)
@@ -80,6 +85,18 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
         viewModel.setType(intent.getIntExtra(IntentKey.TYPE_KEY, ValueKey.TYPE_VIEW))
 
         if (viewModel.typeUI.value == ValueKey.TYPE_VIEW){
+
+            val params = binding.cvImageWhite.layoutParams as ViewGroup.MarginLayoutParams
+            params.setMargins(
+                16.dpToPx(), // left margin
+                36.dpToPx(), // top margin
+                16.dpToPx(), // right margin
+                36.dpToPx()  // bottom margin
+            )
+            binding.cvImageWhite.layoutParams = params
+
+
+
         binding.frameBg.setImageResource(R.drawable.frame_bg_view)
             binding.includeLayoutBottom.apply{
                 tvWhatsapp.apply {
@@ -191,7 +208,7 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
                 btnActionBarLeft.tap { handleBack() }
                 btnActionBarRight.tap(4500) { handleActionBarRight() }
                 //btnActionBarNextRight.tap { handleEditClick(viewModel.pathInternal.value) }
-                btnShare.tap(6300) { viewModel.shareFiles(this@ViewActivity) }
+                btnShare.tap(3300) { viewModel.shareFiles(this@ViewActivity) }
             }
 
             // Access buttons from included layout_bottom
@@ -282,7 +299,7 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
                 btnShare.apply {
                     visible()
                     setImageResource(R.drawable.ic_share_ss)
-                    tap{
+                    tap(4000){
                         viewModel.shareFiles(this@ViewActivity)
                     }
                 }

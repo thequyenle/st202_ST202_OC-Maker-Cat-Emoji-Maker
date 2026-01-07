@@ -144,6 +144,8 @@ class MyDesignFragment : BaseFragment<FragmentMyDesignBinding>() {
         val dialog = YesNoDialog(myAlbumActivity, R.string.delete, R.string.are_you_sure_want_to_delete_this_item)
         LanguageHelper.setLocale(myAlbumActivity)
         dialog.show()
+        dialog.binding.btnYes.text = getString(R.string.delete)
+
         dialog.onDismissClick = {
             dialog.dismiss()
             myAlbumActivity.hideNavigation()

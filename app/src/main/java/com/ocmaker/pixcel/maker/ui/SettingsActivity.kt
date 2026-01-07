@@ -48,6 +48,7 @@ class SettingsActivity : BaseActivity<ActivitySettingsBinding>() {
     }
 
     override fun initText() {
+        binding.tvPrivacy.select()
         binding.actionBar.tvCenter.select()
     }
 

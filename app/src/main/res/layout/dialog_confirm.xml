@@ -80,6 +80,8 @@
                         android:layout_width="0dp"
                         android:layout_height="36dp"
                         android:layout_weight="1"
+                        style="@style/single_marquee"
+                        android:paddingHorizontal="10dp"
                         android:background="@drawable/bg_dialog_btn"
                         android:fontFamily="@font/baloobhaijaan_regular"
                         android:gravity="center"

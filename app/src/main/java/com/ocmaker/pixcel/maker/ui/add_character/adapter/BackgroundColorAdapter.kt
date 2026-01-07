@@ -24,7 +24,7 @@ class BackgroundColorAdapter :
             vFocus.isVisible = item.isSelected
             // Set circular stroke for position 0, regular stroke for others
             if (position == 0) {
-                vFocus.setBackgroundResource(R.drawable.bg_stroke_gradient_circle)
+                vFocus.setBackgroundResource(R.drawable.bg_stroke_color)
             } else {
                 vFocus.setBackgroundResource(R.drawable.bg_stroke_color)
             }

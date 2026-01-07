@@ -4,6 +4,7 @@ import com.ocmaker.pixcel.maker.R
 import com.ocmaker.pixcel.maker.core.base.BaseAdapter
 import com.ocmaker.pixcel.maker.core.extensions.gone
 import com.ocmaker.pixcel.maker.core.extensions.loadImage
+import com.ocmaker.pixcel.maker.core.extensions.loadImageDS
 import com.ocmaker.pixcel.maker.core.extensions.tap
 import com.ocmaker.pixcel.maker.core.extensions.visible
 import com.ocmaker.pixcel.maker.data.model.MyAlbumModel
@@ -28,7 +29,7 @@ class MyDesignAdapter() : BaseAdapter<MyAlbumModel, ItemMyDesignBinding>(ItemMyD
             android.util.Log.d("MyDesignAdapter", "  File exists: $exists, Size: $size bytes")
             android.util.Log.d("MyDesignAdapter", "  Last modified: $lastModified")
 
-            loadImage(root, item.path, imvImage)
+            loadImageDS(root, item.path, imvImage)
 
             if (item.isShowSelection) {
                 btnSelect.visible()

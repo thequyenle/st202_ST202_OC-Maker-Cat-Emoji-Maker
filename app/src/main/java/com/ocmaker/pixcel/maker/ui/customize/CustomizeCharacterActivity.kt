@@ -488,6 +488,8 @@ class CustomizeCharacterActivity : BaseActivity<ActivityCustomizeBinding>() {
             YesNoDialog(this, R.string.exit_cus, R.string.haven_t_saved_it_yet_do_you_want_to_exit)
         LanguageHelper.setLocale(this)
         dialog.show()
+        dialog.binding.btnYes.text = getString(R.string.exit_yes)
+
         dialog.onYesClick = {
             dialog.dismiss()
             showInterAll { finish() }
@@ -567,6 +569,8 @@ class CustomizeCharacterActivity : BaseActivity<ActivityCustomizeBinding>() {
         )
         LanguageHelper.setLocale(this)
         dialog.show()
+        dialog.binding.btnYes.text = getString(R.string.reset_yes)
+
         dialog.onYesClick = {
             dialog.dismiss()
             lifecycleScope.launch(Dispatchers.IO) {

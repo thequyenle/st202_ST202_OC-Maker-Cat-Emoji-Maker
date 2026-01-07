@@ -92,7 +92,7 @@
                     android:layout_height="40dp"
                     android:layout_marginTop="20dp"
                     app:cardCornerRadius="8dp"
-                    app:cardBackgroundColor="#01579B"
+                    app:cardBackgroundColor="@color/color_app"
                     app:cardElevation="3dp">
 
                     <TextView

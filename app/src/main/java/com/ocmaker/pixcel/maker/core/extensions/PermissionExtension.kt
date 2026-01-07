@@ -30,6 +30,8 @@ fun Activity.goToSettings() {
     val dialog = YesNoDialog(this, R.string.permission, R.string.go_to_setting_message)
     LanguageHelper.setLocale(this)
     dialog.show()
+    dialog.binding.btnYes.text = getString(R.string.settings)
+    dialog.binding.btnYes.select()
 
     dialog.onNoClick = {
         dialog.dismiss()

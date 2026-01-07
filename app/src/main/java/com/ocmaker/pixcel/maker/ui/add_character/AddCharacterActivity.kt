@@ -395,6 +395,7 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
             btnActionBarRightText.setBackgroundResource(R.drawable.ic_save)
             btnActionBarRightText.visible()
             tvRightText.visible()
+            tvRightText.select()
 
             // Căn giữa nút reset vào guideline
             val params = btnActionBarCenter.layoutParams as androidx.constraintlayout.widget.ConstraintLayout.LayoutParams
@@ -402,6 +403,7 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
             params.startToStart = guideline.id
             params.horizontalBias = 0.5f
             params.marginEnd = 0
+
             btnActionBarCenter.layoutParams = params
         }
     }
@@ -689,6 +691,8 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
         val dialog = YesNoDialog(this, R.string.exit, R.string.haven_t_saved_it_yet_do_you_want_to_exit)
         dialog.show()
 
+        dialog.binding.btnYes.text = getString(R.string.exit_yes)
+
         fun dismissDialog() {
             dialog.dismiss()
             hideNavigation(true)
@@ -715,6 +719,8 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
         dialog.onNoClick = {
             dismissDialog()
         }
+        dialog.binding.btnYes.text = getString(R.string.reset_yes)
+
 
         dialog.onYesClick = {
             dismissDialog()

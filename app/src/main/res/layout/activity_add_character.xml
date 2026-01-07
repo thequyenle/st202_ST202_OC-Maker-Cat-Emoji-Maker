@@ -64,6 +64,20 @@
     </FrameLayout>
 
     <!--    flSave-->
+    <ImageView
+        android:id="@+id/bgForCharacter"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_behind"
+        android:layout_marginTop="10dp"
+        android:visibility="visible"
+        android:layout_marginHorizontal="26dp"
+        app:layout_constraintDimensionRatio="328:336"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/flActionBar"/>
+
+    <!--    flSave-->
     <FrameLayout
         android:id="@+id/flSave"
         android:layout_width="0dp"
@@ -92,6 +106,7 @@
             android:id="@+id/imvCharacter"
             android:layout_margin="30dp"
             android:layout_width="match_parent"
+            android:scaleType="center"
             app:shapeAppearanceOverlay="@style/Rounded30"
             android:layout_height="match_parent"
             android:background="@drawable/bg_radius"
@@ -107,6 +122,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </FrameLayout>
+
+
 
 
     <!--        imvBackground-->
@@ -162,8 +179,8 @@
         <LinearLayout
             android:id="@+id/sectionTab"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginHorizontal="12dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
             android:background="@color/transparent"
             android:orientation="horizontal"
@@ -377,6 +394,7 @@
             android:layout_height="match_parent"
             android:scrollbars="none"
             android:paddingTop="15dp"
+            android:layout_marginHorizontal="12dp"
             android:clipChildren="false"
             android:isScrollContainer="true"
             android:visibility="gone">
@@ -399,7 +417,7 @@
                         android:id="@+id/tvTitleText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/text"
+                        android:text="@string/input_text"
                         android:gravity="start"
                         android:textColor="#FFFFFF"
                         android:layout_marginStart="16dp"
@@ -483,7 +501,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rcvTextColor"
                     android:layout_width="match_parent"
-                    android:layout_height="37dp"
+                    android:layout_height="42dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="6dp"
                     android:overScrollMode="never"

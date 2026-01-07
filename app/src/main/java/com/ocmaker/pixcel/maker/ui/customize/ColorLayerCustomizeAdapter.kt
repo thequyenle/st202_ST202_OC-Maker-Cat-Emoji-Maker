@@ -14,7 +14,9 @@ class ColorLayerCustomizeAdapter(val context: Context) :
     override fun onBind(binding: ItemColorBinding, item: ItemColorModel, position: Int) {
         binding.apply {
             imvImage.setBackgroundColor(item.color.toColorInt())
-            imvFocus.isVisible = item.isSelected
+            imvStroke.isVisible = item.isSelected
+
+            //imvFocus.isVisible = item.isSelected
             root.tap { onItemClick.invoke(position) }
         }
     }

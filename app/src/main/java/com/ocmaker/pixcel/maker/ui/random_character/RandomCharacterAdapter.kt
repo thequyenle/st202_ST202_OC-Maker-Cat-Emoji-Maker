@@ -1,11 +1,16 @@
 package com.ocmaker.pixcel.maker.ui.random_character
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Outline
 import android.graphics.drawable.Drawable
 import android.util.Log
+import android.view.View
+import android.view.ViewOutlineProvider
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.ocmaker.pixcel.maker.core.base.BaseAdapter
 import com.ocmaker.pixcel.maker.core.utils.key.ValueKey
 import com.ocmaker.pixcel.maker.data.model.custom.SuggestionModel
@@ -45,6 +50,10 @@ class RandomCharacterAdapter(val context: Context) :
             Log.d("RandomAdapter", "Selected paths count: ${item.pathSelectedList.size}")
             Log.d("RandomAdapter", "Internal random path: ${item.pathInternalRandom}")
 
+            // ✅ Setup rounded corners for both ImageView and Shimmer
+            setupRoundedImageView(imvImage, 24)
+            setupRoundedImageView(sflShimmer, 24)
+
             // ✅ Cancel any existing job for this position
             activeJobs[position]?.cancel()
 
@@ -54,7 +63,10 @@ class RandomCharacterAdapter(val context: Context) :
                 sflShimmer.gone()
                 sflShimmer.stopShimmer()
                 imvImage.visible()
-                Glide.with(root).load(item.pathInternalRandom).into(imvImage)
+                Glide.with(root)
+                    .load(item.pathInternalRandom)
+                    .transform(RoundedCorners(24))
+                    .into(imvImage)
                 root.tap { onItemClick.invoke(item) }
                 return@apply
             }
@@ -123,23 +135,26 @@ class RandomCharacterAdapter(val context: Context) :
 
 
                         Log.d("RandomAdapter", "Loading final image from: ${items[position].pathInternalRandom}")
-                        Glide.with(root).load(items[position].pathInternalRandom).listener(object : RequestListener<Drawable> {
-                            override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable?>, isFirstResource: Boolean): Boolean {
-                                Log.e("RandomAdapter", "✗ Glide load FAILED at position $position: ${e?.message}")
-                                e?.logRootCauses("RandomAdapter")
-                                sflShimmer.stopShimmer()
-                                sflShimmer.gone()
-                                return false
-                            }
+                        Glide.with(root)
+                            .load(items[position].pathInternalRandom)
+                            .transform(RoundedCorners(24))
+                            .listener(object : RequestListener<Drawable> {
+                                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable?>, isFirstResource: Boolean): Boolean {
+                                    Log.e("RandomAdapter", "✗ Glide load FAILED at position $position: ${e?.message}")
+                                    e?.logRootCauses("RandomAdapter")
+                                    sflShimmer.stopShimmer()
+                                    sflShimmer.gone()
+                                    return false
+                                }
 
-                            override fun onResourceReady(resource: Drawable, model: Any, target: Target<Drawable?>?, dataSource: DataSource, isFirstResource: Boolean): Boolean {
-                                Log.d("RandomAdapter", "✓ Image loaded successfully at position $position")
-                                sflShimmer.stopShimmer()
-                                sflShimmer.gone()
-                                imvImage.visible()
-                                return false
-                            }
-                        }).into(imvImage)
+                                override fun onResourceReady(resource: Drawable, model: Any, target: Target<Drawable?>?, dataSource: DataSource, isFirstResource: Boolean): Boolean {
+                                    Log.d("RandomAdapter", "✓ Image loaded successfully at position $position")
+                                    sflShimmer.stopShimmer()
+                                    sflShimmer.gone()
+                                    imvImage.visible()
+                                    return false
+                                }
+                            }).into(imvImage)
                     }
                 }
             }
@@ -155,5 +170,22 @@ class RandomCharacterAdapter(val context: Context) :
     fun cancelAllJobs() {
         activeJobs.values.forEach { it.cancel() }
         activeJobs.clear()
+    }
+
+    // Helper function to setup rounded corners for any View (ImageView, ShimmerFrameLayout, etc.)
+    private fun setupRoundedImageView(view: View, cornerRadiusDp: Int) {
+        view.apply {
+            clipToOutline = true
+            outlineProvider = object : ViewOutlineProvider() {
+                override fun getOutline(v: View, outline: Outline) {
+                    outline.setRoundRect(0, 0, v.width, v.height, cornerRadiusDp.toFloat().dpToPx())
+                }
+            }
+        }
+    }
+
+    // Helper extension function
+    private fun Float.dpToPx(): Float {
+        return this * Resources.getSystem().displayMetrics.density
     }
 }
