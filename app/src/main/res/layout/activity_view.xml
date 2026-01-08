@@ -71,18 +71,34 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="center" />
+
+
+        <!--        sflShimmer-->
         <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/shimmerLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="16dp"
+            android:id="@+id/sflShimmer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_radius"
+            android:clipToOutline="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent=".8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5"
+            app:layout_constraintWidth_percent="1"
             app:shimmer_auto_start="true"
-            app:shimmer_duration="1800"
-            app:shimmer_direction="left_to_right"
             app:shimmer_base_alpha="0.7"
+            app:shimmer_direction="left_to_right"
+            app:shimmer_duration="1800"
             app:shimmer_highlight_alpha="0.6"
-            app:shimmer_dropoff="0.4"
-            app:shimmer_intensity="0.35"/>
+            app:shimmer_shape="linear">
+            <!-- View nền để shimmer quét qua -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#818181" />
+        </com.facebook.shimmer.ShimmerFrameLayout>
     </com.google.android.material.card.MaterialCardView>
 
 

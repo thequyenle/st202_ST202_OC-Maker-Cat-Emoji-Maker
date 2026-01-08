@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.os.Build
 
 import android.content.res.Resources
+import android.graphics.drawable.Drawable
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -24,6 +25,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.signature.ObjectKey
 import com.facebook.shimmer.Shimmer
 import com.facebook.shimmer.ShimmerDrawable
@@ -38,6 +43,7 @@ import com.oc.maker.cat.emoji.core.extensions.hideNavigation
 import com.oc.maker.cat.emoji.core.extensions.invisible
 import com.oc.maker.cat.emoji.core.extensions.loadImage
 import com.oc.maker.cat.emoji.core.extensions.loadImageFromFile
+import com.oc.maker.cat.emoji.core.extensions.loadImageRounded
 import com.oc.maker.cat.emoji.core.extensions.loadNativeCollabAds
 import com.oc.maker.cat.emoji.core.extensions.requestPermission
 import com.oc.maker.cat.emoji.core.extensions.select
@@ -93,7 +99,7 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
         viewModel.updateStatusFrom(intent.getIntExtra(IntentKey.STATUS_KEY, ValueKey.AVATAR_TYPE))
         viewModel.setType(intent.getIntExtra(IntentKey.TYPE_KEY, ValueKey.TYPE_VIEW))
 
-        if (viewModel.typeUI.value == ValueKey.TYPE_VIEW){
+        if (viewModel.typeUI.value == ValueKey.TYPE_VIEW) {
 
             val params = binding.cvImageWhite.layoutParams as ViewGroup.MarginLayoutParams
             params.setMargins(
@@ -106,8 +112,8 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
 
 
 
-        binding.frameBg.setImageResource(R.drawable.frame_bg_view)
-            binding.includeLayoutBottom.apply{
+            binding.frameBg.setImageResource(R.drawable.frame_bg_view)
+            binding.includeLayoutBottom.apply {
                 tvWhatsapp.apply {
                     setTextColor(Color.parseColor("#2993FF"))
                 }
@@ -126,7 +132,8 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
             // Left button (Whatsapp)
             btnWhatsapp.setBackgroundResource(R.drawable.bg_btn_bottom)
             btnWhatsapp.setPadding(0, 0, 0, 0)
-            val paramsLeft = btnWhatsapp.layoutParams as? androidx.appcompat.widget.LinearLayoutCompat.LayoutParams
+            val paramsLeft =
+                btnWhatsapp.layoutParams as? androidx.appcompat.widget.LinearLayoutCompat.LayoutParams
             paramsLeft?.apply {
                 height = UnitHelper.dpToPx(this@ViewActivity, 48f).toInt()
                 marginEnd = UnitHelper.dpToPx(this@ViewActivity, 4f).toInt()
@@ -142,12 +149,18 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
 
             // Update tvWhatsapp text properties
             tvWhatsapp.textSize = 16f
-            tvWhatsapp.setTypeface(ResourcesCompat.getFont(this@ViewActivity, R.font.baloobhaijaan_regular))
+            tvWhatsapp.setTypeface(
+                ResourcesCompat.getFont(
+                    this@ViewActivity,
+                    R.font.baloobhaijaan_regular
+                )
+            )
 
             // Right button (Telegram)
             btnTelegram.setBackgroundResource(R.drawable.bg_btn_bottom)
             btnTelegram.setPadding(0, 0, 0, 0)
-            val paramsRight = btnTelegram.layoutParams as? androidx.appcompat.widget.LinearLayoutCompat.LayoutParams
+            val paramsRight =
+                btnTelegram.layoutParams as? androidx.appcompat.widget.LinearLayoutCompat.LayoutParams
             paramsRight?.apply {
                 height = UnitHelper.dpToPx(this@ViewActivity, 48f).toInt()
                 marginStart = UnitHelper.dpToPx(this@ViewActivity, 4f).toInt()
@@ -162,7 +175,12 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
             lnlInRight?.getChildAt(0)?.gone()
 
             tvTelegram.textSize = 16f
-            tvTelegram.setTypeface(ResourcesCompat.getFont(this@ViewActivity, R.font.baloobhaijaan_regular))
+            tvTelegram.setTypeface(
+                ResourcesCompat.getFont(
+                    this@ViewActivity,
+                    R.font.baloobhaijaan_regular
+                )
+            )
 
             // Hide download button
         }
@@ -182,21 +200,77 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
     private val editLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                val newPath = result.data?.getStringExtra("NEW_PATH") ?: return@registerForActivityResult
+                val newPath =
+                    result.data?.getStringExtra("NEW_PATH") ?: return@registerForActivityResult
                 viewModel.setPath(newPath)
                 binding.imvImage.loadImageFromFile(newPath) // hoặc loadImage(...) của bạn
             }
         }
 
 
+    fun loadImageCallBack(
+        path: Any,
+        imageView: ImageView,
+        onShowLoading: (() -> Unit)? = null,
+        onDismissLoading: (() -> Unit)? = null
+    ) {
+        onShowLoading?.invoke()
+        Glide.with(imageView.context).load(path).listener(object : RequestListener<Drawable> {
+            override fun onLoadFailed(
+                e: GlideException?,
+                model: Any?,
+                target: com.bumptech.glide.request.target.Target<Drawable?>,
+                isFirstResource: Boolean
+            ): Boolean {
+                onDismissLoading?.invoke()
+                return false
+            }
+
+            override fun onResourceReady(
+                resource: Drawable,
+                model: Any,
+                target: Target<Drawable?>?,
+                dataSource: DataSource,
+                isFirstResource: Boolean
+            ): Boolean {
+                onDismissLoading?.invoke()
+                return false
+            }
+        }).into(imageView)
+    }
 
 
+    private fun setupRoundedView(view: android.view.View, cornerRadiusDp: Int) {
+        view.apply {
+            clipToOutline = true
+            outlineProvider = object : android.view.ViewOutlineProvider() {
+                override fun getOutline(v: android.view.View, outline: android.graphics.Outline) {
+                    outline.setRoundRect(0, 0, v.width, v.height, cornerRadiusDp * android.content.res.Resources.getSystem().displayMetrics.density)
+                }
+            }
+        }
+    }
     override fun dataObservable() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.pathInternal.collect { path ->
-                        loadImage(this@ViewActivity, path, binding.imvImage)
+
+                        if (viewModel.typeUI.value == ValueKey.TYPE_VIEW) {
+                            setupRoundedView(binding.sflShimmer, 24)
+
+                            loadImageRounded(
+                                path = path,
+                                imageView = binding.imvImage,
+                                cornerRadius = 24,
+                                onDismissLoading = {
+                                    binding.sflShimmer.stopShimmer()
+                                    binding.sflShimmer.gone()
+                                }
+                            )
+                        } else {
+                            loadImage(this@ViewActivity, path, binding.imvImage)
+                        }
                     }
                 }
                 launch {
@@ -237,25 +311,27 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
 
     fun pxToDpInt(context: Context, px: Int): Int {
         return TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP, px.toFloat(), context.resources.displayMetrics).toInt()
+            TypedValue.COMPLEX_UNIT_DIP, px.toFloat(), context.resources.displayMetrics
+        ).toInt()
     }
+
     private fun setUpViewUI() {
         binding.apply {
-          //  loadNativeCollabAds(R.string.native_cl_detail, binding.flNativeCollab, lnlBottom, bottomFailed = 150, bottomLoadSuccess = 82)
+            //  loadNativeCollabAds(R.string.native_cl_detail, binding.flNativeCollab, lnlBottom, bottomFailed = 150, bottomLoadSuccess = 82)
 
-          //  nativeAds.visible()
-          //  flNativeCollab.gone()
+            //  nativeAds.visible()
+            //  flNativeCollab.gone()
 
             actionBar.apply {
-               // setImageActionBar(btnActionBarRight, R.drawable.ic_delete_view)
-               // setImageActionBar(btnActionBarNextToRight, R.drawable.ic_edit_2)
+                // setImageActionBar(btnActionBarRight, R.drawable.ic_delete_view)
+                // setImageActionBar(btnActionBarNextToRight, R.drawable.ic_edit_2)
                 setTextActionBar(tvCenter, getString(R.string.my_creation))
 
 
                 setImageActionBar(btnActionBarNextRight, R.drawable.ic_edit_view)
 
                 // Hide delete icon when coming from design section
-                if (viewModel.statusFrom == ValueKey.MY_DESIGN_TYPE|| viewModel.statusFrom == ValueKey.AVATAR_TYPE) {
+                if (viewModel.statusFrom == ValueKey.MY_DESIGN_TYPE || viewModel.statusFrom == ValueKey.AVATAR_TYPE) {
                     btnActionBarNextRight.invisible()
 
                 }
@@ -278,11 +354,9 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
 
             tvSuccess.gone()
 
-            if (viewModel.statusFrom == ValueKey.MY_DESIGN_TYPE)
-                {
-                    includeLayoutBottom.tvWhatsapp.text = strings(R.string.share)
-                }
-            else{
+            if (viewModel.statusFrom == ValueKey.MY_DESIGN_TYPE) {
+                includeLayoutBottom.tvWhatsapp.text = strings(R.string.share)
+            } else {
                 val params = binding.imvImage.layoutParams as ViewGroup.MarginLayoutParams
                 params.setMargins(20.dpToPx(), 20.dpToPx(), 20.dpToPx(), 20.dpToPx())
                 binding.imvImage.layoutParams = params
@@ -320,7 +394,7 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
                 btnShare.apply {
                     visible()
                     setImageResource(R.drawable.ic_share_ss)
-                    tap(3000){
+                    tap(3000) {
                         viewModel.shareFiles(this@ViewActivity)
                     }
                 }
@@ -348,6 +422,7 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
 
         }
     }
+
     private fun handleActionBarRight() {
         when (viewModel.typeUI.value) {
             ValueKey.TYPE_VIEW -> {
@@ -355,7 +430,7 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
             }
 
             else -> {
-                showInterAll{ startIntentWithClearTop(HomeActivity::class.java) }
+                showInterAll { startIntentWithClearTop(HomeActivity::class.java) }
             }
         }
     }
@@ -366,14 +441,13 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
                 if (viewModel.statusFrom == ValueKey.MY_DESIGN_TYPE) {
 
                     viewModel.shareFiles(this@ViewActivity)
-                }
-                else{
+                } else {
                     handleEditClick(viewModel.pathInternal.value)
                 }
             }
 
             else -> {
-                showInterAll{ startIntentRightToLeft(MyCreationActivity::class.java, true) }
+                showInterAll { startIntentRightToLeft(MyCreationActivity::class.java, true) }
             }
         }
     }
@@ -419,7 +493,8 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
     }
 
     private fun handleDelete() {
-        val dialog = YesNoDialog(this, R.string.delete, R.string.are_you_sure_want_to_delete_this_item)
+        val dialog =
+            YesNoDialog(this, R.string.delete, R.string.are_you_sure_want_to_delete_this_item)
         LanguageHelper.setLocale(this)
         dialog.show()
         dialog.onNoClick = {
@@ -429,26 +504,27 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
         dialog.onYesClick = {
             dialog.dismiss()
             lifecycleScope.launch {
-                viewModel.deleteFile(this@ViewActivity, viewModel.pathInternal.value).collect { state ->
-                    when (state) {
-                        HandleState.LOADING -> showLoading()
-                        HandleState.SUCCESS -> {
-                            dismissLoading()
-                            resetMyCreationSelectionMode()
+                viewModel.deleteFile(this@ViewActivity, viewModel.pathInternal.value)
+                    .collect { state ->
+                        when (state) {
+                            HandleState.LOADING -> showLoading()
+                            HandleState.SUCCESS -> {
+                                dismissLoading()
+                                resetMyCreationSelectionMode()
 
-                            // ✅ Trả kết quả về màn trước (MyAvatarFragment/MyCreationActivity)
-                            setResult(Activity.RESULT_OK, Intent().apply {
-                                putExtra("DELETED_PATH", viewModel.pathInternal.value)
-                            })
-                            finish()
-                        }
+                                // ✅ Trả kết quả về màn trước (MyAvatarFragment/MyCreationActivity)
+                                setResult(Activity.RESULT_OK, Intent().apply {
+                                    putExtra("DELETED_PATH", viewModel.pathInternal.value)
+                                })
+                                finish()
+                            }
 
-                        else -> {
-                            dismissLoading()
-                            showToast(R.string.delete_failed_please_try_again)
+                            else -> {
+                                dismissLoading()
+                                showToast(R.string.delete_failed_please_try_again)
+                            }
                         }
                     }
-                }
             }
         }
     }
@@ -467,12 +543,14 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
             android.util.Log.d("ViewActivity", "Resetting selection mode in MyCreationActivity")
 
             // Reset the fragment's selection state first
-            val designFragment = myCreationActivity.supportFragmentManager.findFragmentByTag("MyDesignFragment")
+            val designFragment =
+                myCreationActivity.supportFragmentManager.findFragmentByTag("MyDesignFragment")
             if (designFragment is com.oc.maker.cat.emoji.ui.my_creation.fragment.MyDesignFragment) {
                 designFragment.resetSelectionMode()
             }
 
-            val avatarFragment = myCreationActivity.supportFragmentManager.findFragmentByTag("MyAvatarFragment")
+            val avatarFragment =
+                myCreationActivity.supportFragmentManager.findFragmentByTag("MyAvatarFragment")
             if (avatarFragment is MyAvatarFragment) {
                 avatarFragment.resetSelectionMode()
             }
@@ -480,7 +558,10 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
             // Exit selection mode in activity
             myCreationActivity.exitSelectionMode()
         } else {
-            android.util.Log.w("ViewActivity", "MyCreationActivity instance not found - unable to reset selection mode")
+            android.util.Log.w(
+                "ViewActivity",
+                "MyCreationActivity instance not found - unable to reset selection mode"
+            )
         }
     }
 
@@ -493,10 +574,11 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
                 dismissLoading()
 
                 myAvatarViewModel.checkDataInternet(this@ViewActivity) {
-                    val intent = Intent(this@ViewActivity, CustomizeCharacterActivity::class.java).apply {
-                        putExtra(IntentKey.INTENT_KEY, myAvatarViewModel.positionCharacter)
-                        putExtra(IntentKey.STATUS_FROM_KEY, ValueKey.EDIT)
-                    }
+                    val intent =
+                        Intent(this@ViewActivity, CustomizeCharacterActivity::class.java).apply {
+                            putExtra(IntentKey.INTENT_KEY, myAvatarViewModel.positionCharacter)
+                            putExtra(IntentKey.STATUS_FROM_KEY, ValueKey.EDIT)
+                        }
 
                     // ✅ Chỉ launch 1 lần
                     editLauncher.launch(intent)
@@ -509,7 +591,11 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
     }
 
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         if (requestCode == RequestKey.STORAGE_PERMISSION_CODE) {
