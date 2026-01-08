@@ -2,11 +2,14 @@ package com.oc.maker.cat.emoji.ui.view
 
 import android.app.Activity
 import android.app.ActivityOptions
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Build
+
 import android.content.res.Resources
+import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -225,6 +228,10 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
         }
     }
 
+    fun pxToDpInt(context: Context, px: Int): Int {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, px.toFloat(), context.resources.displayMetrics).toInt()
+    }
     private fun setUpViewUI() {
         binding.apply {
           //  loadNativeCollabAds(R.string.native_cl_detail, binding.flNativeCollab, lnlBottom, bottomFailed = 150, bottomLoadSuccess = 82)
@@ -259,6 +266,8 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
 
             val params = cvImage.layoutParams as ConstraintLayout.LayoutParams
             cvImage.layoutParams = params
+
+
 
             tvSuccess.gone()
 

@@ -51,7 +51,10 @@ class MyDesignFragment : BaseFragment<FragmentMyDesignBinding>() {
     private val myAlbumActivity: MyCreationActivity
         get() = requireActivity() as MyCreationActivity
 
-    override fun setViewBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentMyDesignBinding {
+    override fun setViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentMyDesignBinding {
         return FragmentMyDesignBinding.inflate(inflater, container, false)
     }
 
@@ -71,21 +74,6 @@ class MyDesignFragment : BaseFragment<FragmentMyDesignBinding>() {
                         myDesignAdapter.submitList(list)
                         binding.layoutNoItem.isVisible = list.isEmpty()
                     }
-                }
-                // Removed - action bar buttons are disabled
-                // launch {
-                //     viewModel.isLastItem.collect { selectStatus ->
-                //         myAlbumActivity.changeImageActionBarRight(selectStatus)
-                //     }
-                // }
-                launch {
-                    // ✅ FIX: Only reload on actual tab changes
-                    myCreationViewModel.typeStatus
-                        .drop(1) // Skip initial emission
-                        .collect { status ->
-                            android.util.Log.d("MyDesignFragment", "Tab switched to MyDesign - reloading data")
-                            resetData()
-                        }
                 }
             }
         }
@@ -125,7 +113,8 @@ class MyDesignFragment : BaseFragment<FragmentMyDesignBinding>() {
                 val allSelected = viewModel.myDesignList.value.all { it.isSelected }
                 myAlbumActivity.updateSelectAllIcon(allSelected)
             }
-            myDesignAdapter.onDeleteClick = { pathInternal -> handleDelete(arrayListOf(pathInternal)) }
+            myDesignAdapter.onDeleteClick =
+                { pathInternal -> handleDelete(arrayListOf(pathInternal)) }
             myDesignAdapter.onLongClick = { position -> handleLongClick(position) }
         }
     }
@@ -144,7 +133,11 @@ class MyDesignFragment : BaseFragment<FragmentMyDesignBinding>() {
             myAlbumActivity.showToast(R.string.please_select_an_image)
             return
         }
-        val dialog = YesNoDialog(myAlbumActivity, R.string.delete, R.string.are_you_sure_want_to_delete_this_item)
+        val dialog = YesNoDialog(
+            myAlbumActivity,
+            R.string.delete,
+            R.string.are_you_sure_want_to_delete_this_item
+        )
         LanguageHelper.setLocale(myAlbumActivity)
         dialog.show()
         dialog.binding.btnYes.text = getString(R.string.delete)
@@ -178,7 +171,11 @@ class MyDesignFragment : BaseFragment<FragmentMyDesignBinding>() {
         intent.putExtra(IntentKey.INTENT_KEY, pathInternal)
         intent.putExtra(IntentKey.TYPE_KEY, ValueKey.TYPE_VIEW)
         intent.putExtra(IntentKey.STATUS_KEY, ValueKey.MY_DESIGN_TYPE)
-        val options = ActivityOptions.makeCustomAnimation(myAlbumActivity, R.anim.slide_in_right, R.anim.slide_out_left)
+        val options = ActivityOptions.makeCustomAnimation(
+            myAlbumActivity,
+            R.anim.slide_in_right,
+            R.anim.slide_out_left
+        )
         myAlbumActivity.showInterAll { startActivity(intent, options.toBundle()) }
     }
 
@@ -193,7 +190,7 @@ class MyDesignFragment : BaseFragment<FragmentMyDesignBinding>() {
         myAlbumActivity.updateSelectAllIcon(allSelected)
     }
 
-    private fun resetData() {
+    fun resetData() {
         android.util.Log.d("MyDesignFragment", "========================================")
         android.util.Log.d("MyDesignFragment", "resetData() called")
         android.util.Log.d("MyDesignFragment", "Loading from: ValueKey.DOWNLOAD_ALBUM")
@@ -233,7 +230,7 @@ class MyDesignFragment : BaseFragment<FragmentMyDesignBinding>() {
     override fun onStart() {
         super.onStart()
         android.util.Log.w("MyDesignFragment", "🔵 onStart() called - Fragment is starting")
-        resetData()
+        //resetData()
     }
 
     override fun onResume() {
@@ -249,6 +246,9 @@ class MyDesignFragment : BaseFragment<FragmentMyDesignBinding>() {
     override fun onStop() {
         super.onStop()
         android.util.Log.w("MyDesignFragment", "🔴 onStop() called - Fragment no longer visible")
-        android.util.Log.w("MyDesignFragment", "Current image count: ${viewModel.myDesignList.value.size}")
+        android.util.Log.w(
+            "MyDesignFragment",
+            "Current image count: ${viewModel.myDesignList.value.size}"
+        )
     }
 }

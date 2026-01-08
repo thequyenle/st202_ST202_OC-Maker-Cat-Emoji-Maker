@@ -66,6 +66,8 @@ class MyCreationActivity : WhatsappSharingActivity<ActivityAlbumBinding>() {
         fun getInstance(): MyCreationActivity? = instanceRef?.get()
     }
 
+    private var needReload = false
+
     private val viewModel: MyCreationViewModel by viewModels()
     private val permissionViewModel: PermissionViewModel by viewModels()
 
@@ -114,6 +116,24 @@ class MyCreationActivity : WhatsappSharingActivity<ActivityAlbumBinding>() {
                     launch {
                         viewModel.typeStatus.collect { type ->
                             if (type != -1) {
+
+                                // ✅ THÊM: Exit selection mode khi switch tab
+                                if (isInSelectionMode) {
+                                    val avatarFragment = supportFragmentManager.findFragmentByTag("MyAvatarFragment")
+                                    val designFragment = supportFragmentManager.findFragmentByTag("MyDesignFragment")
+
+                                    when {
+                                        avatarFragment is MyAvatarFragment && avatarFragment.isVisible -> {
+                                            avatarFragment.resetSelectionMode()
+                                        }
+                                        designFragment is MyDesignFragment && designFragment.isVisible -> {
+                                            designFragment.resetSelectionMode()
+                                        }
+                                    }
+                                    exitSelectionMode()
+                                }
+
+
                                 if (type == ValueKey.AVATAR_TYPE) {
                                     // MyAvatar selected
                                     binding.cvType.setBackgroundResource(R.drawable.bg_cvtype_avatar) // ảnh 1
@@ -445,11 +465,18 @@ class MyCreationActivity : WhatsappSharingActivity<ActivityAlbumBinding>() {
             android.util.Log.d("MyCreationActivity", "  Creating NEW MyAvatarFragment")
             myAvatarFragment = MyAvatarFragment()
             transaction.add(R.id.frmList, myAvatarFragment!!, "MyAvatarFragment")
+            transaction.runOnCommit {
+                myAvatarFragment?.resetData()
+            }
         }
         if (myDesignFragment == null) {
             android.util.Log.d("MyCreationActivity", "  Creating NEW MyDesignFragment")
             myDesignFragment = MyDesignFragment()
             transaction.add(R.id.frmList, myDesignFragment!!, "MyDesignFragment")
+            // ✅ THÊM 3 dòng này
+            transaction.runOnCommit {
+                myDesignFragment?.resetData()
+            }
         }
 
         // Show/Hide based on type
@@ -470,6 +497,7 @@ class MyCreationActivity : WhatsappSharingActivity<ActivityAlbumBinding>() {
         }
 
         transaction.commit()
+
     }
 
     @SuppressLint("MissingSuperCall", "GestureBackNavigation")
@@ -531,6 +559,7 @@ class MyCreationActivity : WhatsappSharingActivity<ActivityAlbumBinding>() {
             }
             exitSelectionMode()
         }
+        needReload = true
 
         // initNativeCollab()
         android.util.Log.w("MyCreationActivity", "🔄 onRestart() END")
@@ -538,6 +567,19 @@ class MyCreationActivity : WhatsappSharingActivity<ActivityAlbumBinding>() {
 
     override fun onStart() {
         super.onStart()
+        // super.onRestart()
+
+       // needReload = true
+        if (needReload){
+        // Reload fragment hiện tại
+        val currentType = viewModel.typeStatus.value
+        if (currentType == ValueKey.AVATAR_TYPE) {
+            myAvatarFragment?.resetData()
+        } else {
+            myDesignFragment?.resetData()
+        }
+        needReload = false
+    }
         android.util.Log.w("MyCreationActivity", "🔵 onStart() called - Activity becoming visible")
     }
 
@@ -647,17 +689,7 @@ class MyCreationActivity : WhatsappSharingActivity<ActivityAlbumBinding>() {
         // Text selected
         textView.textSize = 16f
         textView.paint.shader = null
-        textView.post {
-            val h = textView.lineHeight.toFloat()
-            val shader = LinearGradient(
-                0f, 0f, 0f, h,
-                Color.parseColor("#FFFFFF"),
-                Color.parseColor("#FFFFFF"),
-                Shader.TileMode.CLAMP
-            )
-            textView.paint.shader = shader
-            textView.invalidate()
-        }
+        textView.setTextColor(Color.WHITE)
 
         // ❌ Không dùng background tab nữa
         focusImage.gone()
@@ -683,17 +715,7 @@ class MyCreationActivity : WhatsappSharingActivity<ActivityAlbumBinding>() {
         // Text unselected
         textView.textSize = 16f
         textView.paint.shader = null
-        textView.post {
-            val h = textView.lineHeight.toFloat()
-            val shader = LinearGradient(
-                0f, 0f, 0f, h,
-                Color.parseColor("#2993FF"),
-                Color.parseColor("#2993FF"),
-                Shader.TileMode.CLAMP
-            )
-            textView.paint.shader = shader
-            textView.invalidate()
-        }
+        textView.setTextColor(Color.parseColor("#2993FF"))
 
         // ❌ Không dùng background tab nữa
         focusImage.gone()

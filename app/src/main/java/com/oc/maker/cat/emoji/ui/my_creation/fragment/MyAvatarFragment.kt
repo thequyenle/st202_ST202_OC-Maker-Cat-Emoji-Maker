@@ -17,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.flow.drop
 import androidx.recyclerview.widget.RecyclerView
+import com.google.protobuf.value
 import com.oc.maker.cat.emoji.R
 import com.oc.maker.cat.emoji.core.base.BaseFragment
 import com.oc.maker.cat.emoji.core.extensions.gone
@@ -74,22 +75,6 @@ class MyAvatarFragment : BaseFragment<FragmentMyAvatarBinding>() {
                         myAvatarAdapter.submitList(list)
                         binding.layoutNoItem.isVisible = list.isEmpty()
                     }
-                }
-                // Removed - action bar buttons are disabled
-                // launch {
-                //     viewModel.isLastItem.collect { selectStatus ->
-                //         myAlbumActivity.changeImageActionBarRight(selectStatus)
-                //     }
-                // }
-                launch {
-                    // ✅ FIX: Only reload on actual tab changes, not initial value
-                    // StateFlow already has distinctUntilChanged built-in
-                    myCreationViewModel.typeStatus
-                        .drop(1) // Skip the first emission (initial value)
-                        .collect { status ->
-                            android.util.Log.d("MyAvatarFragment", "Tab switched to MyAvatar - reloading data")
-                            resetData()
-                        }
                 }
             }
         }
@@ -219,7 +204,7 @@ class MyAvatarFragment : BaseFragment<FragmentMyAvatarBinding>() {
         myAlbumActivity.updateSelectAllIcon(allSelected)
     }
 
-    private fun resetData() {
+    fun resetData() {
         android.util.Log.d("MyAvatarFragment", "========================================")
         android.util.Log.d("MyAvatarFragment", "resetData() called")
         android.util.Log.d("MyAvatarFragment", "Current thread: ${Thread.currentThread().name}")
@@ -267,12 +252,12 @@ class MyAvatarFragment : BaseFragment<FragmentMyAvatarBinding>() {
     override fun onStart() {
         super.onStart()
         android.util.Log.w("MyAvatarFragment", "🔵 onStart() called - Fragment is starting")
-        resetData()
+        //resetData()
     }
 
     override fun onResume() {
         super.onResume()
-        resetData()
+       // resetData()
 
         android.util.Log.w("MyAvatarFragment", "🟢 onResume() called - Fragment is visible")
         // Force reload when returning from edit
