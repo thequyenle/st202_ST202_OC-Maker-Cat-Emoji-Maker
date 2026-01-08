@@ -259,16 +259,20 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
                         if (viewModel.typeUI.value == ValueKey.TYPE_VIEW) {
                             setupRoundedView(binding.sflShimmer, 24)
 
+                            binding.sflShimmer.visible()       // Hiện shimmer view
+                            binding.sflShimmer.startShimmer()
                             loadImageRounded(
                                 path = path,
                                 imageView = binding.imvImage,
-                                cornerRadius = 24,
+                                cornerRadius = 44,
                                 onDismissLoading = {
                                     binding.sflShimmer.stopShimmer()
                                     binding.sflShimmer.gone()
                                 }
                             )
-                        } else {
+                        } else{
+                            binding.sflShimmer.gone()
+
                             loadImage(this@ViewActivity, path, binding.imvImage)
                         }
                     }

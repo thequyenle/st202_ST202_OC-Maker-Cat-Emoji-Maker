@@ -76,10 +76,12 @@
         <!--        sflShimmer-->
         <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/sflShimmer"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:background="@drawable/bg_radius"
             android:clipToOutline="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent=".8"
