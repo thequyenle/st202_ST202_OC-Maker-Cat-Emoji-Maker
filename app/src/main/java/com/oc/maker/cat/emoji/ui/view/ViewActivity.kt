@@ -14,6 +14,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -24,6 +25,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
 import com.bumptech.glide.signature.ObjectKey
+import com.facebook.shimmer.Shimmer
+import com.facebook.shimmer.ShimmerDrawable
 import com.lvt.ads.util.Admob
 import com.oc.maker.cat.emoji.R
 import com.oc.maker.cat.emoji.core.base.BaseActivity
@@ -57,6 +60,7 @@ import com.oc.maker.cat.emoji.ui.my_creation.MyCreationActivity
 import com.oc.maker.cat.emoji.core.extensions.startIntentRightToLeft
 import com.oc.maker.cat.emoji.core.extensions.strings
 import com.oc.maker.cat.emoji.core.helper.UnitHelper
+import com.oc.maker.cat.emoji.core.utils.DataLocal
 import com.oc.maker.cat.emoji.ui.customize.CustomizeCharacterActivity
 import com.oc.maker.cat.emoji.ui.home.DataViewModel
 import com.oc.maker.cat.emoji.ui.my_creation.fragment.MyAvatarFragment
@@ -183,6 +187,9 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
                 binding.imvImage.loadImageFromFile(newPath) // hoặc loadImage(...) của bạn
             }
         }
+
+
+
 
     override fun dataObservable() {
         lifecycleScope.launch {
