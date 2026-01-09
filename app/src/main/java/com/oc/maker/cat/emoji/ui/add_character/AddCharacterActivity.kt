@@ -373,7 +373,7 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
             backgroundImageAdapter.apply {
                 onAddImageClick = { checkStoragePermission() }
                 onBackgroundImageClick = { path, position -> handleSetBackgroundImage(path, position) }
-                setItemViewCacheSize(100)
+               // setItemViewCacheSize(100)
 
             }
 
