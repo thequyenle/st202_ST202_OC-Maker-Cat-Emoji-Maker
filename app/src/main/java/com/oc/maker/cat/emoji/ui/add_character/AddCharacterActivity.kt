@@ -93,6 +93,10 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
     private val textFontAdapter by lazy { TextFontAdapter(this) }
     private val textColorAdapter by lazy { TextColorAdapter() }
 
+    private var lastImageSelectedPosition = -1
+    private var lastColorSelectedPosition = -1
+    private var isImageListLoaded = false
+    private var isColorListLoaded = false
 
     // Background COLOR:
     val drawable = GradientDrawable().apply {
@@ -280,9 +284,9 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
                             } else {
                                 // Scroll back to top
                                 // 🔒 CHỈ reset layout KHI IME ĐÃ THẬT SỰ TẮT
-                                    scvText.smoothScrollTo(0, 0)
-                                    viewModel.layoutParams.topMargin = viewModel.originalMarginBottom
-                                    flFunction.layoutParams = viewModel.layoutParams
+                                scvText.smoothScrollTo(0, 0)
+                                viewModel.layoutParams.topMargin = viewModel.originalMarginBottom
+                                flFunction.layoutParams = viewModel.layoutParams
 
                                 hideSoftKeyboard()
 
@@ -369,6 +373,8 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
             backgroundImageAdapter.apply {
                 onAddImageClick = { checkStoragePermission() }
                 onBackgroundImageClick = { path, position -> handleSetBackgroundImage(path, position) }
+                setItemViewCacheSize(100)
+
             }
 
             backgroundColorAdapter.apply {
@@ -459,10 +465,10 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
             viewModel.loadDataDefault(this@AddCharacterActivity)
             viewModel.updatePathDefault(intent.getStringExtra(IntentKey.INTENT_KEY) ?: "")
             //addDrawable(viewModel.pathDefault, true)
-           withContext(Dispatchers.Main)
-           {
-               loadImage(this@AddCharacterActivity, viewModel.pathDefault, binding.imvCharacter)
-           }
+            withContext(Dispatchers.Main)
+            {
+                loadImage(this@AddCharacterActivity, viewModel.pathDefault, binding.imvCharacter)
+            }
 
             withContext(Dispatchers.Main) {
                 viewModel.setTypeNavigation(ValueKey.BACKGROUND_NAVIGATION)
@@ -570,7 +576,17 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
                     rcvBackgroundColor.gone()
                     setupSelectedTabBackground(btnBackgroundImage, tvBackgroundImage, imvFocusImage, subTabImage, isLeftTab = true)
                     setupUnselectedTabBackground(btnBackgroundColor, tvBackgroundColor, imvFocusColor, subTabColor, isLeftTab = false)
-                    backgroundImageAdapter.submitList(viewModel.backgroundImageList)
+
+                    if(!isImageListLoaded){
+                        backgroundImageAdapter.submitList(viewModel.backgroundImageList)
+                        isImageListLoaded = true
+                    }
+                    else {
+                        // ✅ Chỉ notify item đã bị clear selection
+                        if(lastImageSelectedPosition != -1) {
+                            backgroundImageAdapter.notifyItemChanged(lastImageSelectedPosition)
+                        }
+                    }
                 }
 
                 ValueKey.COLOR_BACKGROUND -> {
@@ -578,7 +594,17 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
                     rcvBackgroundColor.visible()
                     setupSelectedTabBackground(btnBackgroundColor, tvBackgroundColor, imvFocusColor, subTabColor, isLeftTab = false)
                     setupUnselectedTabBackground(btnBackgroundImage, tvBackgroundImage, imvFocusImage, subTabImage, isLeftTab = true)
-                    backgroundColorAdapter.submitList(viewModel.backgroundColorList)
+                    if(!isColorListLoaded)
+                    {
+                        backgroundColorAdapter.submitList(viewModel.backgroundColorList)
+                        isColorListLoaded = true
+                    }
+                    else {
+                        // ✅ Chỉ notify item đã bị clear selection
+                        if(lastColorSelectedPosition != -1) {
+                            backgroundColorAdapter.notifyItemChanged(lastColorSelectedPosition)
+                        }
+                    }
                 }
 
                 else -> {}
@@ -603,17 +629,18 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
         textView.textSize = 14f
 
         // Apply gradient color from top to bottom - WHITE gradient for selected
-        textView.post {
-            val textHeight = textView.lineHeight.toFloat()
-            val shader = LinearGradient(
-                0f, 0f, 0f, textHeight,
-                Color.parseColor("#FFFFFF"),
-                Color.parseColor("#FFFFFF"),
-                Shader.TileMode.CLAMP
-            )
-            textView.paint.shader = shader
-            textView.invalidate()
-        }
+//        textView.post {
+//            val textHeight = textView.lineHeight.toFloat()
+//            val shader = LinearGradient(
+//                0f, 0f, 0f, textHeight,
+//                Color.parseColor("#FFFFFF"),
+//                Color.parseColor("#FFFFFF"),
+//                Shader.TileMode.CLAMP
+//            )
+//            textView.paint.shader = shader
+
+        textView.setTextColor(Color.parseColor("#FFFFFF"))
+
 
         // Show selected_tab drawable
         focusImage.setImageResource(R.drawable.selected_tab)
@@ -641,17 +668,18 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
         textView.textSize = 14f
 
         // Apply RED gradient for unselected
-        textView.post {
-            val textHeight = textView.lineHeight.toFloat()
-            val shader = LinearGradient(
-                0f, 0f, 0f, textHeight,
-                Color.parseColor("#2993FF"),
-                Color.parseColor("#2993FF"),
-                Shader.TileMode.CLAMP
-            )
-            textView.paint.shader = shader
-            textView.invalidate()
-        }
+//        textView.post {
+//            val textHeight = textView.lineHeight.toFloat()
+//            val shader = LinearGradient(
+//                0f, 0f, 0f, textHeight,
+//                Color.parseColor("#2993FF"),
+//                Color.parseColor("#2993FF"),
+//                Shader.TileMode.CLAMP
+//            )
+//            textView.paint.shader = shader
+//            textView.invalidate()
+        textView.setTextColor(Color.parseColor("#2993FF"))
+
 
         // Show un_selected_tab drawable
         focusImage.setImageResource(R.drawable.un_selected_tab)
@@ -737,6 +765,9 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
                 binding.edtText.setText("")
                 binding.edtText.setFont(viewModel.textFontList.first().color)
                 binding.edtText.setTextColor(viewModel.textColorList[1].color)
+
+                isImageListLoaded = false
+                isColorListLoaded = false
                 //addDrawable(viewModel.pathDefault, true)
                 backgroundImageAdapter.submitList(viewModel.backgroundImageList)
                 backgroundColorAdapter.submitList(viewModel.backgroundColorList)
@@ -766,6 +797,7 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
 
     }
     private fun handleSetBackgroundImage(path: String, position: Int) {
+        lastImageSelectedPosition = position
         binding.imvBackground.setBackgroundColor(getColor(R.color.transparent))
         loadImageBG(this, path, binding.imvBackground)
         lifecycleScope.launch(Dispatchers.IO) {
@@ -821,6 +853,7 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
     }
 
     private fun handleSetBackgroundColor(color: Int, position: Int) {
+        lastColorSelectedPosition = position
         // Background COLOR:
         val drawable = GradientDrawable().apply {
             setColor(color)
@@ -976,12 +1009,12 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
 
     override fun onRestart() {
         super.onRestart()
-       initNativeCollab()
+        initNativeCollab()
     }
 
     // Custom Input View Functions
     private fun setupCustomInput() {
-       // val customInputView = binding.customInputLayout.root
+        // val customInputView = binding.customInputLayout.root
 
         // Set height to 1/4 of screen
 //        customInputView.post {

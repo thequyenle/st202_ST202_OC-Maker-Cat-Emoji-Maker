@@ -546,12 +546,12 @@ class CustomizeCharacterActivity : BaseActivity<ActivityCustomizeBinding>() {
                                     dismissLoading()
                                     withContext(Dispatchers.Main) {
                                         logEvent("click_item_${viewModel.positionSelected}_done")
-                                        showInterAll {
+
                                             startIntentRightToLeft(
                                                 AddCharacterActivity::class.java,
                                                 result.path
                                             )
-                                        }
+
                                     }
                                 }
                             }

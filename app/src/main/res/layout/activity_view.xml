@@ -125,6 +125,7 @@
     <TextView
         android:id="@+id/tvSuccess"
         android:layout_width="0dp"
+        style="@style/single_marquee"
         android:layout_height="wrap_content"
         android:paddingVertical="4dp"
         android:layout_marginHorizontal="16dp"
@@ -151,8 +152,8 @@
         android:paddingHorizontal="5dp"
         android:visibility="visible"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="-15dp"
-        app:layout_constraintBottom_toTopOf="@id/native_ads"
+        android:layout_marginBottom="280dp"
+      app:layout_constraintBottom_toBottomOf="parent"
         >
 
         <include
@@ -186,7 +187,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:id="@+id/glH"
-        app:layout_constraintGuide_percent="0.5"
+        app:layout_constraintGuide_percent="0.3"
         />
 
     <androidx.constraintlayout.widget.Guideline

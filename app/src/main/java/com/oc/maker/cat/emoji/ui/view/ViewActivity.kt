@@ -259,8 +259,8 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
                         if (viewModel.typeUI.value == ValueKey.TYPE_VIEW) {
                             setupRoundedView(binding.sflShimmer, 24)
 
-                            binding.sflShimmer.visible()       // Hiện shimmer view
-                            binding.sflShimmer.startShimmer()
+//                            binding.sflShimmer.visible()       // Hiện shimmer view
+//                            binding.sflShimmer.startShimmer()
                             loadImageRounded(
                                 path = path,
                                 imageView = binding.imvImage,
@@ -270,6 +270,7 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
                                     binding.sflShimmer.gone()
                                 }
                             )
+
                         } else{
                             binding.sflShimmer.gone()
 
@@ -298,7 +299,7 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
                 btnActionBarLeft.tap { handleBack() }
                 btnActionBarRight.tap(500) { handleActionBarRight() }
                 //btnActionBarNextRight.tap { handleEditClick(viewModel.pathInternal.value) }
-                btnShare.tap(2000) { viewModel.shareFiles(this@ViewActivity) }
+                btnShare.tap(1000) { viewModel.shareFiles(this@ViewActivity) }
             }
 
             // Access buttons from included layout_bottom
@@ -321,18 +322,9 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
 
     private fun setUpViewUI() {
         binding.apply {
-            //  loadNativeCollabAds(R.string.native_cl_detail, binding.flNativeCollab, lnlBottom, bottomFailed = 150, bottomLoadSuccess = 82)
 
               nativeAds.gone()
               flNativeCollab.visible()
-            // ✅ Thay đổi constraint của lnlBottom để nằm ở bottom của glForView
-            val lnlBottomParams = lnlBottom.layoutParams as ConstraintLayout.LayoutParams
-            lnlBottomParams.apply {
-                bottomToBottom = ConstraintLayout.LayoutParams.UNSET // Xóa constraint cũ
-                bottomToTop = R.id.glForView // Constraint bottom của lnlBottom vào glForView
-            }
-            lnlBottom.layoutParams = lnlBottomParams
-
 
             actionBar.apply {
                 // setImageActionBar(btnActionBarRight, R.drawable.ic_delete_view)
@@ -409,7 +401,7 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
                 btnShare.apply {
                     visible()
                     setImageResource(R.drawable.ic_share_ss)
-                    tap(3000) {
+                    tap(1000) {
                         viewModel.shareFiles(this@ViewActivity)
                     }
                 }
@@ -425,6 +417,7 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
             cvImage.layoutParams = params
 
             tvSuccess.visible()
+            tvSuccess.select()
 
             includeLayoutBottom.tvWhatsapp.text = strings(R.string.go_to_creation)
             includeLayoutBottom.tvWhatsapp.select()
@@ -444,7 +437,7 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
 
     fun initNativeCollab() {
         if (viewModel.typeUI.value == ValueKey.TYPE_VIEW) {
-            loadNativeCollabAds(R.string.native_cl_detail, binding.flNativeCollab, binding.lnlBottom)
+            loadNativeCollabAds(R.string.native_cl_detail, binding.flNativeCollab)
         } else{
             Admob.getInstance().loadNativeAd(
                 this,

@@ -95,7 +95,9 @@ class AddCharacterViewModel : ViewModel() {
     }
 
     suspend fun updateBackgroundImageSelected(position: Int) {
-        backgroundColorList = backgroundColorList.map { it.copy(isSelected = false) }.toCollection(ArrayList())
+//        backgroundColorList = backgroundColorList.map { it.copy(isSelected = false) }
+//            .toCollection(ArrayList())
+        backgroundColorList.forEach { it.isSelected = false }
         backgroundImageList.forEachIndexed { index, model ->
             model.isSelected = index == position
         }
@@ -105,7 +107,9 @@ class AddCharacterViewModel : ViewModel() {
         Log.d("AddCharacterViewModel", "updateBackgroundColorSelected called with position=$position")
         Log.d("AddCharacterViewModel", "Before update: backgroundColorList[0].color=${String.format("#%06X", 0xFFFFFF and backgroundColorList[0].color)}, isSelected=${backgroundColorList[0].isSelected}")
 
-        backgroundImageList = backgroundImageList.map { it.copy(isSelected = false) }.toCollection(ArrayList())
+//        backgroundImageList = backgroundImageList.map { it.copy(isSelected = false) }
+//            .toCollection(ArrayList())
+        backgroundImageList.forEach { it.isSelected = false }
         backgroundColorList.forEachIndexed { index, model ->
             Log.d("AddCharacterViewModel", "Setting position $index isSelected = ${index == position}")
             model.isSelected = index == position

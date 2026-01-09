@@ -302,6 +302,7 @@
                 android:layout_marginTop="4.5dp"
                 android:paddingHorizontal="22dp"
                 android:visibility="gone"
+                android:layerType="hardware"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="5"
                 tools:listitem="@layout/item_background_image" />
