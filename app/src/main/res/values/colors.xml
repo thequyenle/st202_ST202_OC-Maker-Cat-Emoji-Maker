@@ -30,13 +30,13 @@
     <color name="colorapp">#A1CCEF</color>
 
     <color name="native_bg_ad">#66AC0506</color>
-    <color name="native_bg_btn">#BA0101</color>
-    <color name="native_btn_bg">#BA0101</color>
-    <color name="native_collap_btn_bg">#BA0101</color>
+    <color name="native_bg_btn">#095DB2</color>
+    <color name="native_btn_bg">#095DB2</color>
+    <color name="native_collap_btn_bg">#095DB2</color>
     <color name="color_app">#2893FF</color>
     <color name="color_app_per">#9F9F9F</color>
     <color name="blue_app">#A1CCEF</color>
-    <color name="native_bg">#66AC0506</color>
+    <color name="native_bg">#8094DBFE</color>
     <color name="native_bg_view">#66AC0506</color>
     <color name="colorPrimary">#33393A</color>
     <color name="native_text_color_btn">#FFFFFF</color>

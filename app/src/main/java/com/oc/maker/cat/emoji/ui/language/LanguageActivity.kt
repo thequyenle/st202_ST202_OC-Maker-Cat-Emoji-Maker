@@ -136,8 +136,8 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>() {
         }
     }
 
-//    override fun initAds() {
-//        Admob.getInstance().loadNativeAd(this@LanguageActivity, getString(R.string.native_language), binding.nativeAds, R.layout.ads_native_big_btn_bottom)
-//    }
+    override fun initAds() {
+        Admob.getInstance().loadNativeAd(this@LanguageActivity, getString(R.string.native_language), binding.nativeAds, R.layout.ads_native_big_btn_bottom)
+    }
 
 }

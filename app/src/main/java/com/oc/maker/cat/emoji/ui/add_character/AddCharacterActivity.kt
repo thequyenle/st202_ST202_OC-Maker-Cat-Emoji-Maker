@@ -35,6 +35,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.facebook.shimmer.ShimmerDrawable
 import com.ironsource.sdk.utils.SDKUtils.dpToPx
+import com.lvt.ads.util.Admob
 import com.oc.maker.cat.emoji.R
 import com.oc.maker.cat.emoji.core.base.BaseActivity
 import com.oc.maker.cat.emoji.core.extensions.checkPermissions
@@ -965,17 +966,17 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
         // This method should not be called if the OnBackPressedCallback is working properly
     }
 
-//    fun initNativeCollab() {
-//        loadNativeCollabAds(R.string.native_cl_bg, binding.flNativeCollab, binding.lnlBottom)
-//    }
+    fun initNativeCollab() {
+        Admob.getInstance().loadNativeCollapNotBanner(this,getString(R.string.native_cl_bg), binding.flNativeCollab)
+    }
 
-//    override fun initAds() {
-//        initNativeCollab()
-//    }
+    override fun initAds() {
+        initNativeCollab()
+    }
 
     override fun onRestart() {
         super.onRestart()
-      //  initNativeCollab()
+       initNativeCollab()
     }
 
     // Custom Input View Functions

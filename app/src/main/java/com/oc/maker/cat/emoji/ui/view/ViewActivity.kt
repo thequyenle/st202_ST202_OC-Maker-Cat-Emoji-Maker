@@ -323,8 +323,16 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
         binding.apply {
             //  loadNativeCollabAds(R.string.native_cl_detail, binding.flNativeCollab, lnlBottom, bottomFailed = 150, bottomLoadSuccess = 82)
 
-            //  nativeAds.visible()
-            //  flNativeCollab.gone()
+              nativeAds.gone()
+              flNativeCollab.visible()
+            // ✅ Thay đổi constraint của lnlBottom để nằm ở bottom của glForView
+            val lnlBottomParams = lnlBottom.layoutParams as ConstraintLayout.LayoutParams
+            lnlBottomParams.apply {
+                bottomToBottom = ConstraintLayout.LayoutParams.UNSET // Xóa constraint cũ
+                bottomToTop = R.id.glForView // Constraint bottom của lnlBottom vào glForView
+            }
+            lnlBottom.layoutParams = lnlBottomParams
+
 
             actionBar.apply {
                 // setImageActionBar(btnActionBarRight, R.drawable.ic_delete_view)
@@ -375,8 +383,11 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
         }
     }
 
+
     private fun setUpSuccessUI() {
         binding.apply {
+            nativeAds.visible()
+            flNativeCollab.invisible()
             actionBar.apply {
                 // Hide center text and imgCenter
                 tvCenter.gone()
@@ -427,6 +438,23 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
         }
     }
 
+    override fun initAds() {
+        initNativeCollab()
+    }
+
+    fun initNativeCollab() {
+        if (viewModel.typeUI.value == ValueKey.TYPE_VIEW) {
+            loadNativeCollabAds(R.string.native_cl_detail, binding.flNativeCollab, binding.lnlBottom)
+        } else{
+            Admob.getInstance().loadNativeAd(
+                this,
+                getString(R.string.native_success),
+                binding.nativeAds,
+                R.layout.ads_native_big_btn_top
+            )
+        }
+    }
+
     private fun handleActionBarRight() {
         when (viewModel.typeUI.value) {
             ValueKey.TYPE_VIEW -> {
@@ -446,7 +474,7 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
 
                     viewModel.shareFiles(this@ViewActivity)
                 } else {
-                    handleEditClick(viewModel.pathInternal.value)
+                   showInterAll {   handleEditClick(viewModel.pathInternal.value) }
                 }
             }
 
@@ -501,6 +529,8 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
             YesNoDialog(this, R.string.delete, R.string.are_you_sure_want_to_delete_this_item)
         LanguageHelper.setLocale(this)
         dialog.show()
+        dialog.binding.btnYes.setText(R.string.delete)
+
         dialog.onNoClick = {
             dialog.dismiss()
             hideNavigation()
@@ -536,8 +566,12 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
     private fun handleBack() {
         if (viewModel.typeUI.value == ValueKey.TYPE_VIEW) {
             resetMyCreationSelectionMode()
+            showInterAll{handleBackLeftToRight()}
+
         }
+        else{
         handleBackLeftToRight()
+    }
     }
 
     private fun resetMyCreationSelectionMode() {

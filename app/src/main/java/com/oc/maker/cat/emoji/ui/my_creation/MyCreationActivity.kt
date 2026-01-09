@@ -505,18 +505,18 @@ class MyCreationActivity : WhatsappSharingActivity<ActivityAlbumBinding>() {
         startIntentWithClearTop(HomeActivity::class.java)
     }
 
-//    fun initNativeCollab() {
-//        loadNativeCollabAds(R.string.native_cl_myCharactor, binding.flNativeCollab, binding.lnlBottom)
-//    }
-//    override fun initAds() {
-//        initNativeCollab()
-//        Admob.getInstance().loadNativeAd(
-//            this,
-//            getString(R.string.native_myCharactor),
-//            binding.nativeAds,
-//            R.layout.ads_native_banner
-//        )
-//    }
+    fun initNativeCollab() {
+        Admob.getInstance().loadNativeCollapNotBanner(this,getString(R.string.native_cl_myCharactor), binding.flNativeCollab)
+    }
+    override fun initAds() {
+        initNativeCollab()
+        Admob.getInstance().loadNativeAd(
+            this,
+            getString(R.string.native_cl_creation),
+            binding.nativeAds,
+            R.layout.ads_native_banner
+        )
+    }
 
     override fun onRestart() {
         super.onRestart()
@@ -561,7 +561,7 @@ class MyCreationActivity : WhatsappSharingActivity<ActivityAlbumBinding>() {
         }
         needReload = true
 
-        // initNativeCollab()
+        initNativeCollab()
         android.util.Log.w("MyCreationActivity", "🔄 onRestart() END")
     }
 

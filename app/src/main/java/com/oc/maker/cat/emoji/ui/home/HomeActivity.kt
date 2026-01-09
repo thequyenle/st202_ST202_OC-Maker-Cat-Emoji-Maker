@@ -87,7 +87,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             actionBar.btnActionBarRight.tap(2000) { startIntentRightToLeft(SettingsActivity::class.java) }
             btnCreate.tap(2000) { startIntentRightToLeft(ChooseCharacterActivity::class.java) }
             btnMyAlbum.tap(2000) { showInterAll { startIntentRightToLeft(MyCreationActivity::class.java) } }
-            btnQuickMaker.tap(2000) { startIntentRightToLeft(RandomCharacterActivity::class.java) }
+            btnQuickMaker.tap(2000) { showInterAll {startIntentRightToLeft(RandomCharacterActivity::class.java)} }
         }
     }
 
@@ -146,7 +146,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         deleteTempFolder()
         LanguageHelper.setLocale(this)
         updateText()
-        //initNativeCollab()
+        initNativeCollab()
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -189,13 +189,13 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         }, 400)
     }
 
-//    fun initNativeCollab() {
-//        loadNativeCollabAds(R.string.native_cl_home, binding.flNativeCollab, binding.scvMain)
-//    }
+    fun initNativeCollab() {
+        Admob.getInstance().loadNativeCollapNotBanner(this,getString(R.string.native_cl_home), binding.flNativeCollab)
+    }
 
-//    override fun initAds() {
-//        initNativeCollab()
-//        Admob.getInstance().loadInterAll(this, getString(R.string.inter_all))
-//        Admob.getInstance().loadNativeAll(this, getString(R.string.native_all))
-//    }
+    override fun initAds() {
+        initNativeCollab()
+        Admob.getInstance().loadInterAll(this, getString(R.string.inter_all))
+        Admob.getInstance().loadNativeAll(this, getString(R.string.native_all))
+    }
 }

@@ -107,11 +107,13 @@
 
     <ImageView
         android:id="@+id/frameBg"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:src="@drawable/frame_ss"
+        android:layout_marginBottom="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/lnlBottom"
         app:layout_constraintTop_toBottomOf="@id/layoutActionBar"
         app:layout_constraintDimensionRatio="328:376"
         android:layout_marginHorizontal="16dp"
@@ -149,12 +151,34 @@
         android:paddingHorizontal="5dp"
         android:visibility="visible"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/frameBg"
+        android:layout_marginBottom="-15dp"
+        app:layout_constraintBottom_toTopOf="@id/native_ads"
         >
 
         <include
             android:id="@+id/includeLayoutBottom"
             layout="@layout/layout_bottom" />
+
+    </FrameLayout>
+
+    <!--    flNativeCollab-->
+    <FrameLayout
+        android:id="@+id/flNativeCollab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <include layout="@layout/ads_shimmer_collap_native" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/native_ads"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <include layout="@layout/ads_native_big_btn_bottom_shimmer" />
 
     </FrameLayout>
 
@@ -165,7 +189,13 @@
         app:layout_constraintGuide_percent="0.5"
         />
 
-
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/glForView"
+        app:layout_constraintGuide_percent="0.8"
+        />
 
 
     <!--    &lt;!&ndash;    flNativeCollab&ndash;&gt;-->

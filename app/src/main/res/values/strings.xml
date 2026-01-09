@@ -127,4 +127,5 @@
     <string name="reset_yes">Reset</string>
     <string name="exit_yes">Exit</string>
     <string name="go_to_setting">setting</string>
+    <string name="exitRate">Exit</string>
 </resources>

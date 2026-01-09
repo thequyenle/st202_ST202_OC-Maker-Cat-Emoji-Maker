@@ -114,7 +114,7 @@
                     android:fontFamily="@font/roboto_bold"
                     android:gravity="center"
                     android:paddingVertical="15dp"
-                    android:text="@string/exit"
+                    android:text="@string/exitRate"
                     android:textAllCaps="false"
                     android:textColor="#A9B0BE"
                     android:textSize="14sp" />

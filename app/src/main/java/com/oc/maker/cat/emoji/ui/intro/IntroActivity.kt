@@ -35,9 +35,9 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 if (position == 1) {
-                   // binding.nativeAds.gone()
+                    binding.nativeAds.gone()
                 } else {
-                   // binding.nativeAds.visible()
+                    binding.nativeAds.visible()
                 }
             }
         })
@@ -76,7 +76,7 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>() {
     @SuppressLint("MissingSuperCall", "GestureBackNavigation")
     override fun onBackPressed() { exitProcess(0) }
 
-//    override fun initAds() {
-//        Admob.getInstance().loadNativeAd(this, getString(R.string.native_intro), binding.nativeAds, R.layout.ads_native_medium_btn_bottom)
-//    }
+    override fun initAds() {
+        Admob.getInstance().loadNativeAd(this, getString(R.string.native_intro), binding.nativeAds, R.layout.ads_native_medium_btn_bottom)
+    }
 }
