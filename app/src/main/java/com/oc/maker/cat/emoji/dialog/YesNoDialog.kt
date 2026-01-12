@@ -13,8 +13,9 @@ import com.oc.maker.cat.emoji.databinding.DialogConfirmBinding
 
 
 class YesNoDialog(
-    val context: Activity, val title: Int, val description: Int, val isError: Boolean = false
+    val context: Activity, val title: Int, val description: Int, val isError: Boolean = false, val yes :String?=null
 ) : BaseDialog<DialogConfirmBinding>(context, maxWidth = true, maxHeight = true) {
+
     override val layoutId: Int = R.layout.dialog_confirm
     override val isCancelOnTouchOutside: Boolean = false
     override val isCancelableByBack: Boolean = false
@@ -26,6 +27,10 @@ class YesNoDialog(
     override fun initView() {
         initText()
 
+        when(yes){
+            "delete"->  binding.btnYes.setText(R.string.delete)
+            "settings" -> binding.btnYes.setText(R.string.settings)
+        }
         binding.btnYes.select()
         binding.btnNo.select()
         if (isError) {

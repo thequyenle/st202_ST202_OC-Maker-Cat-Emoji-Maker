@@ -39,8 +39,8 @@
     <color name="native_bg">#8094DBFE</color>
     <color name="native_bg_view">#66AC0506</color>
     <color name="colorPrimary">#33393A</color>
-    <color name="native_text_color_btn">#FFFFFF</color>
-    <color name="native_text_color">#FFFFFF</color>
-    <color name="native_text_color_black">#000000</color>
+    <color name="native_text_color_btn">#2893FF</color>
+    <color name="native_text_color">#2893FF</color>
+    <color name="native_text_color_black">#2893FF</color>
     <color name="dark">#000000</color>
 </resources>

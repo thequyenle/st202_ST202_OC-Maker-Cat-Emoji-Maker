@@ -519,10 +519,9 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
 
     private fun handleDelete() {
         val dialog =
-            YesNoDialog(this, R.string.delete, R.string.are_you_sure_want_to_delete_this_item)
-        LanguageHelper.setLocale(this)
+        YesNoDialog(this@ViewActivity, R.string.delete, R.string.are_you_sure_want_to_delete_this_item,yes= "delete")
+        LanguageHelper.setLocale(this@ViewActivity)
         dialog.show()
-        dialog.binding.btnYes.setText(R.string.delete)
 
         dialog.onNoClick = {
             dialog.dismiss()

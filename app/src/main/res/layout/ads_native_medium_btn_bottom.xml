@@ -105,7 +105,7 @@
                     android:background="@drawable/bg_btn_ads_native"
                     android:gravity="center"
                     android:text="Install"
-                    android:textColor="@color/native_text_color_btn"
+                    android:textColor="@color/white"
                     android:textSize="14sp"
                     android:textStyle="bold" />
             </LinearLayout>

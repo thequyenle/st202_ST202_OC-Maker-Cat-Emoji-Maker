@@ -495,7 +495,7 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
 
     private fun addDrawable(path: String, isCharacter: Boolean = false, bitmapText: Bitmap? = null) {
         lifecycleScope.launch(Dispatchers.IO) {
-            val bitmapDefault = if (bitmapText == null) Glide.with(this@AddCharacterActivity).load(path).override(512,512).submit().get()
+            val bitmapDefault = if (bitmapText == null) Glide.with(this@AddCharacterActivity).load(path).override(256,256).encodeQuality(50).submit().get()
                 .toBitmap() else bitmapText
             val drawableEmoji = viewModel.loadDrawableEmoji(this@AddCharacterActivity, bitmapDefault, isCharacter)
 

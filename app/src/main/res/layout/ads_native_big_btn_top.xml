@@ -26,7 +26,7 @@
                 android:background="@drawable/bg_btn_ads_native"
                 android:gravity="center"
                 android:text="Install"
-                android:textColor="@color/native_text_color_btn"
+                android:textColor="@color/white"
                 android:textSize="@dimen/_12sdp"
                 android:textStyle="bold" />
 
@@ -63,7 +63,7 @@
                         android:ellipsize="end"
                         android:maxLines="2"
                         android:text=""
-                        android:textColor="@color/white"
+                        android:textColor="@color/color_app"
                         android:textSize="12sp"
                         android:textStyle="bold" />
 
@@ -75,7 +75,7 @@
                         android:layout_weight="1"
                         android:gravity="bottom"
                         android:lines="1"
-                        android:textColor="@color/white"
+                        android:textColor="@color/color_app"
                         android:textSize="@dimen/_10sdp" />
 
 
@@ -93,7 +93,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/color_app"
                     android:textSize="12sp" />
 
             </LinearLayout>
