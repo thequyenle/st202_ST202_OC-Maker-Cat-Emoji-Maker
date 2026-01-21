@@ -789,10 +789,13 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
         }
         if (isLoadShimmer){
             Glide.with(context).load(path)
+                .override(1080) // Fix: Limit size when user picks image from device
                 .transform(RoundedCorners(dpToPx(30)))
                 .placeholder(shimmerDrawable).error(shimmerDrawable).into(imageView)
         }else{
-            Glide.with(context).load(path).placeholder(shimmerDrawable).error(shimmerDrawable).into(imageView)
+            Glide.with(context).load(path)
+                .override(1080) // Fix: Limit size when user picks image from device
+                .placeholder(shimmerDrawable).error(shimmerDrawable).into(imageView)
         }
 
     }
