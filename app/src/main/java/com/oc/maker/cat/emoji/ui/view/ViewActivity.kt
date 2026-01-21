@@ -202,8 +202,17 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
             if (result.resultCode == Activity.RESULT_OK) {
                 val newPath =
                     result.data?.getStringExtra("NEW_PATH") ?: return@registerForActivityResult
+
+                // Update UI trong ViewActivity để user thấy kết quả edit
                 viewModel.setPath(newPath)
-                binding.imvImage.loadImageFromFile(newPath) // hoặc loadImage(...) của bạn
+                binding.imvImage.loadImageFromFile(newPath)
+
+                // Đánh dấu để khi user quay về MyCreationActivity sẽ reload data
+                setResult(Activity.RESULT_OK, Intent().apply {
+                    putExtra("RESET_SELECTION", true)
+                    putExtra("NEW_PATH", newPath)
+                })
+                // KHÔNG finish() - để user ở lại ViewActivity xem kết quả
             }
         }
 
@@ -522,7 +531,6 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
         YesNoDialog(this@ViewActivity, R.string.delete, R.string.are_you_sure_want_to_delete_this_item,yes= "delete")
         LanguageHelper.setLocale(this@ViewActivity)
         dialog.show()
-
         dialog.onNoClick = {
             dialog.dismiss()
             hideNavigation()
@@ -536,10 +544,10 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
                             HandleState.LOADING -> showLoading()
                             HandleState.SUCCESS -> {
                                 dismissLoading()
-                                resetMyCreationSelectionMode()
 
-                                // ✅ Trả kết quả về màn trước (MyAvatarFragment/MyCreationActivity)
+                                // Trả kết quả về MyCreationActivity
                                 setResult(Activity.RESULT_OK, Intent().apply {
+                                    putExtra("RESET_SELECTION", true)
                                     putExtra("DELETED_PATH", viewModel.pathInternal.value)
                                 })
                                 finish()
@@ -557,43 +565,16 @@ class ViewActivity : BaseActivity<ActivityViewBinding>() {
 
     private fun handleBack() {
         if (viewModel.typeUI.value == ValueKey.TYPE_VIEW) {
-            resetMyCreationSelectionMode()
-            showInterAll{handleBackLeftToRight()}
-
-        }
-        else{
-        handleBackLeftToRight()
-    }
-    }
-
-    private fun resetMyCreationSelectionMode() {
-        // Reset selection mode in MyCreationActivity before going back
-        val myCreationActivity = MyCreationActivity.getInstance()
-        if (myCreationActivity != null) {
-            android.util.Log.d("ViewActivity", "Resetting selection mode in MyCreationActivity")
-
-            // Reset the fragment's selection state first
-            val designFragment =
-                myCreationActivity.supportFragmentManager.findFragmentByTag("MyDesignFragment")
-            if (designFragment is com.oc.maker.cat.emoji.ui.my_creation.fragment.MyDesignFragment) {
-                designFragment.resetSelectionMode()
-            }
-
-            val avatarFragment =
-                myCreationActivity.supportFragmentManager.findFragmentByTag("MyAvatarFragment")
-            if (avatarFragment is MyAvatarFragment) {
-                avatarFragment.resetSelectionMode()
-            }
-
-            // Exit selection mode in activity
-            myCreationActivity.exitSelectionMode()
+            // Trả kết quả về MyCreationActivity để reset selection mode
+            setResult(Activity.RESULT_OK, Intent().apply {
+                putExtra("RESET_SELECTION", true)
+            })
+            showInterAll { handleBackLeftToRight() }
         } else {
-            android.util.Log.w(
-                "ViewActivity",
-                "MyCreationActivity instance not found - unable to reset selection mode"
-            )
+            handleBackLeftToRight()
         }
     }
+
 
     private fun handleEditClick(pathInternal: String) {
         lifecycleScope.launch(Dispatchers.IO) {

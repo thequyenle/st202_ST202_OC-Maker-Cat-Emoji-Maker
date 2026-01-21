@@ -167,16 +167,18 @@ class MyDesignFragment : BaseFragment<FragmentMyDesignBinding>() {
             // In selection mode - reset before navigating
             resetSelectionMode()
         }
-        val intent = Intent(myAlbumActivity, ViewActivity::class.java)
-        intent.putExtra(IntentKey.INTENT_KEY, pathInternal)
-        intent.putExtra(IntentKey.TYPE_KEY, ValueKey.TYPE_VIEW)
-        intent.putExtra(IntentKey.STATUS_KEY, ValueKey.MY_DESIGN_TYPE)
-        val options = ActivityOptions.makeCustomAnimation(
-            myAlbumActivity,
-            R.anim.slide_in_right,
-            R.anim.slide_out_left
-        )
-        myAlbumActivity.showInterAll { startActivity(intent, options.toBundle()) }
+
+        val intent = Intent(myAlbumActivity, ViewActivity::class.java).apply {
+            putExtra(IntentKey.INTENT_KEY, pathInternal)
+            putExtra(IntentKey.TYPE_KEY, ValueKey.TYPE_VIEW)
+            putExtra(IntentKey.STATUS_KEY, ValueKey.MY_DESIGN_TYPE)
+        }
+
+        // Sử dụng Activity Result API qua MyCreationActivity
+        myAlbumActivity.showInterAll {
+            myAlbumActivity.launchViewActivity(intent)
+            myAlbumActivity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+        }
     }
 
     private fun handleLongClick(position: Int) {

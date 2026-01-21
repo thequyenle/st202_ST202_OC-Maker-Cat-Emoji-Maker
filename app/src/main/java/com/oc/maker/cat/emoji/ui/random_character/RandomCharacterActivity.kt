@@ -123,6 +123,7 @@ class RandomCharacterActivity : BaseActivity<ActivityRandomCharacterBinding>() {
                 }
 
                 dLog("==========================================================")
+                dLog("⏱️ TIMING LOG - RandomCharacter Generation Started")
                 dLog("RandomCharacter: Starting to process ${filteredData.size} characters")
                 dLog("Total data available: ${dataViewModel.allData.value.size}")
                 dLog("Has Internet: $hasInternet")
@@ -131,6 +132,7 @@ class RandomCharacterActivity : BaseActivity<ActivityRandomCharacterBinding>() {
 
                 for (i in 0 until filteredData.size) {
                     try {
+                        val charStartTime = System.currentTimeMillis()
                         dLog("---------- Processing Character $i ----------")
                         val currentData = filteredData[i]
                         customizeCharacterViewModel.positionSelected = dataViewModel.allData.value.indexOf(currentData)
@@ -139,6 +141,7 @@ class RandomCharacterActivity : BaseActivity<ActivityRandomCharacterBinding>() {
                         dLog("Layer count: ${currentData.layerList.size}")
                         dLog("Is from API: ${currentData.isFromAPI}")
 
+                        val setupStartTime = System.currentTimeMillis()
                         customizeCharacterViewModel.setDataCustomize(currentData)
                         customizeCharacterViewModel.updateAvatarPath(currentData.avatar)
 
@@ -146,25 +149,44 @@ class RandomCharacterActivity : BaseActivity<ActivityRandomCharacterBinding>() {
                         customizeCharacterViewModel.addValueToItemNavList()
                         customizeCharacterViewModel.setItemColorDefault()
                         customizeCharacterViewModel.setBottomNavigationListDefault()
+                        val setupTime = System.currentTimeMillis() - setupStartTime
+                        dLog("⏱️ Character $i - Setup time: ${setupTime}ms")
 
+                        val randomStartTime = System.currentTimeMillis()
                         for (j in 0 until ValueKey.RANDOM_QUANTITY) {
+                            val itemStartTime = System.currentTimeMillis()
                             customizeCharacterViewModel.setClickRandomFullLayer()
                             val suggestion = customizeCharacterViewModel.getSuggestionList()
-                            dLog("Generated random $j for character $i - Avatar: ${suggestion.avatarPath}")
+                            val itemTime = System.currentTimeMillis() - itemStartTime
+                            if (j == 0 || j == ValueKey.RANDOM_QUANTITY - 1) {
+                                dLog("⏱️ Character $i - Random item $j time: ${itemTime}ms")
+                            }
                             viewModel.updateRandomList(suggestion)
                         }
+                        val randomTime = System.currentTimeMillis() - randomStartTime
+                        dLog("⏱️ Character $i - Total random generation time (20 items): ${randomTime}ms")
+                        dLog("⏱️ Character $i - Average per item: ${randomTime / ValueKey.RANDOM_QUANTITY}ms")
+
+                        val charTotalTime = System.currentTimeMillis() - charStartTime
+                        dLog("⏱️ Character $i - TOTAL TIME: ${charTotalTime}ms")
                         dLog("✓ Character $i completed successfully")
                     } catch (e: Exception) {
                         eLog("✗ ERROR processing character $i: ${e.message}")
                         e.printStackTrace()
                     }
                 }
-                viewModel.upsideDownList()
 
+                val shuffleStartTime = System.currentTimeMillis()
+                viewModel.upsideDownList()
+                val shuffleTime = System.currentTimeMillis() - shuffleStartTime
+                dLog("⏱️ Shuffle time: ${shuffleTime}ms")
+
+                val totalTime = System.currentTimeMillis() - timeStart1
                 dLog("==========================================================")
-                dLog("RandomCharacter: Finished processing")
-                dLog("Total time: ${System.currentTimeMillis() - timeStart1}ms")
+                dLog("⏱️ TIMING LOG - RandomCharacter Generation Completed")
+                dLog("Total time: ${totalTime}ms")
                 dLog("Final random list size: ${viewModel.randomList.size}")
+                dLog("Average time per character: ${totalTime / filteredData.size}ms")
                 dLog("==========================================================")
                 return@async true
             }
@@ -179,6 +201,7 @@ class RandomCharacterActivity : BaseActivity<ActivityRandomCharacterBinding>() {
     }
 
     private fun initRcv() {
+        val rcvStartTime = System.currentTimeMillis()
         binding.rcvRandomCharacter.apply {
             adapter = randomCharacterAdapter
             itemAnimator = null
@@ -198,12 +221,22 @@ class RandomCharacterActivity : BaseActivity<ActivityRandomCharacterBinding>() {
 
         }
         dLog("==========================================================")
+        dLog("⏱️ TIMING LOG - RecyclerView Setup")
         dLog("initRcv: Submitting ${viewModel.randomList.size} items to adapter")
         viewModel.randomList.forEachIndexed { index, item ->
-            dLog("Item $index: Avatar=${item.avatarPath}, Layers=${item.pathSelectedList.size}")
+            if (index < 3 || index >= viewModel.randomList.size - 1) {
+                dLog("Item $index: Avatar=${item.avatarPath}, Layers=${item.pathSelectedList.size}, Cached=${item.pathInternalRandom.isNotEmpty()}")
+            }
         }
-        dLog("==========================================================")
+
+        val submitStartTime = System.currentTimeMillis()
         randomCharacterAdapter.submitList(viewModel.randomList)
+        val submitTime = System.currentTimeMillis() - submitStartTime
+        val rcvTotalTime = System.currentTimeMillis() - rcvStartTime
+
+        dLog("⏱️ submitList() time: ${submitTime}ms")
+        dLog("⏱️ Total initRcv() time: ${rcvTotalTime}ms")
+        dLog("==========================================================")
     }
 
     private fun handleItemClick(model: SuggestionModel) {

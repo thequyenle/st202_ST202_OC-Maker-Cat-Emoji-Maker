@@ -1,6 +1,7 @@
 package com.oc.maker.cat.emoji.ui.my_creation
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -19,6 +20,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.room.util.findColumnIndexBySuffix
+import com.iab.omid.library.unity3d.devicevolume.d
 import com.lvt.ads.util.Admob
 import com.oc.maker.cat.emoji.R
 import com.oc.maker.cat.emoji.core.base.BaseActivity
@@ -60,11 +62,7 @@ import kotlinx.coroutines.launch
 import kotlin.text.replace
 
 class MyCreationActivity : WhatsappSharingActivity<ActivityAlbumBinding>() {
-    companion object {
-        private var instanceRef: java.lang.ref.WeakReference<MyCreationActivity>? = null
 
-        fun getInstance(): MyCreationActivity? = instanceRef?.get()
-    }
 
     private var needReload = false
 
@@ -83,7 +81,6 @@ class MyCreationActivity : WhatsappSharingActivity<ActivityAlbumBinding>() {
     override fun initView() {
         binding.actionBar.tvCenter.select()
         // Store instance reference for ViewActivity to access
-        instanceRef = java.lang.ref.WeakReference(this)
 
         viewModel.setTypeStatus(ValueKey.AVATAR_TYPE)
         viewModel.setStatusFrom(intent.getBooleanExtra(IntentKey.FROM_SAVE, false))
@@ -105,6 +102,61 @@ class MyCreationActivity : WhatsappSharingActivity<ActivityAlbumBinding>() {
 
             layoutBottom.findViewById<View>(R.id.btnTelegram)?.tap(2500) {
                 handleDownloadFromCurrentFragment()
+            }
+        }
+    }
+
+    private val viewLauncher = registerForActivityResult(
+        androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode != Activity.RESULT_OK) return@registerForActivityResult
+        val data = result.data ?: return@registerForActivityResult
+
+        // Xử lý RESET_SELECTION từ ViewActivity
+        if (data.getBooleanExtra("RESET_SELECTION", false)) {
+            android.util.Log.d("MyCreationActivity", "Received RESET_SELECTION from ViewActivity")
+
+            val avatarFragment = supportFragmentManager.findFragmentByTag("MyAvatarFragment")
+            val designFragment = supportFragmentManager.findFragmentByTag("MyDesignFragment")
+
+            when {
+                avatarFragment is MyAvatarFragment && avatarFragment.isVisible -> {
+                    android.util.Log.d("MyCreationActivity", "Resetting MyAvatarFragment selection")
+                    avatarFragment.resetSelectionMode()
+                }
+                designFragment is MyDesignFragment && designFragment.isVisible -> {
+                    android.util.Log.d("MyCreationActivity", "Resetting MyDesignFragment selection")
+                    designFragment.resetSelectionMode()
+                }
+            }
+            exitSelectionMode()
+        }
+
+        // Xử lý DELETED_PATH từ ViewActivity
+        val deletedPath = data.getStringExtra("DELETED_PATH")
+        if (deletedPath != null) {
+            android.util.Log.d("MyCreationActivity", "Item deleted: $deletedPath")
+
+            // Reload data của fragment hiện tại sau khi delete
+            val currentType = viewModel.typeStatus.value
+            if (currentType == ValueKey.AVATAR_TYPE) {
+                myAvatarFragment?.resetData()
+            } else {
+                myDesignFragment?.resetData()
+            }
+        }
+
+        // Xử lý NEW_PATH từ ViewActivity (sau khi edit)
+        val newPath = data.getStringExtra("NEW_PATH")
+        if (newPath != null) {
+            android.util.Log.d("MyCreationActivity", "Item edited, new path: $newPath")
+
+            // Reload data của fragment hiện tại sau khi edit
+            val currentType = viewModel.typeStatus.value
+            if (currentType == ValueKey.AVATAR_TYPE) {
+                myAvatarFragment?.resetData()
+            } else {
+                myDesignFragment?.resetData()
             }
         }
     }
@@ -730,5 +782,13 @@ class MyCreationActivity : WhatsappSharingActivity<ActivityAlbumBinding>() {
         } else {
             binding.actionBar.btnActionBarNextRight.setImageResource(R.drawable.ic_not_select_all)
         }
+    }
+
+    /**
+     * Public method để các fragment có thể launch ViewActivity với Activity Result API
+     * @param intent Intent chứa data cần truyền sang ViewActivity
+     */
+    fun launchViewActivity(intent: Intent) {
+        viewLauncher.launch(intent)
     }
 }
