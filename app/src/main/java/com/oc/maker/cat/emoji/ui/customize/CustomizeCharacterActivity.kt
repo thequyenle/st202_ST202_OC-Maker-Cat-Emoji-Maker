@@ -83,8 +83,10 @@ class CustomizeCharacterActivity : BaseActivity<ActivityCustomizeBinding>() {
                         viewModel.positionSelected = intent.getIntExtra(IntentKey.INTENT_KEY, 0)
                         viewModel.statusFrom =
                             intent.getIntExtra(IntentKey.STATUS_FROM_KEY, ValueKey.CREATE)
-                        viewModel.setDataCustomize(list[viewModel.positionSelected])
-                        viewModel.setIsDataAPI(list[viewModel.positionSelected].isFromAPI)
+                        // Fix: Ensure position is within bounds to prevent IndexOutOfBoundsException
+                        val safePosition = viewModel.positionSelected.coerceIn(0, list.size - 1)
+                        viewModel.setDataCustomize(list[safePosition])
+                        viewModel.setIsDataAPI(list[safePosition].isFromAPI)
                         initData()
                     }
                 }
