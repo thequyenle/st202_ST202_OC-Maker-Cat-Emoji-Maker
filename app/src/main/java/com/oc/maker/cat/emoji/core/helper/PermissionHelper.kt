@@ -7,7 +7,8 @@ object PermissionHelper {
 
     val storagePermission = when {
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU ->
-            arrayOf(Manifest.permission.READ_MEDIA_IMAGES)
+            // arrayOf(Manifest.permission.READ_MEDIA_IMAGES) - REMOVED: App uses Photo Picker API (no permission required)
+            emptyArray()
 
         else -> arrayOf(
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
