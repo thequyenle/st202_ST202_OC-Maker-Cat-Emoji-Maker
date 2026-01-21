@@ -244,7 +244,9 @@ class CustomizeCharacterViewModel : ViewModel() {
         val pathSelected = if (item.listImageColor.isEmpty()) {
             path
         } else {
-            item.listImageColor[positionColorItemList[positionNavSelected]].path
+            // Fix: Ensure color index is within bounds to prevent IndexOutOfBoundsException
+            val colorIndex = positionColorItemList[positionNavSelected].coerceIn(0, item.listImageColor.size - 1)
+            item.listImageColor[colorIndex].path
         }
         setIsSelectedItem(positionNavSelected)
         setPathSelected(positionCustom, path)
