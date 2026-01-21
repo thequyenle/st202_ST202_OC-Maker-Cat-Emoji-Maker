@@ -8,6 +8,7 @@ import android.graphics.Outline
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.View
+import kotlinx.coroutines.awaitAll
 import android.view.ViewOutlineProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -24,6 +25,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import androidx.core.graphics.createBitmap
 import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
@@ -60,7 +62,10 @@ class RandomCharacterAdapter(val context: Context) :
             // ✅ OPTIMIZATION: If already processed, just load the cached image
             if (item.pathInternalRandom.isNotEmpty()) {
                 val cacheLoadStartTime = System.currentTimeMillis()
-                Log.d("RandomAdapter", "⚡ CACHED - Position $position - Loading from: ${item.pathInternalRandom}")
+                Log.d(
+                    "RandomAdapter",
+                    "⚡ CACHED - Position $position - Loading from: ${item.pathInternalRandom}"
+                )
                 sflShimmer.gone()
                 sflShimmer.stopShimmer()
                 imvImage.visible()
@@ -68,12 +73,27 @@ class RandomCharacterAdapter(val context: Context) :
                     .load(item.pathInternalRandom)
                     .transform(RoundedCorners(24))
                     .listener(object : RequestListener<Drawable> {
-                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable?>, isFirstResource: Boolean): Boolean {
+                        override fun onLoadFailed(
+                            e: GlideException?,
+                            model: Any?,
+                            target: Target<Drawable?>,
+                            isFirstResource: Boolean
+                        ): Boolean {
                             return false
                         }
-                        override fun onResourceReady(resource: Drawable, model: Any, target: Target<Drawable?>?, dataSource: DataSource, isFirstResource: Boolean): Boolean {
+
+                        override fun onResourceReady(
+                            resource: Drawable,
+                            model: Any,
+                            target: Target<Drawable?>?,
+                            dataSource: DataSource,
+                            isFirstResource: Boolean
+                        ): Boolean {
                             val cacheLoadTime = System.currentTimeMillis() - cacheLoadStartTime
-                            Log.d("RandomAdapter", "⏱️ CACHED - Position $position - Load time: ${cacheLoadTime}ms")
+                            Log.d(
+                                "RandomAdapter",
+                                "⏱️ CACHED - Position $position - Load time: ${cacheLoadTime}ms"
+                            )
                             return false
                         }
                     })
@@ -95,109 +115,207 @@ class RandomCharacterAdapter(val context: Context) :
                 throwable.printStackTrace()
             }
             // ✅ Store the job so we can cancel it if the view is recycled
-            val job = CoroutineScope(SupervisorJob() + Dispatchers.IO + handleExceptionCoroutine).launch {
-                val itemTotalStartTime = System.currentTimeMillis()
-                Log.d("RandomAdapter", "⏱️ ========== Position $position - Processing Started ==========")
+            val job =
+                CoroutineScope(SupervisorJob() + Dispatchers.IO + handleExceptionCoroutine).launch {
+                    val itemTotalStartTime = System.currentTimeMillis()
+                    Log.d(
+                        "RandomAdapter",
+                        "⏱️ ========== Position $position - Processing Started =========="
+                    )
 
-                val job1 = async {
-                    // STEP 1: Load first layer to get size
-                    val firstLayerStartTime = System.currentTimeMillis()
-                    Log.d("RandomAdapter", "Loading first layer: ${item.pathSelectedList.first()}")
-                    val bitmapDefault = Glide.with(context).asBitmap().load(item.pathSelectedList.first()).submit().get()
-                    width = bitmapDefault.width/2 ?: ValueKey.WIDTH_BITMAP
-                    height = bitmapDefault.height/2 ?: ValueKey.HEIGHT_BITMAP
-                    val firstLayerTime = System.currentTimeMillis() - firstLayerStartTime
-                    Log.d("RandomAdapter", "⏱️ Position $position - First layer load time: ${firstLayerTime}ms")
-                    Log.d("RandomAdapter", "Bitmap size: ${width}x${height}")
+                    val job1 = async {
+                        // STEP 1: Load first layer to get size
+                        val firstLayerStartTime = System.currentTimeMillis()
+                        Log.d(
+                            "RandomAdapter",
+                            "Loading first layer: ${item.pathSelectedList.first()}"
+                        )
+                        val bitmapDefault =
+                            Glide.with(context).asBitmap().load(item.pathSelectedList.first())
+                                .submit().get()
+                        width = bitmapDefault.width / 2 ?: ValueKey.WIDTH_BITMAP
+                        height = bitmapDefault.height / 2 ?: ValueKey.HEIGHT_BITMAP
+                        val firstLayerTime = System.currentTimeMillis() - firstLayerStartTime
+                        Log.d(
+                            "RandomAdapter",
+                            "⏱️ Position $position - First layer load time: ${firstLayerTime}ms"
+                        )
+                        Log.d("RandomAdapter", "Bitmap size: ${width}x${height}")
 
-                    if (items[position].pathInternalRandom == ""){
-                        // STEP 2: Load all layers
-                        val allLayersStartTime = System.currentTimeMillis()
-                        Log.d("RandomAdapter", "Loading ${item.pathSelectedList.size} layers...")
-                        item.pathSelectedList.forEachIndexed { idx, path ->
-                            val layerStartTime = System.currentTimeMillis()
-                            Log.d("RandomAdapter", "Loading layer $idx: $path")
-                            listBitmap.add(Glide.with(context).asBitmap().load(path).submit(width, height).get())
-                            val layerTime = System.currentTimeMillis() - layerStartTime
-                            Log.d("RandomAdapter", "⏱️ Position $position - Layer $idx load time: ${layerTime}ms")
+                        if (items[position].pathInternalRandom == "") {
+                            // STEP 2: Load all layers
+                            val allLayersStartTime = System.currentTimeMillis()
+                            Log.d(
+                                "RandomAdapter",
+                                "Loading ${item.pathSelectedList.size} layers..."
+                            )
+                           val deferredBitmaps = item.pathSelectedList.mapIndexed { idx, path ->
+                               async {
+                                   val layerStartTime = System.currentTimeMillis()
+                                   Log.d("RandomAdapter", "Loading layer $idx: $path")
+                                   val bitmap =
+                                       Glide.with(context)
+                                           .asBitmap().
+                                           load(path)
+                                           .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                           .submit(width, height)
+                                           .get()
+
+                                   val layerTime = System.currentTimeMillis() - layerStartTime
+                                   Log.d(
+                                       "RandomAdapter",
+                                       "⏱️ Position $position - Layer $idx load time: ${layerTime}ms"
+                                   )
+                                   bitmap
+                               }
+                           }
+                            listBitmap.addAll(deferredBitmaps.awaitAll())
+
+                            val allLayersTime = System.currentTimeMillis() - allLayersStartTime
+                            Log.d(
+                                "RandomAdapter",
+                                "⏱️ Position $position - All ${item.pathSelectedList.size} layers load time: ${allLayersTime}ms"
+                            )
+                            Log.d(
+                                "RandomAdapter",
+                                "⏱️ Position $position - Average per layer: ${allLayersTime / item.pathSelectedList.size}ms"
+                            )
+                            Log.d("RandomAdapter", "✓ All layers loaded successfully")
                         }
-                        val allLayersTime = System.currentTimeMillis() - allLayersStartTime
-                        Log.d("RandomAdapter", "⏱️ Position $position - All ${item.pathSelectedList.size} layers load time: ${allLayersTime}ms")
-                        Log.d("RandomAdapter", "⏱️ Position $position - Average per layer: ${allLayersTime / item.pathSelectedList.size}ms")
-                        Log.d("RandomAdapter", "✓ All layers loaded successfully")
-                    }
-                    return@async true
-                }
 
-                withContext(Dispatchers.Main) {
+
+                            return@async true
+                    }
+
+
                     if (job1.await()) {
-                        if (items[position].pathInternalRandom == ""){
+
+                        var savedPath = items[position].pathInternalRandom
+                        if (savedPath == "") {
                             // STEP 3: Combine bitmaps
-                            val combineStartTime = System.currentTimeMillis()
-                            Log.d("RandomAdapter", "Creating combined bitmap...")
-                            val combinedBitmap = createBitmap(width, height)
-                            val canvas = Canvas(combinedBitmap)
 
-                            for (i in 0 until listBitmap.size) {
-                                val bitmap = listBitmap[i]
-                                val left = (width - bitmap.width) / 2f
-                                val top = (height - bitmap.height) / 2f
-                                canvas.drawBitmap(bitmap, left, top, null)
+                                val combineStartTime = System.currentTimeMillis()
+                                Log.d("RandomAdapter", "Creating combined bitmap...")
+                                val combinedBitmap =  withContext(Dispatchers.Default)
+                                { val bitmap = createBitmap(width, height)
+                                val canvas = Canvas(bitmap)
+
+                                for (i in 0 until listBitmap.size) {
+                                    val bmp = listBitmap[i]
+                                    val left = (width - bmp.width) / 2f
+                                    val top = (height - bmp.height) / 2f
+                                    canvas.drawBitmap(bmp, left, top, null)
+                                }
+                                val combineTime = System.currentTimeMillis() - combineStartTime
+                                Log.d(
+                                    "RandomAdapter",
+                                    "⏱️ Position $position - Bitmap combine time: ${combineTime}ms"
+                                )
+                                     bitmap
                             }
-                            val combineTime = System.currentTimeMillis() - combineStartTime
-                            Log.d("RandomAdapter", "⏱️ Position $position - Bitmap combine time: ${combineTime}ms")
+                            withContext(Dispatchers.IO)
+                            {// STEP 4: Save to internal storage
+                                val saveStartTime = System.currentTimeMillis()
+                                MediaHelper.saveBitmapToInternalStorage(
+                                    context,
+                                    ValueKey.RANDOM_TEMP_ALBUM,
+                                    combinedBitmap
+                                ).collect { state ->
+                                    when (state) {
+                                        is SaveState.Loading -> {
+                                            Log.d(
+                                                "RandomAdapter",
+                                                "Saving bitmap to internal storage..."
+                                            )
+                                        }
 
-                            // STEP 4: Save to internal storage
-                            val saveStartTime = System.currentTimeMillis()
-                            MediaHelper.saveBitmapToInternalStorage(context, ValueKey.RANDOM_TEMP_ALBUM, combinedBitmap).collect { state ->
-                                when(state){
-                                    is SaveState.Loading -> {
-                                        Log.d("RandomAdapter", "Saving bitmap to internal storage...")
-                                    }
-                                    is SaveState.Error -> {
-                                        Log.e("RandomAdapter", "✗ Failed to save bitmap: ${state.exception.message}")
-                                    }
-                                    is SaveState.Success -> {
-                                        items[position].pathInternalRandom = state.path
-                                        val saveTime = System.currentTimeMillis() - saveStartTime
-                                        Log.d("RandomAdapter", "⏱️ Position $position - Save to storage time: ${saveTime}ms")
-                                        Log.d("RandomAdapter", "✓ Bitmap saved: ${state.path}")
+                                        is SaveState.Error -> {
+                                            Log.e(
+                                                "RandomAdapter",
+                                                "✗ Failed to save bitmap: ${state.exception.message}"
+                                            )
+                                        }
+
+                                        is SaveState.Success -> {
+                                            items[position].pathInternalRandom = state.path
+                                            val saveTime =
+                                                System.currentTimeMillis() - saveStartTime
+                                            Log.d(
+                                                "RandomAdapter",
+                                                "⏱️ Position $position - Save to storage time: ${saveTime}ms"
+                                            )
+                                            Log.d("RandomAdapter", "✓ Bitmap saved: ${state.path}")
+                                        }
                                     }
                                 }
                             }
                         }
-
                         // STEP 5: Load final image into ImageView
-                        val glideLoadStartTime = System.currentTimeMillis()
-                        Log.d("RandomAdapter", "Loading final image from: ${items[position].pathInternalRandom}")
-                        Glide.with(root)
-                            .load(items[position].pathInternalRandom)
-                            .transform(RoundedCorners(24))
-                            .listener(object : RequestListener<Drawable> {
-                                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable?>, isFirstResource: Boolean): Boolean {
-                                    Log.e("RandomAdapter", "✗ Glide load FAILED at position $position: ${e?.message}")
-                                    e?.logRootCauses("RandomAdapter")
-                                    sflShimmer.stopShimmer()
-                                    sflShimmer.gone()
-                                    return false
-                                }
+                        withContext(Dispatchers.Main) {
 
-                                override fun onResourceReady(resource: Drawable, model: Any, target: Target<Drawable?>?, dataSource: DataSource, isFirstResource: Boolean): Boolean {
-                                    val glideLoadTime = System.currentTimeMillis() - glideLoadStartTime
-                                    val itemTotalTime = System.currentTimeMillis() - itemTotalStartTime
-                                    Log.d("RandomAdapter", "⏱️ Position $position - Glide final load time: ${glideLoadTime}ms")
-                                    Log.d("RandomAdapter", "⏱️ Position $position - TOTAL ITEM PROCESSING TIME: ${itemTotalTime}ms")
-                                    Log.d("RandomAdapter", "⏱️ ========== Position $position - Processing Completed ==========")
-                                    Log.d("RandomAdapter", "✓ Image loaded successfully at position $position")
-                                    sflShimmer.stopShimmer()
-                                    sflShimmer.gone()
-                                    imvImage.visible()
-                                    return false
-                                }
-                            }).into(imvImage)
+                            val glideLoadStartTime = System.currentTimeMillis()
+                            Log.d(
+                                "RandomAdapter",
+                                "Loading final image from: ${items[position].pathInternalRandom}"
+                            )
+                            Glide.with(root)
+                                .load(items[position].pathInternalRandom)
+
+                                .transform(RoundedCorners(24))
+                                .listener(object : RequestListener<Drawable> {
+                                    override fun onLoadFailed(
+                                        e: GlideException?,
+                                        model: Any?,
+                                        target: Target<Drawable?>,
+                                        isFirstResource: Boolean
+                                    ): Boolean {
+                                        Log.e(
+                                            "RandomAdapter",
+                                            "✗ Glide load FAILED at position $position: ${e?.message}"
+                                        )
+                                        e?.logRootCauses("RandomAdapter")
+                                        sflShimmer.stopShimmer()
+                                        sflShimmer.gone()
+                                        return false
+                                    }
+
+                                    override fun onResourceReady(
+                                        resource: Drawable,
+                                        model: Any,
+                                        target: Target<Drawable?>?,
+                                        dataSource: DataSource,
+                                        isFirstResource: Boolean
+                                    ): Boolean {
+                                        val glideLoadTime =
+                                            System.currentTimeMillis() - glideLoadStartTime
+                                        val itemTotalTime =
+                                            System.currentTimeMillis() - itemTotalStartTime
+                                        Log.d(
+                                            "RandomAdapter",
+                                            "⏱️ Position $position - Glide final load time: ${glideLoadTime}ms"
+                                        )
+                                        Log.d(
+                                            "RandomAdapter",
+                                            "⏱️ Position $position - TOTAL ITEM PROCESSING TIME: ${itemTotalTime}ms"
+                                        )
+                                        Log.d(
+                                            "RandomAdapter",
+                                            "⏱️ ========== Position $position - Processing Completed =========="
+                                        )
+                                        Log.d(
+                                            "RandomAdapter",
+                                            "✓ Image loaded successfully at position $position"
+                                        )
+                                        sflShimmer.stopShimmer()
+                                        sflShimmer.gone()
+                                        imvImage.visible()
+                                        return false
+                                    }
+                                }).into(imvImage)
+                        }
                     }
+
                 }
-            }
 
             // ✅ Save the job reference
             activeJobs[position] = job

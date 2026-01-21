@@ -430,21 +430,38 @@ class AddCharacterActivity : BaseActivity<ActivityAddCharacterBinding>() {
             rcvBackgroundImage.apply {
                 adapter = backgroundImageAdapter
                 itemAnimator = null
+                setHasFixedSize(true)
+                setItemViewCacheSize(100)
+                recycledViewPool.setMaxRecycledViews(0,100)
+                itemAnimator = null
+
             }
 
             rcvBackgroundColor.apply {
                 adapter = backgroundColorAdapter
                 itemAnimator = null
+                setHasFixedSize(true)
+                setItemViewCacheSize(100)
+                recycledViewPool.setMaxRecycledViews(0,100)
+
             }
 
             rcvSticker.apply {
                 adapter = stickerAdapter
                 itemAnimator = null
+                setHasFixedSize(true)
+                setItemViewCacheSize(200)
+                recycledViewPool.setMaxRecycledViews(0,100)
+
             }
 
             rcvSpeech.apply {
                 adapter = speechAdapter
                 itemAnimator = null
+                setHasFixedSize(true)
+                setItemViewCacheSize(100)
+                recycledViewPool.setMaxRecycledViews(0,100)
+
             }
 
             rcvFont.apply {

@@ -208,11 +208,11 @@ class RandomCharacterActivity : BaseActivity<ActivityRandomCharacterBinding>() {
 
             // ✅ PERFORMANCE OPTIMIZATIONS
             // Cache more ViewHolders to avoid recreating them
-            setItemViewCacheSize(20)
+            setItemViewCacheSize(10)
 
             // Use a shared RecycledViewPool for better performance
             setRecycledViewPool(androidx.recyclerview.widget.RecyclerView.RecycledViewPool().apply {
-                setMaxRecycledViews(0, 30)
+                setMaxRecycledViews(0, 15)
             })
 
             // Enable drawing cache (deprecated but can help on older devices)
